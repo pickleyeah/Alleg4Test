@@ -3,6 +3,7 @@
 #include <vector>
 #include "Vec2.h"
 #include "Entity.h"
+#include "Camera.h"
 
 enum COL_MASK
 {
@@ -15,7 +16,6 @@ enum COL_MASK
 
 struct BLOCK_T
 {
-	int color;
 	char colMask;
 	BITMAP *bitmap;
 };
@@ -41,7 +41,12 @@ public:
 private:
 	Vec2 m_size;
 	std::vector<Entity*> m_entities;
+	Entity* m_player;
+
+	bool m_showGrid;
+
 	BLOCK_T *m_blocks;
 	std::vector<BITMAP*> m_bitmaps;
+	Camera* m_camera;
 };
 

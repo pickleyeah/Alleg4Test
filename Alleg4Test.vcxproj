@@ -11,6 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\InputManager.cpp" />
     <ClCompile Include="src\MoveComponents.cpp" />
     <ClCompile Include="src\RenderComponents.cpp" />
     <ClCompile Include="src\InputComponents.cpp" />
@@ -27,6 +29,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\InputManager.h" />
     <ClInclude Include="src\MoveComponents.h" />
     <ClInclude Include="src\RenderComponents.h" />
     <ClInclude Include="src\InputComponents.h" />
@@ -41,7 +45,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E01C5638-F8EB-4F16-9F15-370C979F8DCF}</ProjectGuid>
-    <RootNamespace>Alleg5Test</RootNamespace>
+    <RootNamespace>Alleg4Test</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

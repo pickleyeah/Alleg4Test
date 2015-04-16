@@ -23,28 +23,28 @@ void TestInput::ProcessInput(Entity *entity)
 		m_oldPos = entity->Pos;
 		m_newGridX = entity->GridX();
 		m_newGridY = entity->GridY();
-		if (key[KEY_LEFT])
+		if (Input::KeyDown(KEY_LEFT))
 		{
 			entity->Vel.x = -MOVESPEED;
 			entity->Dir = DIR_WEST;
 			m_state = TE_MOVING;
 			m_newGridX--;
 		}
-		else if (key[KEY_RIGHT])
+		else if (Input::KeyDown(KEY_RIGHT))
 		{
 			entity->Vel.x = MOVESPEED;
 			entity->Dir = DIR_EAST;
 			m_state = TE_MOVING;
 			m_newGridX++;
 		}
-		else if (key[KEY_UP])
+		else if (Input::KeyDown(KEY_UP))
 		{
 			entity->Vel.y = -MOVESPEED;
 			entity->Dir = DIR_NORTH;
 			m_state = TE_MOVING;
 			m_newGridY--;
 		}
-		else if (key[KEY_DOWN])
+		else if (Input::KeyDown(KEY_DOWN))
 		{
 			entity->Vel.y = MOVESPEED;
 			entity->Dir = DIR_SOUTH;

@@ -4,3 +4,5 @@
 #include <string.h>
 
 #include <vector>
+
+#include "InputManager.h"

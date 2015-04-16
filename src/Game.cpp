@@ -1,7 +1,7 @@
 #include "Game.h"
 
 #include "GameState.h"
-#include <allegro.h>
+#include "InputManager.h"
 
 Game::~Game()
 {
@@ -25,6 +25,7 @@ bool Game::Init(const char* title)
 	}
 
 	m_buffer = create_bitmap(Game::SCREEN_X, Game::SCREEN_Y);
+	Input::Init();
 
 	return true;
 }
@@ -70,8 +71,9 @@ void Game::PopState()
 
 void Game::Update(double dt)
 {
+	Input::Update();
 	// Process input
-	if (key[KEY_ESC])
+	if (Input::KeyDown(KEY_ESC))
 		m_finished = true;
 
 	m_states.back()->ProcessInput();

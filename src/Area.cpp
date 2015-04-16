@@ -5,7 +5,8 @@
 
 
 Area::Area(Vec2 size) :
-	m_size(size)
+	m_size(size),
+	m_showGrid(false)
 {
 	m_blocks = new BLOCK_T[(int)(size.x * size.y)];
 	// 0
@@ -40,18 +41,24 @@ Area::~Area(void)
 
 Area *Area::CreateTestArea()
 {
-	int m = 8, n = 8;
+	int m = 16, n = 16;
 	Area *result = new Area(Vec2(m, n));
 	memset(result->m_blocks, 0, sizeof(BLOCK_T)*m*n);
 
-	BLOCK_T *block = result->GetBlock(5, 5);
-	block->color = makecol(255, 255, 0);
-	block->colMask |= COL_ALL;
+	// 10 random rocks
+	srand(time(NULL));
+	for (int i = 0; i < 10; i++)
+	{
+		int x = rand() % 12 + 2, y = rand() % 12 + 2;
+		BLOCK_T *block = result->GetBlock(x, y);
+		block->colMask |= COL_ALL;
+	}
 
 	// Player
 	Entity* player = Entity::MakeTestEntity(result);
 	player->SetGridXY(1,1);
 	result->m_entities.push_back(player);
+	result->m_player = player;
 
 	result->Init();
 	return result;
@@ -59,47 +66,62 @@ Area *Area::CreateTestArea()
 
 void Area::Init()
 {
+	m_camera = new Camera(m_player);
 	for (int i = 0; i < m_entities.size(); i++)
 		m_entities[i]->Init(this);
 }
 
 void Area::ProcessInput()
 {
+	if (Input::KeyPressed(KEY_G))
+		m_showGrid = !m_showGrid;
 	for (int i = 0; i < m_entities.size(); i++)
 		m_entities[i]->ProcessInput();
+	m_camera->ProcessInput();
 }
 
 void Area::Update(double dt)
 {
 	for (int i = 0; i < m_entities.size(); i++)
 		m_entities[i]->Update(dt);
+	m_camera->Update(dt);
 }
 
 void Area::Render(BITMAP *buffer, Vec2 offset)
 {
+	offset = m_camera->GetOffset();
 	// Render blocks
 	for (int i = 0; i < (int)m_size.x; i++)
 	{
 		for (int j = 0; j < (int)m_size.y; j++)
 		{
-			int color = GetBlock(i,j)->color;
 			int x = offset.x + i * 64;
 			int y = offset.y + j * 64;
 			blit(m_bitmaps[GetBlock(i, j)->colMask], buffer, 0, 0, x, y, x + 64, y + 64);
-			//rectfill(buffer, x,y, x+64, y+64, color);
 		}
 	}
-	DrawGrid(buffer, offset);
+
+	if (m_showGrid)
+		DrawGrid(buffer, offset);
 
 	for (int i = 0; i < m_entities.size(); i++)
 		m_entities[i]->Render(buffer, offset);
+
+	// Borders
+	rectfill(buffer, 0, 0, 96, Game::SCREEN_Y, makecol(32, 32, 32));
+	rectfill(buffer, Game::SCREEN_X - 96, 0, Game::SCREEN_X, Game::SCREEN_Y, makecol(32, 32, 32));
+
+	rectfill(buffer, 0, 0, Game::SCREEN_X, 64, makecol(32, 32, 32));
+	rectfill(buffer, 0, Game::SCREEN_Y - 64, Game::SCREEN_X, Game::SCREEN_Y, makecol(32, 32, 32));
 }
 
 static const int BLOCK_SIZE = 64;
 void Area::DrawGrid(BITMAP *buffer, Vec2 offset)
 {
-	for (int i = 0; i < Game::SCREEN_X; i += BLOCK_SIZE)
-		vline(buffer, i, offset.y, Game::SCREEN_Y, makecol(255,255,255));
-	for (int i = 0; i < Game::SCREEN_Y; i += BLOCK_SIZE)
-		hline(buffer, offset.x, i, Game::SCREEN_X, makecol(255,255,255));;
+	int sizeX = m_size.x * BLOCK_SIZE;
+	int sizeY = m_size.y * BLOCK_SIZE;
+	for (int i = 0; i <= sizeX; i += BLOCK_SIZE)
+		vline(buffer, i + offset.x, 0 + offset.y, sizeY + offset.y, makecol(255, 255, 255));
+	for (int i = 0; i <= sizeY; i += BLOCK_SIZE)
+		hline(buffer, 0 + offset.x, i + offset.y, sizeX + offset.x, makecol(255, 255, 255));;
 }
