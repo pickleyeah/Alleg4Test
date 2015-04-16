@@ -17,6 +17,7 @@ struct BLOCK_T
 {
 	int color;
 	char colMask;
+	BITMAP *bitmap;
 };
 
 class Area
@@ -41,5 +42,6 @@ private:
 	Vec2 m_size;
 	std::vector<Entity*> m_entities;
 	BLOCK_T *m_blocks;
+	std::vector<BITMAP*> m_bitmaps;
 };
 

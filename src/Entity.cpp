@@ -1,7 +1,7 @@
 #include "Entity.h"
-#include "TestInput.h"
-#include "TestMove.h"
-#include "TestRender.h"
+#include "InputComponents.h"
+#include "MoveComponents.h"
+#include "RenderComponents.h"
 #include "IntroGameState.h"
 
 

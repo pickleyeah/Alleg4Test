@@ -7,7 +7,29 @@
 Area::Area(Vec2 size) :
 	m_size(size)
 {
-	m_blocks = new BLOCK_T[(size.x * size.y)];
+	m_blocks = new BLOCK_T[(int)(size.x * size.y)];
+	// 0
+	// 1
+	// 2
+	// 3
+	// 4
+	// 5
+	// 6
+	// 7
+	// 8
+	m_bitmaps.resize(COL_ALL+1, load_bitmap("Data/Tiles/Grass.bmp", NULL));
+
+	m_bitmaps[COL_NORTH] = load_bitmap("Data/Tiles/Grass_BlockN.bmp", NULL);
+	m_bitmaps[COL_SOUTH] = load_bitmap("Data/Tiles/Grass_BlockS.bmp", NULL);
+	m_bitmaps[COL_WEST] = load_bitmap("Data/Tiles/Grass_BlockW.bmp", NULL);
+	m_bitmaps[COL_EAST] = load_bitmap("Data/Tiles/Grass_BlockE.bmp", NULL);
+
+	m_bitmaps[COL_NORTH | COL_WEST] = load_bitmap("Data/Tiles/Grass_BlockNW.bmp", NULL);
+	m_bitmaps[COL_NORTH | COL_EAST] = load_bitmap("Data/Tiles/Grass_BlockNE.bmp", NULL);
+	m_bitmaps[COL_SOUTH | COL_WEST] = load_bitmap("Data/Tiles/Grass_BlockSW.bmp", NULL);
+	m_bitmaps[COL_SOUTH | COL_EAST] = load_bitmap("Data/Tiles/Grass_BlockSE.bmp", NULL);
+
+	m_bitmaps[COL_ALL] = load_bitmap("Data/Tiles/Boulder.bmp", NULL);
 }
 
 
@@ -21,44 +43,11 @@ Area *Area::CreateTestArea()
 	int m = 8, n = 8;
 	Area *result = new Area(Vec2(m, n));
 	memset(result->m_blocks, 0, sizeof(BLOCK_T)*m*n);
-	// Top row - red
-	for (int i = 0; i < m; i++)
-	{
-		BLOCK_T *block = result->GetBlock(i, 0);
-		block->color = makecol(255,0,0);
-		block->colMask |= COL_SOUTH;
-	}
-	// Left column - blue
-	for (int i = 0; i < n; i++)
-	{
-		BLOCK_T *block = result->GetBlock(0, i);
-		block->color = makecol(0,255,0);
-		block->colMask |= COL_EAST;
-	}
-	// Bottom row - green
-	for (int i = 0; i < m; i++)
-	{
-		BLOCK_T *block = result->GetBlock(i, n-1);
-		block->color = makecol(0,0,255);
-		block->colMask |= COL_NORTH;
-	}
-	// Right column - yellow
-	for (int i = 0; i < n; i++)
-	{
-		BLOCK_T *block = result->GetBlock(m-1, i);
-		block->color = makecol(255,255,0);
-		block->colMask |= COL_WEST;
-	}
-	// Two small columns - white
-	for (int i = 3; i < 6; i+=2)
-	{
-		for (int j = 1; j < 7; j++)
-		{
-			BLOCK_T *block = result->GetBlock(i, j);
-			block->color = makecol(255,255,255);
-			block->colMask |= COL_EAST;
-		}
-	}
+
+	BLOCK_T *block = result->GetBlock(5, 5);
+	block->color = makecol(255, 255, 0);
+	block->colMask |= COL_ALL;
+
 	// Player
 	Entity* player = Entity::MakeTestEntity(result);
 	player->SetGridXY(1,1);
@@ -96,7 +85,8 @@ void Area::Render(BITMAP *buffer, Vec2 offset)
 			int color = GetBlock(i,j)->color;
 			int x = offset.x + i * 64;
 			int y = offset.y + j * 64;
-			rectfill(buffer, x,y, x+64, y+64, color);
+			blit(m_bitmaps[GetBlock(i, j)->colMask], buffer, 0, 0, x, y, x + 64, y + 64);
+			//rectfill(buffer, x,y, x+64, y+64, color);
 		}
 	}
 	DrawGrid(buffer, offset);

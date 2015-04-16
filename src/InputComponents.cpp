@@ -1,8 +1,7 @@
-#include "TestInput.h"
+#include "InputComponents.h"
 #include "Entity.h"
+#include "Area.h"
 #include "IntroGameState.h"
-#include <allegro.h>
-
 
 TestInput::TestInput(void)
 {
@@ -58,7 +57,7 @@ void TestInput::ProcessInput(Entity *entity)
 			Area *area = entity->GetArea();
 			bool reset = false;
 			// Grid pos out of bounds, reset
-			if (m_newGridX < 0 || m_newGridY < 0 || m_newGridX >= area->Size().x || m_newGridY >= area->Size().y )
+			if (m_newGridX < 0 || m_newGridY < 0 || m_newGridX >= area->Size().x || m_newGridY >= area->Size().y)
 			{
 				reset = true;
 			}
@@ -84,7 +83,7 @@ void TestInput::ProcessInput(Entity *entity)
 			}
 			if (reset)
 			{
-				entity->Vel = Vec2(0,0);
+				entity->Vel = Vec2(0, 0);
 				m_state = TE_IDLE;
 			}
 		}
@@ -95,7 +94,7 @@ void TestInput::ProcessInput(Entity *entity)
 		if (moved.Length() >= IntroGameState::BLOCK_SIZE)
 		{
 			entity->SetGridXY(m_newGridX, m_newGridY);
-			entity->Vel = Vec2(0,0);
+			entity->Vel = Vec2(0, 0);
 			m_state = TE_IDLE;
 		}
 		break;

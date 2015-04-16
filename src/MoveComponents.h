@@ -1,5 +1,7 @@
 #pragma once
+
 #include "Components.h"
+
 class TestMove : public MoveComponent
 {
 public:
@@ -8,4 +10,3 @@ public:
 
 	void Update(Entity *entity, Area *area, double dt);
 };
-

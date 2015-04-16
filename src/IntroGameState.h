@@ -1,6 +1,5 @@
 #pragma once
 #include "gamestate.h"
-#include "TestEntity.h"
 #include "Area.h"
 
 class IntroGameState :

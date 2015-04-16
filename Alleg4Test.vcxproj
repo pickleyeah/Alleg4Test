@@ -11,6 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\MoveComponents.cpp" />
+    <ClCompile Include="src\RenderComponents.cpp" />
+    <ClCompile Include="src\InputComponents.cpp" />
     <ClCompile Include="src\Area.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\Game.cpp" />
@@ -18,16 +21,15 @@
     <ClCompile Include="src\IntroGameState.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Vec2.cpp" />
-    <ClCompile Include="src\TestEntity.cpp" />
-    <ClCompile Include="src\TestInput.cpp" />
-    <ClCompile Include="src\TestMove.cpp" />
-    <ClCompile Include="src\TestRender.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\MoveComponents.h" />
+    <ClInclude Include="src\RenderComponents.h" />
+    <ClInclude Include="src\InputComponents.h" />
     <ClInclude Include="src\Components.h" />
     <ClInclude Include="src\Area.h" />
     <ClInclude Include="src\Entity.h" />
@@ -35,10 +37,6 @@
     <ClInclude Include="src\GameState.h" />
     <ClInclude Include="src\IntroGameState.h" />
     <ClInclude Include="src\Vec2.h" />
-    <ClInclude Include="src\TestEntity.h" />
-    <ClInclude Include="src\TestInput.h" />
-    <ClInclude Include="src\TestMove.h" />
-    <ClInclude Include="src\TestRender.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
