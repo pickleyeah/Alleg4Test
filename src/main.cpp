@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
 		while (elapsedTime >= UPDATE_INTERVAL)
 		{
 			// Decouple game update and render functionality
-			game.ProcessInput();
+			game.ProcessInput(UPDATE_INTERVAL);
 			game.Update(UPDATE_INTERVAL);
 			elapsedTime -= UPDATE_INTERVAL;
 		}

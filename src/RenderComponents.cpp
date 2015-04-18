@@ -1,11 +1,31 @@
 #include "RenderComponents.h"
+#include "InputComponents.h"
 
 #include "Vec2.h"
 #include "Entity.h"
 
 
-TestRender::TestRender(void)
+TestRender::TestRender(TestInput* input)
 {
+	m_input = input;
+	m_idleSprites.push_back(load_bitmap("Data/Sprites/Player_Idle_N.bmp", nullptr));
+	m_idleSprites.push_back(load_bitmap("Data/Sprites/Player_Idle_E.bmp", nullptr));
+	m_idleSprites.push_back(load_bitmap("Data/Sprites/Player_Idle_S.bmp", nullptr));
+	m_idleSprites.push_back(load_bitmap("Data/Sprites/Player_Idle_W.bmp", nullptr));
+
+	BITMAP *walkN = load_bitmap("Data/Sprites/Player_Walk_N.bmp", nullptr);
+	BITMAP *walkE = load_bitmap("Data/Sprites/Player_Walk_E.bmp", nullptr);
+	BITMAP *walkS = load_bitmap("Data/Sprites/Player_Walk_S.bmp", nullptr);
+	BITMAP *walkW = load_bitmap("Data/Sprites/Player_Walk_W.bmp", nullptr);
+	int size = 64;
+
+	for (int i = 0; i < 4; i++)
+	{
+		m_walkSprites.push_back(create_sub_bitmap(walkN, size*i, 0, size, size));
+		m_walkSprites.push_back(create_sub_bitmap(walkE, size*i, 0, size, size));
+		m_walkSprites.push_back(create_sub_bitmap(walkS, size*i, 0, size, size));
+		m_walkSprites.push_back(create_sub_bitmap(walkW, size*i, 0, size, size));
+	}
 }
 
 TestRender::~TestRender(void)
@@ -24,24 +44,16 @@ void TestRender::Render(Entity *entity, BITMAP *buffer, Vec2 offset)
 	int cx = (x1 + x2) / 2;
 	int cy = (y1 + y2) / 2;
 
-	//rectfill(buffer, x1, y1, x2, y2, makecol(255,0,0));
-	circlefill(buffer, cx, cy, Size.x / 2, makecol(0, 255, 0));
-
-	int x3 = cx, y3 = cy;
-	switch (entity->Dir)
+	BITMAP *sprite = nullptr;
+	switch (m_input->GetState())
 	{
-	case DIR_NORTH:
-		y3 -= Size.y / 2;
+	case TE_IDLE:
+		sprite = m_idleSprites[entity->Dir];
 		break;
-	case DIR_EAST:
-		x3 += Size.x / 2;
-		break;
-	case DIR_SOUTH:
-		y3 += Size.y / 2;
-		break;
-	case DIR_WEST:
-		x3 -= Size.x / 2;
+	case TE_MOVING:
+		int frame = ((int)(m_input->TimeSinceStateChange() * WALK_FRAMES_PER_SEC)) % 4;
+		sprite = m_walkSprites[entity->Dir + frame*4];
 		break;
 	}
-	line(buffer, cx, cy, x3, y3, makecol(0, 0, 0));
+	draw_sprite(buffer, sprite, x1, y1);
 }

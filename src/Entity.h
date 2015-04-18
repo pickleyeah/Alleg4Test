@@ -22,7 +22,7 @@ public:
 	virtual void Init(Area *area);
 	virtual void Remove() { m_remove = true; }
 
-	virtual void ProcessInput() { m_input->ProcessInput(this); }
+	virtual void ProcessInput(double dt) { m_input->ProcessInput(this, dt); }
 	virtual void Update(double dt);
 	virtual void Render(BITMAP *buffer, Vec2 offset) { m_render->Render(this, buffer, offset); }
 

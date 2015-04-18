@@ -19,7 +19,7 @@ Entity* Entity::MakeTestEntity(Area *area)
 	Entity* result = new Entity();
 	result->m_input = new TestInput();
 	result->m_move = new TestMove();
-	result->m_render = new TestRender();
+	result->m_render = new TestRender((TestInput*)result->m_input);
 
 	result->Size = Vec2(IntroGameState::BLOCK_SIZE,IntroGameState::BLOCK_SIZE);
 	result->Dir = DIR_NORTH;

@@ -14,7 +14,7 @@ public:
 	virtual void Resume() = 0;
 	bool Paused() { return m_paused; }
 
-	virtual void ProcessInput() = 0;
+	virtual void ProcessInput(double dt) = 0;
 	virtual void Update(Game *game, double dt) = 0;
 	virtual void Render(Game *game, BITMAP *buffer) = 0;
 

@@ -17,7 +17,7 @@ public:
 	void Pause();
 	void Resume();
 
-	void ProcessInput();
+	void ProcessInput(double dt);
 	void Update(Game *game, double dt);
 	void Render(Game *game, BITMAP *buffer);
 

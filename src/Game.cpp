@@ -69,14 +69,14 @@ void Game::PopState()
 		m_states.back()->Resume();
 }
 
-void Game::ProcessInput()
+void Game::ProcessInput(double dt)
 {
 	Input::Update();
 	// Process input
 	if (Input::KeyDown(KEY_ESC))
 		m_finished = true;
 
-	m_states.back()->ProcessInput();
+	m_states.back()->ProcessInput(dt);
 }
 
 void Game::Update(double dt)

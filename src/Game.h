@@ -20,7 +20,7 @@ public:
 	void PushState(GameState* state);
 	void PopState();
 
-	void ProcessInput();
+	void ProcessInput(double dt);
 	void Update(double dt);
 	void Render();
 

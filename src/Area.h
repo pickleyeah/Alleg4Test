@@ -33,7 +33,7 @@ public:
 
 	void Init();
 
-	void ProcessInput();
+	void ProcessInput(double dt);
 	void Update(double dt);
 	void Render(BITMAP *buffer, Vec2 offset);
 	void DrawGrid(BITMAP *buffer, Vec2 offset);

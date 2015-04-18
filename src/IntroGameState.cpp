@@ -22,9 +22,9 @@ void IntroGameState::Resume()
 {
 }
 
-void IntroGameState::ProcessInput()
+void IntroGameState::ProcessInput(double dt)
 {
-	area->ProcessInput();
+	area->ProcessInput(dt);
 }
 
 void IntroGameState::Update(Game *game, double dt)

@@ -10,7 +10,7 @@ class InputComponent
 {
 public:
 	virtual ~InputComponent(void) {};
-	virtual void ProcessInput(Entity *entity) = 0;
+	virtual void ProcessInput(Entity *entity, double dt) = 0;
 };
 
 class RenderComponent

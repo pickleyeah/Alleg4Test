@@ -67,12 +67,12 @@ void Area::Init()
 		m_entities[i]->Init(this);
 }
 
-void Area::ProcessInput()
+void Area::ProcessInput(double dt)
 {
 	if (Input::KeyPressed(KEY_G))
 		m_showGrid = !m_showGrid;
 	for (int i = 0; i < m_entities.size(); i++)
-		m_entities[i]->ProcessInput();
+		m_entities[i]->ProcessInput(dt);
 	m_camera->ProcessInput();
 }
 
