@@ -90,7 +90,7 @@ void Game::Update(double dt)
 
 void Game::Render()
 {
-	m_states.back()->Draw(this, m_buffer);
+	m_states.back()->Render(this, m_buffer);
 
 	vsync();
 	acquire_screen();

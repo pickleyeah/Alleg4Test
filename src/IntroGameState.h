@@ -19,7 +19,7 @@ public:
 
 	void ProcessInput();
 	void Update(Game *game, double dt);
-	void Draw(Game *game, BITMAP *buffer);
+	void Render(Game *game, BITMAP *buffer);
 
 private:
 	bool m_paused;

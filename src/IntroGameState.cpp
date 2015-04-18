@@ -32,7 +32,7 @@ void IntroGameState::Update(Game *game, double dt)
 	area->Update(dt);
 }
 
-void IntroGameState::Draw(Game *game, BITMAP *buffer)
+void IntroGameState::Render(Game *game, BITMAP *buffer)
 {
 	clear_to_color(buffer, makecol(0,0,0));
 
