@@ -18,4 +18,5 @@ private:
 	TestInput *m_input;
 	std::vector<BITMAP*> m_idleSprites;
 	std::vector<BITMAP*> m_walkSprites;
+	std::vector<BITMAP*> m_spritesToDelete;
 };

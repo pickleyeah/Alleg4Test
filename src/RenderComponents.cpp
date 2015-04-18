@@ -17,8 +17,12 @@ TestRender::TestRender(TestInput* input)
 	BITMAP *walkE = load_bitmap("Data/Sprites/Player_Walk_E.bmp", nullptr);
 	BITMAP *walkS = load_bitmap("Data/Sprites/Player_Walk_S.bmp", nullptr);
 	BITMAP *walkW = load_bitmap("Data/Sprites/Player_Walk_W.bmp", nullptr);
-	int size = 64;
+	m_spritesToDelete.push_back(walkN);
+	m_spritesToDelete.push_back(walkE);
+	m_spritesToDelete.push_back(walkS);
+	m_spritesToDelete.push_back(walkW);
 
+	int size = 64;
 	for (int i = 0; i < 4; i++)
 	{
 		m_walkSprites.push_back(create_sub_bitmap(walkN, size*i, 0, size, size));
@@ -30,6 +34,12 @@ TestRender::TestRender(TestInput* input)
 
 TestRender::~TestRender(void)
 {
+	for (int i = 0; i < m_idleSprites.size(); i++)
+		release_bitmap(m_idleSprites[i]);
+	for (int i = 0; i < m_walkSprites.size(); i++)
+		release_bitmap(m_walkSprites[i]);
+	for (int i = 0; i < m_spritesToDelete.size(); i++)
+		release_bitmap(m_spritesToDelete[i]);
 }
 
 void TestRender::Render(Entity *entity, BITMAP *buffer, Vec2 offset)
