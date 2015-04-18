@@ -69,7 +69,7 @@ void Game::PopState()
 		m_states.back()->Resume();
 }
 
-void Game::Update(double dt)
+void Game::ProcessInput()
 {
 	Input::Update();
 	// Process input
@@ -77,18 +77,18 @@ void Game::Update(double dt)
 		m_finished = true;
 
 	m_states.back()->ProcessInput();
+}
 
+void Game::Update(double dt)
+{
 	// Update game state
 	// Prevent dt from jumping ahead too much
 	if (dt > 0.1)
 		dt = 0.1;
 	m_states.back()->Update(this, dt);
-
-	// Draw the screen
-	Draw();
 }
 
-void Game::Draw()
+void Game::Render()
 {
 	m_states.back()->Draw(this, m_buffer);
 

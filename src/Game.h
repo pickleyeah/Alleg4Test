@@ -20,8 +20,9 @@ public:
 	void PushState(GameState* state);
 	void PopState();
 
+	void ProcessInput();
 	void Update(double dt);
-	void Draw();
+	void Render();
 
 	// Getters/setters
 	bool Finished() const { return m_finished; }

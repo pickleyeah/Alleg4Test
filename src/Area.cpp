@@ -9,15 +9,6 @@ Area::Area(Vec2 size) :
 	m_showGrid(false)
 {
 	m_blocks = new BLOCK_T[(int)(size.x * size.y)];
-	// 0
-	// 1
-	// 2
-	// 3
-	// 4
-	// 5
-	// 6
-	// 7
-	// 8
 	m_bitmaps.resize(COL_ALL+1, load_bitmap("Data/Tiles/Grass.bmp", NULL));
 
 	m_bitmaps[COL_NORTH] = load_bitmap("Data/Tiles/Grass_BlockN.bmp", NULL);
@@ -37,6 +28,11 @@ Area::Area(Vec2 size) :
 Area::~Area(void)
 {
 	delete[] m_blocks;
+	for (int i = 0; i < m_bitmaps.size(); i++)
+	{
+		if (m_bitmaps[i] != nullptr)
+			release_bitmap(m_bitmaps[i]);
+	}
 }
 
 Area *Area::CreateTestArea()
@@ -95,8 +91,9 @@ void Area::Render(BITMAP *buffer, Vec2 offset)
 	{
 		for (int j = 0; j < (int)m_size.y; j++)
 		{
-			int x = offset.x + i * 64;
-			int y = offset.y + j * 64;
+			int x = (int)offset.x + i * 64;
+			int y = (int)offset.y + j * 64;
+			draw_sprite(buffer, m_bitmaps[GetBlock(i, j)->colMask], x, y);
 			blit(m_bitmaps[GetBlock(i, j)->colMask], buffer, 0, 0, x, y, x + 64, y + 64);
 		}
 	}
@@ -108,11 +105,11 @@ void Area::Render(BITMAP *buffer, Vec2 offset)
 		m_entities[i]->Render(buffer, offset);
 
 	// Borders
-	rectfill(buffer, 0, 0, 96, Game::SCREEN_Y, makecol(32, 32, 32));
-	rectfill(buffer, Game::SCREEN_X - 96, 0, Game::SCREEN_X, Game::SCREEN_Y, makecol(32, 32, 32));
+	rectfill(buffer, 0, 0, 32, Game::SCREEN_Y, makecol(32, 32, 32));
+	rectfill(buffer, Game::SCREEN_X - 32, 0, Game::SCREEN_X, Game::SCREEN_Y, makecol(32, 32, 32));
 
-	rectfill(buffer, 0, 0, Game::SCREEN_X, 64, makecol(32, 32, 32));
-	rectfill(buffer, 0, Game::SCREEN_Y - 64, Game::SCREEN_X, Game::SCREEN_Y, makecol(32, 32, 32));
+	rectfill(buffer, 0, 0, Game::SCREEN_X, 16, makecol(32, 32, 32));
+	rectfill(buffer, 0, Game::SCREEN_Y - 16, Game::SCREEN_X, Game::SCREEN_Y, makecol(32, 32, 32));
 }
 
 static const int BLOCK_SIZE = 64;
@@ -121,7 +118,7 @@ void Area::DrawGrid(BITMAP *buffer, Vec2 offset)
 	int sizeX = m_size.x * BLOCK_SIZE;
 	int sizeY = m_size.y * BLOCK_SIZE;
 	for (int i = 0; i <= sizeX; i += BLOCK_SIZE)
-		vline(buffer, i + offset.x, 0 + offset.y, sizeY + offset.y, makecol(255, 255, 255));
+		vline(buffer, i + (int)offset.x, 0 + (int)offset.y, sizeY + (int)offset.y, makecol(255, 255, 255));
 	for (int i = 0; i <= sizeY; i += BLOCK_SIZE)
-		hline(buffer, 0 + offset.x, i + offset.y, sizeX + offset.x, makecol(255, 255, 255));;
+		hline(buffer, 0 + (int)offset.x, i + (int)offset.y, sizeX + (int)offset.x, makecol(255, 255, 255));;
 }
