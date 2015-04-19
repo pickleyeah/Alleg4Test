@@ -21,9 +21,11 @@ public:
 	void Update(Game *game, double dt);
 	void Render(Game *game, BITMAP *buffer);
 
+	void TransitionToArea(Area *area);
+
 private:
 	bool m_paused;
 
-	Area* area;
+	Area* m_area;
 };
 

@@ -58,6 +58,7 @@ public:
 	DIR Dir;
 	
 	Area *GetArea() { return m_area; }
+	void SetArea(Area *area) { m_area = area; } // Used on Area transitions
 
 protected:
 	int m_gridX, m_gridY;

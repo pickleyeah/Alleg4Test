@@ -18,7 +18,6 @@ enum COL_MASK
 struct BLOCK_T
 {
 	char colMask;
-	BITMAP *bitmap;
 };
 
 class Area
@@ -27,10 +26,14 @@ public:
 	Area(Vec2 size);
 	~Area(void);
 
-	static Area *CreateTestArea();
+	static Area *CreateTestArea(Entity *player);
+	static Area *CreateTestArea2(Entity *player);
 
 	BLOCK_T *GetBlock(int x, int y) { return &m_blocks[y*(int)m_size.x + x]; }
 	Vec2 Size() { return m_size; }
+
+	Entity *GetPlayer() { return m_player; }
+	void SetPlayer(Entity *player);
 	
 	void Init();
 

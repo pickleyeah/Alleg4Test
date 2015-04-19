@@ -4,12 +4,12 @@
 
 WorldGameState::~WorldGameState(void)
 {
-	delete area;
+	delete m_area;
 }
 
 void WorldGameState::Init()
 {
-	area = Area::CreateTestArea();
+	m_area = Area::CreateTestArea(nullptr);
 }
 void WorldGameState::Shutdown()
 {
@@ -24,12 +24,16 @@ void WorldGameState::Resume()
 
 void WorldGameState::ProcessInput(double dt)
 {
-	area->ProcessInput(dt);
+	if (Input::KeyPressed(KEY_1)) // Transition areas
+		TransitionToArea(Area::CreateTestArea(m_area->GetPlayer()));
+	else if (Input::KeyPressed(KEY_2)) // Transition areas
+		TransitionToArea(Area::CreateTestArea2(m_area->GetPlayer()));
+	m_area->ProcessInput(dt);
 }
 
 void WorldGameState::Update(Game *game, double dt)
 {
-	area->Update(dt);
+	m_area->Update(dt);
 }
 
 void WorldGameState::Render(Game *game, BITMAP *buffer)
@@ -38,5 +42,11 @@ void WorldGameState::Render(Game *game, BITMAP *buffer)
 
 	// Draw grid
 	Vec2 offset = Vec2(0,0);
-	area->Render(buffer, offset);
+	m_area->Render(buffer, offset);
+}
+
+void WorldGameState::TransitionToArea(Area *area)
+{
+	delete m_area;
+	m_area = area;
 }

@@ -4,5 +4,6 @@
 #include <string.h>
 
 #include <vector>
+#include <algorithm>
 
 #include "InputManager.h"

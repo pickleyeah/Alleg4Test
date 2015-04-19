@@ -28,11 +28,28 @@ Area::Area(Vec2 size) :
 
 Area::~Area(void)
 {
+	delete m_camera;
 	delete[] m_blocks;
 	m_sprites.clear();
+	for (size_t i = 0; i < m_entities.size(); i++)
+		delete m_entities[i];
 }
 
-Area *Area::CreateTestArea()
+void Area::SetPlayer(Entity *player)
+{
+	// Transfer object ownership - remove it from the other area's entity list
+	// http://en.wikipedia.org/wiki/Erase%E2%80%93remove_idiom
+	// well played, c++. well played.
+	Area *oldArea = player->GetArea();
+	if (oldArea != nullptr)
+		oldArea->m_entities.erase(std::remove(oldArea->m_entities.begin(), oldArea->m_entities.end(), player), oldArea->m_entities.end());
+	// Assign the player to the new area
+	m_player = player;
+	m_entities.push_back(player);
+	m_player->SetArea(this);
+}
+
+Area *Area::CreateTestArea(Entity *player)
 {
 	int m = 16, n = 16;
 	Area *result = new Area(Vec2(m, n));
@@ -49,10 +66,27 @@ Area *Area::CreateTestArea()
 	}
 
 	// Player
-	Entity* player = Entity::MakeTestEntity(result);
-	player->SetGridXY(1,1);
-	result->m_entities.push_back(player);
-	result->m_player = player;
+	if (player == nullptr)
+		player = Entity::MakeTestEntity(result);
+	//result->m_entities.push_back(player);
+	result->SetPlayer(player);
+	player->Dir = DIR_SOUTH;
+	player->SetGridXY(1, 1);
+
+	result->Init();
+	return result;
+}
+
+Area *Area::CreateTestArea2(Entity *player)
+{
+	int m = 4, n = 4; // small-ass area
+	Area *result = new Area(Vec2(m, n));
+	memset(result->m_blocks, 0, sizeof(BLOCK_T)*m*n);
+
+	//result->m_entities.push_back(player);
+	result->SetPlayer(player);
+	player->SetGridXY(3, 1);
+	player->Dir = DIR_EAST;
 
 	result->Init();
 	return result;

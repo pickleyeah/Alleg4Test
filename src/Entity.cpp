@@ -12,6 +12,9 @@ Entity::Entity(void)
 
 Entity::~Entity(void)
 {
+	delete m_input;
+	delete m_move;
+	delete m_render;
 }
 
 Entity* Entity::MakeTestEntity(Area *area)
@@ -23,6 +26,8 @@ Entity* Entity::MakeTestEntity(Area *area)
 
 	result->Size = Vec2(WorldGameState::BLOCK_SIZE,WorldGameState::BLOCK_SIZE);
 	result->Dir = DIR_NORTH;
+	result->SetArea(area);
+
 	return result;
 }
 

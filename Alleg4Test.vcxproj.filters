@@ -63,14 +63,14 @@
     <ClCompile Include="src\Camera.cpp">
       <Filter>Areas</Filter>
     </ClCompile>
-    <ClCompile Include="src\InputManager.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Sprite.cpp">
       <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="src\WorldGameState.cpp">
       <Filter>GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InputManager.cpp">
+      <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -107,14 +107,14 @@
     <ClInclude Include="src\Camera.h">
       <Filter>Areas</Filter>
     </ClInclude>
-    <ClInclude Include="src\InputManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Sprite.h">
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="src\WorldGameState.h">
       <Filter>GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="src\InputManager.h">
+      <Filter>Util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
