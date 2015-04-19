@@ -34,11 +34,11 @@ TestRender::TestRender(TestInput* input)
 
 TestRender::~TestRender(void)
 {
-	for (int i = 0; i < m_idleSprites.size(); i++)
+	for (size_t i = 0; i < m_idleSprites.size(); i++)
 		release_bitmap(m_idleSprites[i]);
-	for (int i = 0; i < m_walkSprites.size(); i++)
+	for (size_t i = 0; i < m_walkSprites.size(); i++)
 		release_bitmap(m_walkSprites[i]);
-	for (int i = 0; i < m_spritesToDelete.size(); i++)
+	for (size_t i = 0; i < m_spritesToDelete.size(); i++)
 		release_bitmap(m_spritesToDelete[i]);
 }
 

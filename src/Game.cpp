@@ -92,7 +92,7 @@ void Game::Render()
 {
 	m_states.back()->Render(this, m_buffer);
 
-	vsync();
+	//vsync();
 	acquire_screen();
 	blit(m_buffer, screen, 0,0, 0,0, SCREEN_X, SCREEN_Y);
 	release_screen();

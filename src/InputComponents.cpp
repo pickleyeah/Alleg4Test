@@ -54,51 +54,11 @@ void TestInput::ProcessInput(Entity *entity, double dt)
 			m_newGridY++;
 		}
 
-		if (m_state == TE_MOVING && !CanMoveTo(entity, entity->GetArea(), m_newGridX, m_newGridY))
+		if (m_state == TE_MOVING && !entity->CanMoveTo(m_newGridX, m_newGridY))
 		{
 			entity->Vel = Vec2(0, 0);
 			m_state = TE_IDLE;
 		}
-		// Find out if we should cancel the move
-		//if (m_state == TE_MOVING)
-		//{
-		//	Area *area = entity->GetArea();
-		//	bool reset = false;
-		//	// Grid pos out of bounds, reset
-		//	if (m_newGridX < 0 || m_newGridY < 0 || m_newGridX >= area->Size().x || m_newGridY >= area->Size().y)
-		//	{
-		//		reset = true;
-		//	}
-		//	else
-		//	{
-		//		// Can't pass thru block
-		//		BLOCK_T *block = area->GetBlock(m_newGridX, m_newGridY);
-		//		switch (entity->Dir)
-		//		{
-		//		case DIR_NORTH:
-		//			reset = reset || block->colMask & COL_SOUTH;
-		//			break;
-		//		case DIR_EAST:
-		//			reset = reset || block->colMask & COL_WEST;
-		//			break;
-		//		case DIR_SOUTH:
-		//			reset = reset || block->colMask & COL_NORTH;
-		//			break;
-		//		case DIR_WEST:
-		//			reset = reset || block->colMask & COL_EAST;
-		//			break;
-		//		}
-		//	}
-		//	if (reset)
-		//	{
-		//		entity->Vel = Vec2(0, 0);
-		//		m_state = TE_IDLE;
-		//	}
-		//	else
-		//	{
-		//		m_secsSinceStateChange = 0;
-		//	}
-		//}
 		break;
 	case TE_MOVING:
 		Vec2 moved = Vec2::Sub(entity->Pos, m_oldPos);
@@ -124,7 +84,7 @@ void TestInput::ProcessInput(Entity *entity, double dt)
 				}
 			}
 
-			if (keepMoving && CanMoveTo(entity, entity->GetArea(), m_newGridX, m_newGridY))
+			if (keepMoving && entity->CanMoveTo(m_newGridX, m_newGridY))
 			{
 				m_oldPos = entity->Pos;
 				entity->Pos = tempPos;
@@ -139,35 +99,4 @@ void TestInput::ProcessInput(Entity *entity, double dt)
 		}
 		break;
 	}
-}
-
-bool TestInput::CanMoveTo(Entity *entity, Area *area, int x, int y)
-{
-	bool reset = false;
-	// Grid pos out of bounds, reset
-	if (m_newGridX < 0 || m_newGridY < 0 || m_newGridX >= area->Size().x || m_newGridY >= area->Size().y)
-	{
-		return false;
-	}
-	else
-	{
-		// Can't pass thru block
-		BLOCK_T *block = area->GetBlock(m_newGridX, m_newGridY);
-		switch (entity->Dir)
-		{
-		case DIR_NORTH:
-			return ~block->colMask & COL_SOUTH;
-			break;
-		case DIR_EAST:
-			return ~block->colMask & COL_WEST;
-			break;
-		case DIR_SOUTH:
-			return ~block->colMask & COL_NORTH;
-			break;
-		case DIR_WEST:
-			return ~block->colMask & COL_EAST;
-			break;
-		}
-	}
-	return true;
 }

@@ -28,7 +28,7 @@ Area::Area(Vec2 size) :
 Area::~Area(void)
 {
 	delete[] m_blocks;
-	for (int i = 0; i < m_bitmaps.size(); i++)
+	for (size_t i = 0; i < m_bitmaps.size(); i++)
 	{
 		if (m_bitmaps[i] != nullptr)
 			release_bitmap(m_bitmaps[i]);
@@ -45,7 +45,7 @@ Area *Area::CreateTestArea()
 	srand(time(NULL));
 	for (int i = 0; i < 10; i++)
 	{
-		int x = rand() % 12 + 2, y = rand() % 12 + 2;
+		int x = rand() % 8 + 2, y = rand() % 8 + 2;
 		BLOCK_T *block = result->GetBlock(x, y);
 		block->colMask |= COL_ALL;
 	}
@@ -63,7 +63,7 @@ Area *Area::CreateTestArea()
 void Area::Init()
 {
 	m_camera = new Camera(m_player);
-	for (int i = 0; i < m_entities.size(); i++)
+	for (size_t i = 0; i < m_entities.size(); i++)
 		m_entities[i]->Init(this);
 }
 
@@ -71,14 +71,14 @@ void Area::ProcessInput(double dt)
 {
 	if (Input::KeyPressed(KEY_G))
 		m_showGrid = !m_showGrid;
-	for (int i = 0; i < m_entities.size(); i++)
+	for (size_t i = 0; i < m_entities.size(); i++)
 		m_entities[i]->ProcessInput(dt);
 	m_camera->ProcessInput();
 }
 
 void Area::Update(double dt)
 {
-	for (int i = 0; i < m_entities.size(); i++)
+	for (size_t i = 0; i < m_entities.size(); i++)
 		m_entities[i]->Update(dt);
 	m_camera->Update(dt);
 }
@@ -101,7 +101,7 @@ void Area::Render(BITMAP *buffer, Vec2 offset)
 	if (m_showGrid)
 		DrawGrid(buffer, offset);
 
-	for (int i = 0; i < m_entities.size(); i++)
+	for (size_t i = 0; i < m_entities.size(); i++)
 		m_entities[i]->Render(buffer, offset);
 
 	// Borders

@@ -30,7 +30,7 @@ public:
 
 	BLOCK_T *GetBlock(int x, int y) { return &m_blocks[y*(int)m_size.x + x]; }
 	Vec2 Size() { return m_size; }
-
+	
 	void Init();
 
 	void ProcessInput(double dt);

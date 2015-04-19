@@ -21,7 +21,6 @@ public:
 	void ProcessInput(Entity *entity, double dt);
 
 private:
-	bool CanMoveTo(Entity *entity, Area *area, int x, int y);
 	TE_STATE m_state;
 	Vec2 m_oldPos;
 	int m_newGridX, m_newGridY;

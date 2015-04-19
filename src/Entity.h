@@ -26,6 +26,8 @@ public:
 	virtual void Update(double dt);
 	virtual void Render(BITMAP *buffer, Vec2 offset) { m_render->Render(this, buffer, offset); }
 
+	bool CanMoveTo(int x, int y);
+
 	// Getters/setters
 	bool Alive() { return m_alive; }
 	void SetAlive(bool alive) { m_alive = alive; }

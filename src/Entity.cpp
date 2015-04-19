@@ -42,3 +42,32 @@ void Entity::Update(double dt)
 	// Pos += dt*Vel
 	//Pos = Vec2::Add(Pos, Vec2::Mul(Vel, (float)dt));
 }
+
+bool Entity::CanMoveTo(int x, int y)
+{
+	if (x < 0 || y < 0 || x >= m_area->Size().x || y >= m_area->Size().y) // Out of bounds
+	{
+		return false;
+	}
+	else
+	{
+		// See if we can pass thru block from this direction
+		BLOCK_T *block = m_area->GetBlock(x, y);
+		switch (Dir)
+		{
+		case DIR_NORTH:
+			return (~block->colMask & COL_SOUTH) > 0;
+			break;
+		case DIR_EAST:
+			return (~block->colMask & COL_WEST) > 0;
+			break;
+		case DIR_SOUTH:
+			return (~block->colMask & COL_NORTH) > 0;
+			break;
+		case DIR_WEST:
+			return (~block->colMask & COL_EAST) > 0;
+			break;
+		}
+	}
+	return false;
+}

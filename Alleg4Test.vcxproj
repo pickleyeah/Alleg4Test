@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Sprite.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\InputManager.cpp" />
     <ClCompile Include="src\MoveComponents.cpp" />
@@ -29,6 +30,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Sprite.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\InputManager.h" />
     <ClInclude Include="src\MoveComponents.h" />

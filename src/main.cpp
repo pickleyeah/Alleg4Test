@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
 	clock_t prevTime, currTime;
 	Game game;
 
-	if (!game.Init("Game"))
+	if (!game.Init("Nomekop"))
 	{
 		allegro_message("Cannot initalize game.\n");
 		return 1;
