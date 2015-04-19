@@ -25,7 +25,6 @@ Area::Area(Vec2 size, WorldGameState *world) :
 	m_sprites[COL_SOUTH | COL_WEST] = new Sprite("Data/Tiles/Grass_BlockSW.bmp", 1, 1);
 	m_sprites[COL_SOUTH | COL_EAST] = new Sprite("Data/Tiles/Grass_BlockSE.bmp", 1, 1);
 
-	/*m_sprites[COL_ALL] = Sprite("Data/Tiles/Boulder.bmp", 1, 1);*/
 	m_sprites[COL_ALL] = new Sprite("Data/Tiles/Water.bmp", 4, 4);
 }
 
@@ -75,19 +74,13 @@ Area *Area::CreateTestArea(Entity *player, WorldGameState *world)
 
 	// Warp block
 	result->GetBlock(6, 0)->warp = true;
-
+	result->GetBlock(6, 0)->warpDetails = new WARP_DETAILS_T{ "2", Vec2(2, 3), DIR_NORTH };
 	// Player
 	if (player == nullptr)
 	{
 		player = Entity::MakeTestEntity(result);
 		result->SetPlayer(player);
-		/*player->Dir = DIR_SOUTH;
-		player->SetGridXY(1, 1);*/
 	}
-
-	result->SetStartPosAndDir(Vec2(1, 1), DIR_SOUTH);
-
-	//result->Init();
 	return result;
 }
 
@@ -97,12 +90,10 @@ Area *Area::CreateTestArea2(Entity *player, WorldGameState *world)
 	Area *result = new Area(Vec2(m, n), world);
 	memset(result->m_blocks, 0, sizeof(BLOCK_T)*m*n);
 
-	result->SetStartPosAndDir(Vec2(2, 3), DIR_NORTH);
-	/*result->SetPlayer(player);
-	player->SetGridXY(3, 1);
-	player->Dir = DIR_EAST;*/
+	// Warp block
+	result->GetBlock(2, 3)->warp = true;
+	result->GetBlock(2, 3)->warpDetails = new WARP_DETAILS_T{ "1", Vec2(6, 0), DIR_SOUTH };
 
-	//result->Init();
 	return result;
 }
 

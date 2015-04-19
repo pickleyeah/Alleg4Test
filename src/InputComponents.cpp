@@ -66,10 +66,11 @@ void TestInput::ProcessInput(Entity *entity, double dt)
 		{
 			// If we've hit a warp block, trigger the area transition on the next frame
 			// Sort of hacky in that it creates a dependency on WorldGameState, but since Entities should only exist inside of an Area/WorldGameState it seems reasonable enough
-			if (entity->GetArea()->GetBlock(m_newGridX, m_newGridY)->warp)
+			BLOCK_T *block = entity->GetArea()->GetBlock(m_newGridX, m_newGridY);
+			if (block->warp)
 			{
 				WorldGameState *world = entity->GetArea()->GetWorldGameState();
-				world->TransitionToArea(Area::CreateTestArea2(entity, world));
+				world->TransitionToArea(block->warpDetails);
 				entity->Vel = Vec2(0, 0);
 				m_state = TE_IDLE;
 				return;

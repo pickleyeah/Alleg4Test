@@ -21,7 +21,7 @@ public:
 	void Update(Game *game, double dt);
 	void Render(Game *game, BITMAP *buffer);
 
-	void TransitionToArea(Area *area);
+	void TransitionToArea(WARP_DETAILS_T *details);
 
 private:
 	bool m_paused;

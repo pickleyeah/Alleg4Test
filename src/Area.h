@@ -15,10 +15,25 @@ enum COL_MASK
 	COL_ALL = 0x0f,
 };
 
-struct BLOCK_T
+struct WARP_DETAILS_T
 {
+	std::string areaName;
+	Vec2 startPos;
+	DIR startDir;
+};
+
+class BLOCK_T
+{
+public:
+	BLOCK_T() {}
+	~BLOCK_T()
+	{
+		if (warp)
+			delete warpDetails;
+	}
 	char colMask;
 	bool warp;
+	WARP_DETAILS_T *warpDetails;
 };
 
 class WorldGameState;

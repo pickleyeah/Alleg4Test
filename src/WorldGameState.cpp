@@ -17,6 +17,7 @@ WorldGameState::~WorldGameState(void)
 void WorldGameState::Init()
 {
 	m_area = Area::CreateTestArea(nullptr, this);
+	m_area->SetStartPosAndDir(Vec2(1, 1), DIR_SOUTH);
 	m_area->Init();
 }
 void WorldGameState::Shutdown()
@@ -32,10 +33,10 @@ void WorldGameState::Resume()
 
 void WorldGameState::ProcessInput(double dt)
 {
-	if (Input::KeyPressed(KEY_1)) // Transition areas
-		TransitionToArea(Area::CreateTestArea(m_area->GetPlayer(), this));
-	else if (Input::KeyPressed(KEY_2)) // Transition areas
-		TransitionToArea(Area::CreateTestArea2(m_area->GetPlayer(), this));
+	//if (Input::KeyPressed(KEY_1)) // Transition areas
+	//	TransitionToArea(Area::CreateTestArea(m_area->GetPlayer(), this));
+	//else if (Input::KeyPressed(KEY_2)) // Transition areas
+	//	TransitionToArea(Area::CreateTestArea2(m_area->GetPlayer(), this));
 
 	m_area->ProcessInput(dt);
 
@@ -65,7 +66,13 @@ void WorldGameState::Render(Game *game, BITMAP *buffer)
 	m_area->Render(buffer, offset);
 }
 
-void WorldGameState::TransitionToArea(Area *area)
+void WorldGameState::TransitionToArea(WARP_DETAILS_T *details)
 {
-	m_newArea = area;
+	if (details->areaName == "1")
+		m_newArea = Area::CreateTestArea(m_area->GetPlayer(), this);
+	else if (details->areaName == "2")
+		m_newArea = Area::CreateTestArea2(m_area->GetPlayer(), this);
+	else // TODO: load a level by filename
+		;
+	m_newArea->SetStartPosAndDir(details->startPos, details->startDir);
 }
