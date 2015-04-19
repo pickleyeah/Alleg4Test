@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "Vec2.h"
+#include "Sprite.h"
 #include "Entity.h"
 #include "Camera.h"
 
@@ -43,10 +44,12 @@ private:
 	std::vector<Entity*> m_entities;
 	Entity* m_player;
 
+	double m_elapsedTime;
+
 	bool m_showGrid;
 
 	BLOCK_T *m_blocks;
-	std::vector<BITMAP*> m_bitmaps;
+	std::vector<Sprite> m_sprites;
 	Camera* m_camera;
 };
 

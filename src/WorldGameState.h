@@ -2,12 +2,12 @@
 #include "gamestate.h"
 #include "Area.h"
 
-class IntroGameState :
+class WorldGameState :
 	public GameState
 {
 public:
-	IntroGameState(void) { };
-	~IntroGameState(void);
+	WorldGameState(void) { };
+	~WorldGameState(void);
 
 	static const int BLOCK_SIZE = 64;
 

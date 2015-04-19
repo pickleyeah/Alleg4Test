@@ -9,30 +9,27 @@ Area::Area(Vec2 size) :
 	m_showGrid(false)
 {
 	m_blocks = new BLOCK_T[(int)(size.x * size.y)];
-	m_bitmaps.resize(COL_ALL+1, load_bitmap("Data/Tiles/Grass.bmp", NULL));
+	m_sprites.resize(COL_ALL+2, Sprite("Data/Tiles/Grass.bmp", 1, 1));
 
-	m_bitmaps[COL_NORTH] = load_bitmap("Data/Tiles/Grass_BlockN.bmp", NULL);
-	m_bitmaps[COL_SOUTH] = load_bitmap("Data/Tiles/Grass_BlockS.bmp", NULL);
-	m_bitmaps[COL_WEST] = load_bitmap("Data/Tiles/Grass_BlockW.bmp", NULL);
-	m_bitmaps[COL_EAST] = load_bitmap("Data/Tiles/Grass_BlockE.bmp", NULL);
+	m_sprites[COL_NORTH] = Sprite("Data/Tiles/Grass_BlockN.bmp", 1, 1);
+	m_sprites[COL_SOUTH] = Sprite("Data/Tiles/Grass_BlockS.bmp", 1, 1);
+	m_sprites[COL_WEST] = Sprite("Data/Tiles/Grass_BlockW.bmp", 1, 1);
+	m_sprites[COL_EAST] = Sprite("Data/Tiles/Grass_BlockE.bmp", 1, 1);
 
-	m_bitmaps[COL_NORTH | COL_WEST] = load_bitmap("Data/Tiles/Grass_BlockNW.bmp", NULL);
-	m_bitmaps[COL_NORTH | COL_EAST] = load_bitmap("Data/Tiles/Grass_BlockNE.bmp", NULL);
-	m_bitmaps[COL_SOUTH | COL_WEST] = load_bitmap("Data/Tiles/Grass_BlockSW.bmp", NULL);
-	m_bitmaps[COL_SOUTH | COL_EAST] = load_bitmap("Data/Tiles/Grass_BlockSE.bmp", NULL);
+	m_sprites[COL_NORTH | COL_WEST] = Sprite("Data/Tiles/Grass_BlockNW.bmp", 1, 1);
+	m_sprites[COL_NORTH | COL_EAST] = Sprite("Data/Tiles/Grass_BlockNE.bmp", 1, 1);
+	m_sprites[COL_SOUTH | COL_WEST] = Sprite("Data/Tiles/Grass_BlockSW.bmp", 1, 1);
+	m_sprites[COL_SOUTH | COL_EAST] = Sprite("Data/Tiles/Grass_BlockSE.bmp", 1, 1);
 
-	m_bitmaps[COL_ALL] = load_bitmap("Data/Tiles/Boulder.bmp", NULL);
+	/*m_sprites[COL_ALL] = Sprite("Data/Tiles/Boulder.bmp", 1, 1);*/
+	m_sprites[COL_ALL] = Sprite("Data/Tiles/Water.bmp", 4, 4);
 }
 
 
 Area::~Area(void)
 {
 	delete[] m_blocks;
-	for (size_t i = 0; i < m_bitmaps.size(); i++)
-	{
-		if (m_bitmaps[i] != nullptr)
-			release_bitmap(m_bitmaps[i]);
-	}
+	m_sprites.clear();
 }
 
 Area *Area::CreateTestArea()
@@ -41,13 +38,14 @@ Area *Area::CreateTestArea()
 	Area *result = new Area(Vec2(m, n));
 	memset(result->m_blocks, 0, sizeof(BLOCK_T)*m*n);
 
-	// 10 random rocks
-	srand(time(NULL));
-	for (int i = 0; i < 10; i++)
+	// Water block
+	for (int x = 4; x < 8; x++)
 	{
-		int x = rand() % 8 + 2, y = rand() % 8 + 2;
-		BLOCK_T *block = result->GetBlock(x, y);
-		block->colMask |= COL_ALL;
+		for (int y = 4; y < 8; y++)
+		{
+			BLOCK_T *block = result->GetBlock(x, y);
+			block->colMask |= COL_ALL;
+		}
 	}
 
 	// Player
@@ -62,6 +60,7 @@ Area *Area::CreateTestArea()
 
 void Area::Init()
 {
+	m_elapsedTime = 0;
 	m_camera = new Camera(m_player);
 	for (size_t i = 0; i < m_entities.size(); i++)
 		m_entities[i]->Init(this);
@@ -78,6 +77,7 @@ void Area::ProcessInput(double dt)
 
 void Area::Update(double dt)
 {
+	m_elapsedTime += dt;
 	for (size_t i = 0; i < m_entities.size(); i++)
 		m_entities[i]->Update(dt);
 	m_camera->Update(dt);
@@ -93,8 +93,8 @@ void Area::Render(BITMAP *buffer, Vec2 offset)
 		{
 			int x = (int)offset.x + i * 64;
 			int y = (int)offset.y + j * 64;
-			draw_sprite(buffer, m_bitmaps[GetBlock(i, j)->colMask], x, y);
-			blit(m_bitmaps[GetBlock(i, j)->colMask], buffer, 0, 0, x, y, x + 64, y + 64);
+			int spriteIndex = GetBlock(i, j)->colMask;
+			m_sprites[spriteIndex].Render(buffer, m_elapsedTime, x, y);
 		}
 	}
 

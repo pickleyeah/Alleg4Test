@@ -2,7 +2,7 @@
 #include "InputComponents.h"
 #include "MoveComponents.h"
 #include "RenderComponents.h"
-#include "IntroGameState.h"
+#include "WorldGameState.h"
 
 
 Entity::Entity(void)
@@ -21,7 +21,7 @@ Entity* Entity::MakeTestEntity(Area *area)
 	result->m_move = new TestMove();
 	result->m_render = new TestRender((TestInput*)result->m_input);
 
-	result->Size = Vec2(IntroGameState::BLOCK_SIZE,IntroGameState::BLOCK_SIZE);
+	result->Size = Vec2(WorldGameState::BLOCK_SIZE,WorldGameState::BLOCK_SIZE);
 	result->Dir = DIR_NORTH;
 	return result;
 }

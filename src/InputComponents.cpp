@@ -1,7 +1,7 @@
 #include "InputComponents.h"
 #include "Entity.h"
 #include "Area.h"
-#include "IntroGameState.h"
+#include "WorldGameState.h"
 
 TestInput::TestInput(void) :
 	m_secsSinceStateChange(0),
@@ -62,7 +62,7 @@ void TestInput::ProcessInput(Entity *entity, double dt)
 		break;
 	case TE_MOVING:
 		Vec2 moved = Vec2::Sub(entity->Pos, m_oldPos);
-		if (moved.Length() >= IntroGameState::BLOCK_SIZE)
+		if (moved.Length() >= WorldGameState::BLOCK_SIZE)
 		{
 			// Save the player position before the grid clamp and put it back afterward to smooth out continuous movement 
 			Vec2 tempPos = entity->Pos;

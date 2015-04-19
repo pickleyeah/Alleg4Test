@@ -1,7 +1,7 @@
 #include <allegro.h>
 #include <time.h>
 #include "Game.h"
-#include "IntroGameState.h"
+#include "WorldGameState.h"
 
 static const int UPDATES_PER_SEC = 60;
 static const double UPDATE_INTERVAL = 1.0 / (double)UPDATES_PER_SEC;
@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	game.PushState(new IntroGameState());
+	game.PushState(new WorldGameState());
 	prevTime = clock();
 	double elapsedTime = 0;
 	while (!game.Finished())
