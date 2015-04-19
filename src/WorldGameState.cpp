@@ -2,6 +2,13 @@
 
 #include <allegro.h>
 
+WorldGameState::WorldGameState(void) :
+	m_area(nullptr),
+	m_newArea(nullptr)
+{
+
+}
+
 WorldGameState::~WorldGameState(void)
 {
 	delete m_area;
@@ -9,7 +16,8 @@ WorldGameState::~WorldGameState(void)
 
 void WorldGameState::Init()
 {
-	m_area = Area::CreateTestArea(nullptr);
+	m_area = Area::CreateTestArea(nullptr, this);
+	m_area->Init();
 }
 void WorldGameState::Shutdown()
 {
@@ -25,14 +33,26 @@ void WorldGameState::Resume()
 void WorldGameState::ProcessInput(double dt)
 {
 	if (Input::KeyPressed(KEY_1)) // Transition areas
-		TransitionToArea(Area::CreateTestArea(m_area->GetPlayer()));
+		TransitionToArea(Area::CreateTestArea(m_area->GetPlayer(), this));
 	else if (Input::KeyPressed(KEY_2)) // Transition areas
-		TransitionToArea(Area::CreateTestArea2(m_area->GetPlayer()));
+		TransitionToArea(Area::CreateTestArea2(m_area->GetPlayer(), this));
+
 	m_area->ProcessInput(dt);
+
+	// An area change was triggered
+	if (m_newArea != nullptr)
+	{
+		m_newArea->SetPlayer(m_area->GetPlayer());
+		m_newArea->Init();
+		delete m_area;
+		m_area = m_newArea;
+		m_newArea = nullptr;
+	}
 }
 
 void WorldGameState::Update(Game *game, double dt)
 {
+	
 	m_area->Update(dt);
 }
 
@@ -47,6 +67,5 @@ void WorldGameState::Render(Game *game, BITMAP *buffer)
 
 void WorldGameState::TransitionToArea(Area *area)
 {
-	delete m_area;
-	m_area = area;
+	m_newArea = area;
 }

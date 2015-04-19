@@ -4,9 +4,12 @@
 #include <string.h>
 
 
-Area::Area(Vec2 size) :
+Area::Area(Vec2 size, WorldGameState *world) :
 	m_size(size),
-	m_showGrid(false)
+	m_showGrid(false),
+	m_worldGameState(world),
+	m_startPos(Vec2(0,0)),
+	m_startDir(DIR_SOUTH)
 {
 	m_blocks = new BLOCK_T[(int)(size.x * size.y)];
 	m_sprites.resize(COL_ALL+1, nullptr);
@@ -54,10 +57,10 @@ void Area::SetPlayer(Entity *player)
 	m_player->SetArea(this);
 }
 
-Area *Area::CreateTestArea(Entity *player)
+Area *Area::CreateTestArea(Entity *player, WorldGameState *world)
 {
 	int m = 16, n = 16;
-	Area *result = new Area(Vec2(m, n));
+	Area *result = new Area(Vec2(m, n), world);
 	memset(result->m_blocks, 0, sizeof(BLOCK_T)*m*n);
 
 	// Water block
@@ -70,30 +73,36 @@ Area *Area::CreateTestArea(Entity *player)
 		}
 	}
 
+	// Warp block
+	result->GetBlock(6, 0)->warp = true;
+
 	// Player
 	if (player == nullptr)
+	{
 		player = Entity::MakeTestEntity(result);
-	//result->m_entities.push_back(player);
-	result->SetPlayer(player);
-	player->Dir = DIR_SOUTH;
-	player->SetGridXY(1, 1);
+		result->SetPlayer(player);
+		/*player->Dir = DIR_SOUTH;
+		player->SetGridXY(1, 1);*/
+	}
 
-	result->Init();
+	result->SetStartPosAndDir(Vec2(1, 1), DIR_SOUTH);
+
+	//result->Init();
 	return result;
 }
 
-Area *Area::CreateTestArea2(Entity *player)
+Area *Area::CreateTestArea2(Entity *player, WorldGameState *world)
 {
 	int m = 4, n = 4; // small-ass area
-	Area *result = new Area(Vec2(m, n));
+	Area *result = new Area(Vec2(m, n), world);
 	memset(result->m_blocks, 0, sizeof(BLOCK_T)*m*n);
 
-	//result->m_entities.push_back(player);
-	result->SetPlayer(player);
+	result->SetStartPosAndDir(Vec2(2, 3), DIR_NORTH);
+	/*result->SetPlayer(player);
 	player->SetGridXY(3, 1);
-	player->Dir = DIR_EAST;
+	player->Dir = DIR_EAST;*/
 
-	result->Init();
+	//result->Init();
 	return result;
 }
 
@@ -103,6 +112,8 @@ void Area::Init()
 	m_camera = new Camera(m_player);
 	for (size_t i = 0; i < m_entities.size(); i++)
 		m_entities[i]->Init(this);
+	m_player->SetGridXY(m_startPos.x, m_startPos.y);
+	m_player->Dir = m_startDir;
 }
 
 void Area::ProcessInput(double dt)
@@ -133,7 +144,8 @@ void Area::Render(BITMAP *buffer, Vec2 offset)
 			int x = (int)offset.x + i * 64;
 			int y = (int)offset.y + j * 64;
 			int spriteIndex = GetBlock(i, j)->colMask;
-			m_sprites[spriteIndex]->Render(buffer, m_elapsedTime, x, y);
+			if (!GetBlock(i, j)->warp)
+				m_sprites[spriteIndex]->Render(buffer, m_elapsedTime, x, y);
 		}
 	}
 
@@ -159,5 +171,5 @@ void Area::DrawGrid(BITMAP *buffer, Vec2 offset)
 	for (int i = 0; i <= sizeX; i += BLOCK_SIZE)
 		vline(buffer, i + (int)offset.x, 0 + (int)offset.y, sizeY + (int)offset.y, makecol(255, 255, 255));
 	for (int i = 0; i <= sizeY; i += BLOCK_SIZE)
-		hline(buffer, 0 + (int)offset.x, i + (int)offset.y, sizeX + (int)offset.x, makecol(255, 255, 255));;
+		hline(buffer, 0 + (int)offset.x, i + (int)offset.y, sizeX + (int)offset.x, makecol(255, 255, 255));
 }

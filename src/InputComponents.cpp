@@ -64,6 +64,16 @@ void TestInput::ProcessInput(Entity *entity, double dt)
 		Vec2 moved = Vec2::Sub(entity->Pos, m_oldPos);
 		if (moved.Length() >= WorldGameState::BLOCK_SIZE)
 		{
+			// If we've hit a warp block, trigger the area transition on the next frame
+			// Sort of hacky in that it creates a dependency on WorldGameState, but since Entities should only exist inside of an Area/WorldGameState it seems reasonable enough
+			if (entity->GetArea()->GetBlock(m_newGridX, m_newGridY)->warp)
+			{
+				WorldGameState *world = entity->GetArea()->GetWorldGameState();
+				world->TransitionToArea(Area::CreateTestArea2(entity, world));
+				entity->Vel = Vec2(0, 0);
+				m_state = TE_IDLE;
+				return;
+			}
 			// Save the player position before the grid clamp and put it back afterward to smooth out continuous movement 
 			Vec2 tempPos = entity->Pos;
 			// Once we've moved a whole grid space, clamp to the grid

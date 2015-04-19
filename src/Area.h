@@ -18,22 +18,29 @@ enum COL_MASK
 struct BLOCK_T
 {
 	char colMask;
+	bool warp;
 };
+
+class WorldGameState;
 
 class Area
 {
 public:
-	Area(Vec2 size);
+	Area(Vec2 size, WorldGameState *world);
 	~Area(void);
 
-	static Area *CreateTestArea(Entity *player);
-	static Area *CreateTestArea2(Entity *player);
+	static Area *CreateTestArea(Entity *player, WorldGameState *world);
+	static Area *CreateTestArea2(Entity *player, WorldGameState *world);
 
 	BLOCK_T *GetBlock(int x, int y) { return &m_blocks[y*(int)m_size.x + x]; }
 	Vec2 Size() { return m_size; }
 
 	Entity *GetPlayer() { return m_player; }
 	void SetPlayer(Entity *player);
+
+	WorldGameState *GetWorldGameState() { return m_worldGameState; }
+
+	void SetStartPosAndDir(Vec2 pos, DIR dir) { m_startPos = pos; m_startDir = dir; }
 	
 	void Init();
 
@@ -43,9 +50,13 @@ public:
 	void DrawGrid(BITMAP *buffer, Vec2 offset);
 
 private:
+	WorldGameState *m_worldGameState;
 	Vec2 m_size;
 	std::vector<Entity*> m_entities;
+
 	Entity* m_player;
+	Vec2 m_startPos;
+	DIR m_startDir;
 
 	double m_elapsedTime;
 

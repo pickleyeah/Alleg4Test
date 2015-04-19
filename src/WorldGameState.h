@@ -6,7 +6,7 @@ class WorldGameState :
 	public GameState
 {
 public:
-	WorldGameState(void) { };
+	WorldGameState(void);
 	~WorldGameState(void);
 
 	static const int BLOCK_SIZE = 64;
@@ -27,5 +27,6 @@ private:
 	bool m_paused;
 
 	Area* m_area;
+	Area* m_newArea;
 };
 
