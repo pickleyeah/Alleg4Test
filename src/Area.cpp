@@ -9,20 +9,21 @@ Area::Area(Vec2 size) :
 	m_showGrid(false)
 {
 	m_blocks = new BLOCK_T[(int)(size.x * size.y)];
-	m_sprites.resize(COL_ALL+2, Sprite("Data/Tiles/Grass.bmp", 1, 1));
+	m_sprites.resize(COL_ALL+1, nullptr);
 
-	m_sprites[COL_NORTH] = Sprite("Data/Tiles/Grass_BlockN.bmp", 1, 1);
-	m_sprites[COL_SOUTH] = Sprite("Data/Tiles/Grass_BlockS.bmp", 1, 1);
-	m_sprites[COL_WEST] = Sprite("Data/Tiles/Grass_BlockW.bmp", 1, 1);
-	m_sprites[COL_EAST] = Sprite("Data/Tiles/Grass_BlockE.bmp", 1, 1);
+	m_sprites[0] = new Sprite("Data/Tiles/Grass.bmp", 1, 1);
+	m_sprites[COL_NORTH] = new Sprite("Data/Tiles/Grass_BlockN.bmp", 1, 1);
+	m_sprites[COL_SOUTH] = new Sprite("Data/Tiles/Grass_BlockS.bmp", 1, 1);
+	m_sprites[COL_WEST] = new Sprite("Data/Tiles/Grass_BlockW.bmp", 1, 1);
+	m_sprites[COL_EAST] = new Sprite("Data/Tiles/Grass_BlockE.bmp", 1, 1);
 
-	m_sprites[COL_NORTH | COL_WEST] = Sprite("Data/Tiles/Grass_BlockNW.bmp", 1, 1);
-	m_sprites[COL_NORTH | COL_EAST] = Sprite("Data/Tiles/Grass_BlockNE.bmp", 1, 1);
-	m_sprites[COL_SOUTH | COL_WEST] = Sprite("Data/Tiles/Grass_BlockSW.bmp", 1, 1);
-	m_sprites[COL_SOUTH | COL_EAST] = Sprite("Data/Tiles/Grass_BlockSE.bmp", 1, 1);
+	m_sprites[COL_NORTH | COL_WEST] = new Sprite("Data/Tiles/Grass_BlockNW.bmp", 1, 1);
+	m_sprites[COL_NORTH | COL_EAST] = new Sprite("Data/Tiles/Grass_BlockNE.bmp", 1, 1);
+	m_sprites[COL_SOUTH | COL_WEST] = new Sprite("Data/Tiles/Grass_BlockSW.bmp", 1, 1);
+	m_sprites[COL_SOUTH | COL_EAST] = new Sprite("Data/Tiles/Grass_BlockSE.bmp", 1, 1);
 
 	/*m_sprites[COL_ALL] = Sprite("Data/Tiles/Boulder.bmp", 1, 1);*/
-	m_sprites[COL_ALL] = Sprite("Data/Tiles/Water.bmp", 4, 4);
+	m_sprites[COL_ALL] = new Sprite("Data/Tiles/Water.bmp", 4, 4);
 }
 
 
@@ -30,7 +31,11 @@ Area::~Area(void)
 {
 	delete m_camera;
 	delete[] m_blocks;
-	m_sprites.clear();
+	for (size_t i = 0; i < m_sprites.size(); i++)
+	{
+		if (m_sprites[i]) // TODO: clean this mess up. having to step over null pointers isn't real nice
+			delete m_sprites[i];
+	}
 	for (size_t i = 0; i < m_entities.size(); i++)
 		delete m_entities[i];
 }
@@ -128,7 +133,7 @@ void Area::Render(BITMAP *buffer, Vec2 offset)
 			int x = (int)offset.x + i * 64;
 			int y = (int)offset.y + j * 64;
 			int spriteIndex = GetBlock(i, j)->colMask;
-			m_sprites[spriteIndex].Render(buffer, m_elapsedTime, x, y);
+			m_sprites[spriteIndex]->Render(buffer, m_elapsedTime, x, y);
 		}
 	}
 

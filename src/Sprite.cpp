@@ -15,9 +15,9 @@ Sprite::~Sprite()
 {
 	for (size_t i = 0; i < m_frames.size(); i++)
 	{
-		release_bitmap(m_frames[i]);
+		destroy_bitmap(m_frames[i]);
 	}
-	release_bitmap(m_srcBitmap);
+	destroy_bitmap(m_srcBitmap);
 }
 
 void Sprite::Render(BITMAP *buffer, double time, int x, int y)

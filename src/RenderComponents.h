@@ -17,6 +17,6 @@ public:
 
 private:
 	TestInput *m_input;
-	std::vector<Sprite> m_idleSprites;
-	std::vector<Sprite> m_walkSprites;
+	std::vector<Sprite*> m_idleSprites;
+	std::vector<Sprite*> m_walkSprites;
 };

@@ -9,21 +9,23 @@ TestRender::TestRender(TestInput* input)
 {
 	m_input = input;
 
-	m_idleSprites.push_back(Sprite("Data/Sprites/Player_Idle_N.bmp", 1, 1));
-	m_idleSprites.push_back(Sprite("Data/Sprites/Player_Idle_E.bmp", 1, 1));
-	m_idleSprites.push_back(Sprite("Data/Sprites/Player_Idle_S.bmp", 1, 1));
-	m_idleSprites.push_back(Sprite("Data/Sprites/Player_Idle_W.bmp", 1, 1));
+	m_idleSprites.push_back(new Sprite("Data/Sprites/Player_Idle_N.bmp", 1, 1));
+	m_idleSprites.push_back(new Sprite("Data/Sprites/Player_Idle_E.bmp", 1, 1));
+	m_idleSprites.push_back(new Sprite("Data/Sprites/Player_Idle_S.bmp", 1, 1));
+	m_idleSprites.push_back(new Sprite("Data/Sprites/Player_Idle_W.bmp", 1, 1));
 
-	m_walkSprites.push_back(Sprite("Data/Sprites/Player_Walk_N.bmp", 4, WALK_FRAMES_PER_SEC));
-	m_walkSprites.push_back(Sprite("Data/Sprites/Player_Walk_E.bmp", 4, WALK_FRAMES_PER_SEC));
-	m_walkSprites.push_back(Sprite("Data/Sprites/Player_Walk_S.bmp", 4, WALK_FRAMES_PER_SEC));
-	m_walkSprites.push_back(Sprite("Data/Sprites/Player_Walk_W.bmp", 4, WALK_FRAMES_PER_SEC));
+	m_walkSprites.push_back(new Sprite("Data/Sprites/Player_Walk_N.bmp", 4, WALK_FRAMES_PER_SEC));
+	m_walkSprites.push_back(new Sprite("Data/Sprites/Player_Walk_E.bmp", 4, WALK_FRAMES_PER_SEC));
+	m_walkSprites.push_back(new Sprite("Data/Sprites/Player_Walk_S.bmp", 4, WALK_FRAMES_PER_SEC));
+	m_walkSprites.push_back(new Sprite("Data/Sprites/Player_Walk_W.bmp", 4, WALK_FRAMES_PER_SEC));
 }
 
 TestRender::~TestRender(void)
 {
-	m_idleSprites.clear();
-	m_walkSprites.clear();
+	for (size_t i = 0; i < m_idleSprites.size(); i++)
+		delete m_idleSprites[i];
+	for (size_t i = 0; i < m_walkSprites.size(); i++)
+		delete m_walkSprites[i];
 }
 
 void TestRender::Render(Entity *entity, BITMAP *buffer, Vec2 offset)
@@ -38,11 +40,11 @@ void TestRender::Render(Entity *entity, BITMAP *buffer, Vec2 offset)
 	switch (m_input->GetState())
 	{
 	case TE_IDLE:
-		sprite = &m_idleSprites[entity->Dir];
+		sprite = m_idleSprites[entity->Dir];
 		break;
 	case TE_MOVING:
 		int frame = ((int)(m_input->TimeSinceStateChange() * WALK_FRAMES_PER_SEC)) % 4;
-		sprite = &m_walkSprites[entity->Dir];
+		sprite = m_walkSprites[entity->Dir];
 		break;
 	}
 	sprite->Render(buffer, m_input->TimeSinceStateChange(), x, y);

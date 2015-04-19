@@ -52,7 +52,7 @@ private:
 	bool m_showGrid;
 
 	BLOCK_T *m_blocks;
-	std::vector<Sprite> m_sprites;
+	std::vector<Sprite*> m_sprites;
 	Camera* m_camera;
 };
 
