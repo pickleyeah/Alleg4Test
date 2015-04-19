@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Components.h"
+#include "Sprite.h"
 
 class TestInput;
 
@@ -16,7 +17,6 @@ public:
 
 private:
 	TestInput *m_input;
-	std::vector<BITMAP*> m_idleSprites;
-	std::vector<BITMAP*> m_walkSprites;
-	std::vector<BITMAP*> m_spritesToDelete;
+	std::vector<Sprite> m_idleSprites;
+	std::vector<Sprite> m_walkSprites;
 };
