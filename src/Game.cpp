@@ -2,6 +2,7 @@
 
 #include "GameState.h"
 #include "InputManager.h"
+#include "Sprite.h"
 
 Game::~Game()
 {
@@ -37,6 +38,7 @@ void Game::Shutdown()
 		m_states.back()->Shutdown();
 		m_states.pop_back();
 	}
+	Sprite::ReleaseAllSprites();
 }
 
 void Game::ChangeState(GameState* state)

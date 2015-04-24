@@ -14,18 +14,18 @@ Area::Area(Vec2 size, WorldGameState *world) :
 	m_blocks = new BLOCK_T[(int)(size.x * size.y)];
 	m_sprites.resize(COL_ALL+1, nullptr);
 
-	m_sprites[0] = new Sprite("Data/Tiles/Grass.bmp", 1, 1);
-	m_sprites[COL_NORTH] = new Sprite("Data/Tiles/Grass_BlockN.bmp", 1, 1);
-	m_sprites[COL_SOUTH] = new Sprite("Data/Tiles/Grass_BlockS.bmp", 1, 1);
-	m_sprites[COL_WEST] = new Sprite("Data/Tiles/Grass_BlockW.bmp", 1, 1);
-	m_sprites[COL_EAST] = new Sprite("Data/Tiles/Grass_BlockE.bmp", 1, 1);
+	m_sprites[0] = Sprite::GetSprite("Data/Tiles/Grass.bmp", 1, 1);
+	m_sprites[COL_NORTH] = Sprite::GetSprite("Data/Tiles/Grass_BlockN.bmp", 1, 1);
+	m_sprites[COL_SOUTH] = Sprite::GetSprite("Data/Tiles/Grass_BlockS.bmp", 1, 1);
+	m_sprites[COL_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockW.bmp", 1, 1);
+	m_sprites[COL_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockE.bmp", 1, 1);
 
-	m_sprites[COL_NORTH | COL_WEST] = new Sprite("Data/Tiles/Grass_BlockNW.bmp", 1, 1);
-	m_sprites[COL_NORTH | COL_EAST] = new Sprite("Data/Tiles/Grass_BlockNE.bmp", 1, 1);
-	m_sprites[COL_SOUTH | COL_WEST] = new Sprite("Data/Tiles/Grass_BlockSW.bmp", 1, 1);
-	m_sprites[COL_SOUTH | COL_EAST] = new Sprite("Data/Tiles/Grass_BlockSE.bmp", 1, 1);
+	m_sprites[COL_NORTH | COL_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockNW.bmp", 1, 1);
+	m_sprites[COL_NORTH | COL_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockNE.bmp", 1, 1);
+	m_sprites[COL_SOUTH | COL_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockSW.bmp", 1, 1);
+	m_sprites[COL_SOUTH | COL_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockSE.bmp", 1, 1);
 
-	m_sprites[COL_ALL] = new Sprite("Data/Tiles/Water.bmp", 4, 4);
+	m_sprites[COL_ALL] = Sprite::GetSprite("Data/Tiles/Water.bmp", 4, 4);
 }
 
 
@@ -33,11 +33,11 @@ Area::~Area(void)
 {
 	delete m_camera;
 	delete[] m_blocks;
-	for (size_t i = 0; i < m_sprites.size(); i++)
-	{
-		if (m_sprites[i]) // TODO: clean this mess up. having to step over null pointers isn't real nice
-			delete m_sprites[i];
-	}
+	//for (size_t i = 0; i < m_sprites.size(); i++)
+	//{
+	//	if (m_sprites[i]) // TODO: clean this mess up. having to step over null pointers isn't real nice
+	//		delete m_sprites[i];
+	//}
 	for (size_t i = 0; i < m_entities.size(); i++)
 		delete m_entities[i];
 }

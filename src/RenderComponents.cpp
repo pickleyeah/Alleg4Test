@@ -9,15 +9,15 @@ TestRender::TestRender(TestInput* input)
 {
 	m_input = input;
 
-	m_idleSprites.push_back(new Sprite("Data/Sprites/Player_Idle_N.bmp", 1, 1));
-	m_idleSprites.push_back(new Sprite("Data/Sprites/Player_Idle_E.bmp", 1, 1));
-	m_idleSprites.push_back(new Sprite("Data/Sprites/Player_Idle_S.bmp", 1, 1));
-	m_idleSprites.push_back(new Sprite("Data/Sprites/Player_Idle_W.bmp", 1, 1));
+	m_idleSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Idle_N.bmp", 1, 1));
+	m_idleSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Idle_E.bmp", 1, 1));
+	m_idleSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Idle_S.bmp", 1, 1));
+	m_idleSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Idle_W.bmp", 1, 1));
 
-	m_walkSprites.push_back(new Sprite("Data/Sprites/Player_Walk_N.bmp", 4, WALK_FRAMES_PER_SEC));
-	m_walkSprites.push_back(new Sprite("Data/Sprites/Player_Walk_E.bmp", 4, WALK_FRAMES_PER_SEC));
-	m_walkSprites.push_back(new Sprite("Data/Sprites/Player_Walk_S.bmp", 4, WALK_FRAMES_PER_SEC));
-	m_walkSprites.push_back(new Sprite("Data/Sprites/Player_Walk_W.bmp", 4, WALK_FRAMES_PER_SEC));
+	m_walkSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Walk_N.bmp", 4, WALK_FRAMES_PER_SEC));
+	m_walkSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Walk_E.bmp", 4, WALK_FRAMES_PER_SEC));
+	m_walkSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Walk_S.bmp", 4, WALK_FRAMES_PER_SEC));
+	m_walkSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Walk_W.bmp", 4, WALK_FRAMES_PER_SEC));
 }
 
 TestRender::~TestRender(void)

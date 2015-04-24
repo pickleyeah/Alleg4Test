@@ -1,14 +1,22 @@
 #include "Sprite.h"
 
-Sprite::Sprite(const char* filename, int numFrames, int fps)
+std::unordered_map<std::string, std::unique_ptr<Sprite>> Sprite::s_spriteMap;
+
+Sprite* Sprite::GetSprite(const char* filename, int numFrames, int fps)
 {
-	m_fps = fps;
-	m_numFrames = numFrames;
-	m_srcBitmap = load_bitmap(filename, nullptr);
+	if (s_spriteMap[std::string(filename)])
+		return s_spriteMap[std::string(filename)].get();
+
+	Sprite *result = new Sprite();
+	result->m_srcBitmap = load_bitmap(filename, NULL);
+	result->m_numFrames = numFrames;
+	result->m_fps = fps;
 	// Infer frame size based on bitmap width and number of frames
-	int width = m_srcBitmap->w / numFrames;
-	for (int x = 0; x < m_srcBitmap->w; x += width)
-		m_frames.push_back(create_sub_bitmap(m_srcBitmap, x, 0, width, m_srcBitmap->h));
+	int width = result->m_srcBitmap->w / numFrames;
+	for (int x = 0; x < result->m_srcBitmap->w; x += width)
+		result->m_frames.push_back(create_sub_bitmap(result->m_srcBitmap, x, 0, width, result->m_srcBitmap->h));
+	s_spriteMap[filename] = std::unique_ptr<Sprite>(result);
+	return result;
 }
 
 Sprite::~Sprite()
