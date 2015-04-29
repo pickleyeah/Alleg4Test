@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\CSVFile.cpp" />
     <ClCompile Include="src\Sprite.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\InputManager.cpp" />
@@ -30,6 +31,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\CSVFile.h" />
     <ClInclude Include="src\Sprite.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\InputManager.h" />
@@ -44,6 +46,9 @@
     <ClInclude Include="src\WorldGameState.h" />
     <ClInclude Include="src\Vec2.h" />
     <ClInclude Include="src\stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Sprites.psl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E01C5638-F8EB-4F16-9F15-370C979F8DCF}</ProjectGuid>

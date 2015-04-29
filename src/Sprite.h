@@ -4,6 +4,7 @@ class Sprite
 {
 public:
 	static const int TILESIZE = 64;
+	static void PreloadSpriteList(const char* filename);
 	static Sprite* GetSprite(const char* filename, int numFrames = 1, int fps = 1);
 	static void ReleaseSprite(std::string filename) { s_spriteMap.erase(filename); }
 	static void ReleaseAllSprites() { s_spriteMap.clear(); }

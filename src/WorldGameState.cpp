@@ -16,6 +16,9 @@ WorldGameState::~WorldGameState(void)
 
 void WorldGameState::Init()
 {
+	// Preload sprites
+	Sprite::PreloadSpriteList("Data/Sprites.psl");
+
 	m_area = Area::CreateTestArea(nullptr, this);
 	m_area->SetStartPosAndDir(Vec2(1, 1), DIR_SOUTH);
 	m_area->Init();

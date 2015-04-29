@@ -1,6 +1,21 @@
 #include "Sprite.h"
+#include "CSVFile.h"
 
 std::unordered_map<std::string, std::unique_ptr<Sprite>> Sprite::s_spriteMap;
+
+void Sprite::PreloadSpriteList(const char* filename)
+{
+	CSVFile csvFile(filename);
+	while (csvFile.HasRemainingEntries())
+	{
+		std::vector<std::string> entry = csvFile.GetNextEntry();
+		// Load the sprite
+		const char *spriteFileName = entry[0].c_str();
+		int numFrames = atoi(entry[1].c_str());
+		int fps = atoi(entry[2].c_str());
+		Sprite::GetSprite(spriteFileName, numFrames, fps);
+	}
+}
 
 Sprite* Sprite::GetSprite(const char* filename, int numFrames, int fps)
 {

@@ -33,11 +33,6 @@ Area::~Area(void)
 {
 	delete m_camera;
 	delete[] m_blocks;
-	//for (size_t i = 0; i < m_sprites.size(); i++)
-	//{
-	//	if (m_sprites[i]) // TODO: clean this mess up. having to step over null pointers isn't real nice
-	//		delete m_sprites[i];
-	//}
 	for (size_t i = 0; i < m_entities.size(); i++)
 		delete m_entities[i];
 }

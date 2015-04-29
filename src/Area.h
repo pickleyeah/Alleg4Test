@@ -25,7 +25,7 @@ struct WARP_DETAILS_T
 class BLOCK_T
 {
 public:
-	BLOCK_T() {}
+	BLOCK_T() { sprintf(sprite, "none"); }
 	~BLOCK_T()
 	{
 		if (warp)
@@ -33,6 +33,7 @@ public:
 	}
 	char colMask;
 	bool warp;
+	char sprite[64];
 	WARP_DETAILS_T *warpDetails;
 };
 

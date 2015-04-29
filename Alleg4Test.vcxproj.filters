@@ -72,6 +72,9 @@
     <ClCompile Include="src\InputManager.cpp">
       <Filter>Util</Filter>
     </ClCompile>
+    <ClCompile Include="src\CSVFile.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h">
@@ -116,5 +119,11 @@
     <ClInclude Include="src\InputManager.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="src\CSVFile.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Sprites.psl" />
   </ItemGroup>
 </Project>
