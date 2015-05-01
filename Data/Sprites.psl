@@ -1,3 +1,7 @@
+# This file contains information to help load Sprite file data at startup
+# Format:
+# [spriteFilePath],[numberOfFrames],[framesPerSecond]
+
 # Player sprites
 Data/Sprites/Player_Idle_E.bmp,1,1
 Data/Sprites/Player_Idle_N.bmp,1,1
