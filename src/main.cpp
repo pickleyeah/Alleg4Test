@@ -14,7 +14,6 @@ int main(int argc, char* argv[]) {
 	if (!game.Init("Nomekop"))
 	{
 		al_show_native_message_box(al_get_current_display(), "Error", NULL, "Cannot initialize game", NULL, ALLEGRO_MESSAGEBOX_ERROR);
-		//allegro_message("Cannot initalize game.\n");
 		return 1;
 	}
 

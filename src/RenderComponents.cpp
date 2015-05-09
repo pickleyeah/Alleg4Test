@@ -25,7 +25,7 @@ TestRender::~TestRender(void)
 {
 }
 
-void TestRender::Render(Entity *entity, ALLEGRO_BITMAP *buffer, Vec2 offset)
+void TestRender::Render(Entity *entity, Vec2 offset)
 {
 	Vec2 Pos = entity->Pos;
 	Vec2 Size = entity->Size;
@@ -44,5 +44,5 @@ void TestRender::Render(Entity *entity, ALLEGRO_BITMAP *buffer, Vec2 offset)
 		sprite = m_walkSprites[entity->Dir];
 		break;
 	}
-	sprite->Render(buffer, m_input->TimeSinceStateChange(), x, y);
+	sprite->Render(m_input->TimeSinceStateChange(), x, y);
 }

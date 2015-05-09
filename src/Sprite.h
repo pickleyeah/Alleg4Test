@@ -11,7 +11,7 @@ public:
 
 	~Sprite();
 
-	void Render(ALLEGRO_BITMAP *buffer, double time, int x, int y);
+	void Render(double time, int x, int y);
 
 private:
 	static std::unordered_map<std::string, std::unique_ptr<Sprite>> s_spriteMap;

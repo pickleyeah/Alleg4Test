@@ -10,8 +10,7 @@ WorldGameState::WorldGameState(void) :
 	m_area(nullptr),
 	m_newArea(nullptr),
 	m_transitionTime(0),
-	m_state(STATE_NORMAL),
-	m_buffer(nullptr)
+	m_state(STATE_NORMAL)
 {
 
 }
@@ -23,7 +22,6 @@ WorldGameState::~WorldGameState(void)
 
 void WorldGameState::Init()
 {
-	m_buffer = al_create_bitmap(Game::SCREEN_X, Game::SCREEN_Y);
 	// Preload sprites
 	Sprite::PreloadSpriteList("Data/Sprites.psl");
 
@@ -35,11 +33,6 @@ void WorldGameState::Init()
 }
 void WorldGameState::Shutdown()
 {
-	if (m_buffer != nullptr)
-	{
-		al_destroy_bitmap(m_buffer);
-		m_buffer = nullptr;
-	}
 }
 
 void WorldGameState::Pause()
@@ -94,8 +87,8 @@ void WorldGameState::Render(Game *game, ALLEGRO_BITMAP *buffer)
 	al_clear_to_color(al_map_rgb(0, 0, 0));
 	
 	// Draw scene
-	Vec2 _offset = Vec2(0, 0);
-	m_area->Render(buffer, _offset);
+	Vec2 offset = Vec2(0, 0);
+	m_area->Render(offset);
 
 	// Draw fade if applicable
 	if (m_state == STATE_FADEOUT)

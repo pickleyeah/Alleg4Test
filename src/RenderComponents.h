@@ -13,7 +13,7 @@ public:
 	TestRender(TestInput* input);
 	~TestRender(void);
 
-	void Render(Entity *entity, ALLEGRO_BITMAP *buffer, Vec2 offset);
+	void Render(Entity *entity, Vec2 offset);
 
 private:
 	TestInput *m_input;

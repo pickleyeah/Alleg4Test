@@ -31,8 +31,6 @@ Area::Area(Vec2 size, WorldGameState *world) :
 
 Area::~Area(void)
 {
-	delete m_camera;
-	//delete[] m_blocks;
 	for (size_t i = 0; i < m_entities.size(); i++)
 		delete m_entities[i];
 }
@@ -174,7 +172,7 @@ void Area::Init()
 		m_entities[i]->Init(this);
 	m_player->SetGridXY(m_startPos.x, m_startPos.y);
 	m_player->Dir = m_startDir;
-	m_camera = new Camera(m_player);
+	m_camera = std::unique_ptr<Camera>(new Camera(m_player));
 	m_camera->Update(0);
 }
 
@@ -195,7 +193,7 @@ void Area::Update(double dt)
 	m_camera->Update(dt);
 }
 
-void Area::Render(ALLEGRO_BITMAP *buffer, Vec2 offset)
+void Area::Render(Vec2 offset)
 {
 	offset = m_camera->GetOffset();
 	// Render blocks
@@ -207,15 +205,15 @@ void Area::Render(ALLEGRO_BITMAP *buffer, Vec2 offset)
 			int y = (int)offset.y + j * 64;
 			int spriteIndex = GetBlock(i, j)->colMask;
 			if (!GetBlock(i, j)->warp)
-				m_sprites[spriteIndex]->Render(buffer, m_elapsedTime, x, y);
+				m_sprites[spriteIndex]->Render(m_elapsedTime, x, y);
 		}
 	}
 
 	if (m_showGrid)
-		DrawGrid(buffer, offset);
+		DrawGrid(offset);
 
 	for (size_t i = 0; i < m_entities.size(); i++)
-		m_entities[i]->Render(buffer, offset);
+		m_entities[i]->Render(offset);
 
 	// Borders
 	/*rectfill(buffer, 0, 0, 32, Game::SCREEN_Y, makecol(32, 32, 32));
@@ -226,7 +224,7 @@ void Area::Render(ALLEGRO_BITMAP *buffer, Vec2 offset)
 }
 
 static const int BLOCK_SIZE = 64;
-void Area::DrawGrid(ALLEGRO_BITMAP *buffer, Vec2 offset)
+void Area::DrawGrid(Vec2 offset)
 {
 	/*int sizeX = m_size.x * BLOCK_SIZE;
 	int sizeY = m_size.y * BLOCK_SIZE;

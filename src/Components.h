@@ -16,7 +16,7 @@ class RenderComponent
 {
 public:
 	virtual ~RenderComponent(void) {};
-	virtual void Render(Entity *entity, ALLEGRO_BITMAP *buffer, Vec2 offset) = 0;
+	virtual void Render(Entity *entity, Vec2 offset) = 0;
 };
 
 class MoveComponent

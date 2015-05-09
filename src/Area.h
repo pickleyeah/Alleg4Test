@@ -83,8 +83,8 @@ public:
 
 	void ProcessInput(double dt);
 	void Update(double dt);
-	void Render(ALLEGRO_BITMAP *buffer, Vec2 offset);
-	void DrawGrid(ALLEGRO_BITMAP *buffer, Vec2 offset);
+	void Render(Vec2 offset);
+	void DrawGrid(Vec2 offset);
 
 private:
 	WorldGameState *m_worldGameState;
@@ -101,6 +101,6 @@ private:
 
 	std::unique_ptr<BLOCK_T[]> m_blocks;
 	std::vector<Sprite*> m_sprites;
-	Camera* m_camera;
+	std::unique_ptr<Camera> m_camera;
 };
 
