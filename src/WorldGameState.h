@@ -26,7 +26,7 @@ public:
 
 	void ProcessInput(double dt);
 	void Update(Game *game, double dt);
-	void Render(Game *game, BITMAP *buffer);
+	void Render(Game *game, ALLEGRO_BITMAP *buffer);
 
 	void TransitionToArea(WARP_DETAILS_T *details);
 

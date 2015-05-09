@@ -16,7 +16,7 @@ public:
 
 	virtual void ProcessInput(double dt) = 0;
 	virtual void Update(Game *game, double dt) = 0;
-	virtual void Render(Game *game, BITMAP *buffer) = 0;
+	virtual void Render(Game *game, ALLEGRO_BITMAP *buffer) = 0;
 
 private:
 	bool m_paused;

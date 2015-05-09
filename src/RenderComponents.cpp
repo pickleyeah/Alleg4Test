@@ -3,6 +3,7 @@
 
 #include "Vec2.h"
 #include "Entity.h"
+#include "Sprite.h"
 
 
 TestRender::TestRender(TestInput* input)
@@ -24,7 +25,7 @@ TestRender::~TestRender(void)
 {
 }
 
-void TestRender::Render(Entity *entity, BITMAP *buffer, Vec2 offset)
+void TestRender::Render(Entity *entity, ALLEGRO_BITMAP *buffer, Vec2 offset)
 {
 	Vec2 Pos = entity->Pos;
 	Vec2 Size = entity->Size;

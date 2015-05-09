@@ -22,7 +22,7 @@ void TestInput::ProcessInput(Entity *entity, double dt)
 	switch (m_state)
 	{
 	case TE_IDLE:
-		if (Input::KeyPressed(KEY_SPACE))
+		if (Input::KeyPressed(ALLEGRO_KEY_SPACE))
 		{
 			// TODO: Perform use/talk action here
 			return;
@@ -31,28 +31,28 @@ void TestInput::ProcessInput(Entity *entity, double dt)
 		m_oldPos = entity->Pos;
 		m_newGridX = entity->GridX();
 		m_newGridY = entity->GridY();
-		if (Input::KeyDown(KEY_LEFT))
+		if (Input::KeyDown(ALLEGRO_KEY_LEFT))
 		{
 			entity->Vel.x = -MOVESPEED;
 			entity->Dir = DIR_WEST;
 			m_state = TE_MOVING;
 			m_newGridX--;
 		}
-		else if (Input::KeyDown(KEY_RIGHT))
+		else if (Input::KeyDown(ALLEGRO_KEY_RIGHT))
 		{
 			entity->Vel.x = MOVESPEED;
 			entity->Dir = DIR_EAST;
 			m_state = TE_MOVING;
 			m_newGridX++;
 		}
-		else if (Input::KeyDown(KEY_UP))
+		else if (Input::KeyDown(ALLEGRO_KEY_UP))
 		{
 			entity->Vel.y = -MOVESPEED;
 			entity->Dir = DIR_NORTH;
 			m_state = TE_MOVING;
 			m_newGridY--;
 		}
-		else if (Input::KeyDown(KEY_DOWN))
+		else if (Input::KeyDown(ALLEGRO_KEY_DOWN))
 		{
 			entity->Vel.y = MOVESPEED;
 			entity->Dir = DIR_SOUTH;
@@ -85,10 +85,10 @@ void TestInput::ProcessInput(Entity *entity, double dt)
 			Vec2 tempPos = entity->Pos;
 			// Once we've moved a whole grid space, clamp to the grid
 			entity->SetGridXY(m_newGridX, m_newGridY);
-			bool keepMoving = Input::KeyDown(KEY_UP) && entity->Dir == DIR_NORTH;
-			keepMoving |= Input::KeyDown(KEY_RIGHT) && entity->Dir == DIR_EAST;
-			keepMoving |= Input::KeyDown(KEY_DOWN) && entity->Dir == DIR_SOUTH;
-			keepMoving |= Input::KeyDown(KEY_LEFT) && entity->Dir == DIR_WEST;
+			bool keepMoving = Input::KeyDown(ALLEGRO_KEY_UP) && entity->Dir == DIR_NORTH;
+			keepMoving |= Input::KeyDown(ALLEGRO_KEY_RIGHT) && entity->Dir == DIR_EAST;
+			keepMoving |= Input::KeyDown(ALLEGRO_KEY_DOWN) && entity->Dir == DIR_SOUTH;
+			keepMoving |= Input::KeyDown(ALLEGRO_KEY_LEFT) && entity->Dir == DIR_WEST;
 			// Stay in moving state if button is held down and we can move to the next space
 			if (keepMoving)
 			{

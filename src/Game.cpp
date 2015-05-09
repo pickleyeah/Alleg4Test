@@ -1,31 +1,38 @@
 #include "Game.h"
 
+#include <allegro5/allegro_native_dialog.h>
+#include <allegro5/allegro_image.h>
+
 #include "GameState.h"
 #include "InputManager.h"
 #include "Sprite.h"
 
 Game::~Game()
 {
-	release_bitmap(m_buffer);
 }
 
 bool Game::Init(const char* title)
 {
 	m_finished = false;
 	m_title = title;
-	if (allegro_init() != 0)
+	if (!al_init())
 		return false;
-	set_window_title(m_title);
 	
-	install_keyboard();
+	al_install_keyboard();
 
-	set_color_depth(32);
-	if (set_gfx_mode(GFX_AUTODETECT_WINDOWED, Game::SCREEN_X, Game::SCREEN_Y, 0, 0)) {
+	m_display = al_create_display(Game::SCREEN_X, Game::SCREEN_Y);
+	al_set_window_title(m_display, m_title);
+
+	al_init_image_addon();
+
+	//al_set_color_depth(32);
+	/*if (set_gfx_mode(GFX_AUTODETECT_WINDOWED, Game::SCREEN_X, Game::SCREEN_Y, 0, 0)) {
+		al_show_native_message_box(al_get_current_display(), "Error", NULL, "Video Error: %s, NULL, ALLEGRO_MESSAGEBOX_ERROR);
 		allegro_message("Video Error: %s.\n", allegro_error);
 		return false;
-	}
+	}*/
 
-	m_buffer = create_bitmap(Game::SCREEN_X, Game::SCREEN_Y);
+	m_buffer = al_create_bitmap(Game::SCREEN_X, Game::SCREEN_Y);
 	Input::Init();
 
 	return true;
@@ -39,6 +46,8 @@ void Game::Shutdown()
 		m_states.pop_back();
 	}
 	Sprite::ReleaseAllSprites();
+	al_destroy_bitmap(m_buffer);
+	al_destroy_display(m_display);
 }
 
 void Game::ChangeState(GameState* state)
@@ -75,7 +84,7 @@ void Game::ProcessInput(double dt)
 {
 	Input::Update();
 	// Process input
-	if (Input::KeyDown(KEY_ESC))
+	if (Input::KeyDown(ALLEGRO_KEY_ESCAPE))
 		m_finished = true;
 
 	m_states.back()->ProcessInput(dt);
@@ -94,9 +103,12 @@ void Game::Render()
 {
 	m_states.back()->Render(this, m_buffer);
 
+	al_wait_for_vsync();
+	al_draw_bitmap(m_buffer, 0, 0, 0);
+	al_flip_display();
 	//vsync();
-	acquire_screen();
-	blit(m_buffer, screen, 0,0, 0,0, SCREEN_X, SCREEN_Y);
-	release_screen();
+	//acquire_screen();
+	//blit(m_buffer, screen, 0,0, 0,0, SCREEN_X, SCREEN_Y);
+	//release_screen();
 }
 

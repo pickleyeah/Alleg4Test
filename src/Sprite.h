@@ -11,14 +11,14 @@ public:
 
 	~Sprite();
 
-	void Render(BITMAP *buffer, double time, int x, int y);
+	void Render(ALLEGRO_BITMAP *buffer, double time, int x, int y);
 
 private:
 	static std::unordered_map<std::string, std::unique_ptr<Sprite>> s_spriteMap;
 	Sprite() {}
 
-	BITMAP* m_srcBitmap;
+	ALLEGRO_BITMAP* m_srcBitmap;
 	int m_fps;
 	int m_numFrames;
-	std::vector<BITMAP*> m_frames;
+	std::vector<ALLEGRO_BITMAP*> m_frames;
 };

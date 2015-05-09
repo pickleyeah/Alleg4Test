@@ -6,6 +6,6 @@
 #include <algorithm>
 #include <unordered_map>
 
-#include <allegro.h>
+#include <allegro5/allegro.h>
 
 #include "InputManager.h"

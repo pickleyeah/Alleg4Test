@@ -1,6 +1,5 @@
 #include "WorldGameState.h"
-
-#include <allegro.h>
+#include "Sprite.h"
 
 const double WorldGameState::FADE_PERIOD = 0.5f;
 
@@ -78,9 +77,12 @@ void WorldGameState::Update(Game *game, double dt)
 	m_area->Update(dt);
 }
 
-void WorldGameState::Render(Game *game, BITMAP *buffer)
+void WorldGameState::Render(Game *game, ALLEGRO_BITMAP *buffer)
 {
-	clear_to_color(buffer, makecol(0,0,0));
+	// Clear the buffer bitmap
+	al_set_target_bitmap(buffer);
+	al_clear_to_color(al_map_rgb(0, 0, 0));
+	al_set_target_backbuffer(al_get_current_display());
 
 	// Draw grid
 	Vec2 offset = Vec2(0,0);

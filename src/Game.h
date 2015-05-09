@@ -1,6 +1,5 @@
 #pragma once
 
-#include <allegro.h>
 #include <vector>
 
 class GameState;
@@ -28,7 +27,8 @@ public:
 	bool Finished() const { return m_finished; }
 
 private:
-	BITMAP *m_buffer;
+	ALLEGRO_DISPLAY *m_display;
+	ALLEGRO_BITMAP *m_buffer;
 	std::vector<std::unique_ptr<GameState>> m_states;
 	bool m_finished;
 	const char *m_title;

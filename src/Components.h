@@ -1,6 +1,5 @@
 #pragma once
 
-#include <allegro.h>
 #include "Vec2.h"
 
 class Entity;
@@ -17,7 +16,7 @@ class RenderComponent
 {
 public:
 	virtual ~RenderComponent(void) {};
-	virtual void Render(Entity *entity, BITMAP *buffer, Vec2 offset) = 0;
+	virtual void Render(Entity *entity, ALLEGRO_BITMAP *buffer, Vec2 offset) = 0;
 };
 
 class MoveComponent

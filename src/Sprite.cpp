@@ -23,13 +23,14 @@ Sprite* Sprite::GetSprite(const char* filename, int numFrames, int fps)
 		return s_spriteMap[std::string(filename)].get();
 
 	Sprite *result = new Sprite();
-	result->m_srcBitmap = load_bitmap(filename, NULL);
+	result->m_srcBitmap = al_load_bitmap(filename);
 	result->m_numFrames = numFrames;
 	result->m_fps = fps;
 	// Infer frame size based on bitmap width and number of frames
-	int width = result->m_srcBitmap->w / numFrames;
-	for (int x = 0; x < result->m_srcBitmap->w; x += width)
-		result->m_frames.push_back(create_sub_bitmap(result->m_srcBitmap, x, 0, width, result->m_srcBitmap->h));
+
+	int frameWidth = al_get_bitmap_width(result->m_srcBitmap) / numFrames;
+	for (int x = 0; x < al_get_bitmap_width(result->m_srcBitmap); x += frameWidth)
+		result->m_frames.push_back(al_create_sub_bitmap(result->m_srcBitmap, x, 0, frameWidth, al_get_bitmap_height(result->m_srcBitmap)));
 	s_spriteMap[filename] = std::unique_ptr<Sprite>(result);
 	return result;
 }
@@ -38,13 +39,16 @@ Sprite::~Sprite()
 {
 	for (size_t i = 0; i < m_frames.size(); i++)
 	{
-		destroy_bitmap(m_frames[i]);
+		al_destroy_bitmap(m_frames[i]);
 	}
-	destroy_bitmap(m_srcBitmap);
+	al_destroy_bitmap(m_srcBitmap);
 }
 
-void Sprite::Render(BITMAP *buffer, double time, int x, int y)
+void Sprite::Render(ALLEGRO_BITMAP *buffer, double time, int x, int y)
 {
 	int frame = (int)(time * m_fps) % m_numFrames;
-	draw_sprite(buffer, m_frames[frame], x, y);
+	al_set_target_bitmap(buffer);
+	al_draw_bitmap(m_frames[frame], x, y, 0);
+	al_set_target_backbuffer(al_get_current_display());
+	//draw_sprite(buffer, m_frames[frame], x, y);
 }

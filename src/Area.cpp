@@ -1,8 +1,8 @@
 #include "Area.h"
-#include "Game.h"
-#include <allegro.h>
-#include <string.h>
 
+#include <string.h>
+#include "Game.h"
+#include "Sprite.h"
 
 Area::Area(Vec2 size, WorldGameState *world) :
 	m_size(size),
@@ -180,7 +180,7 @@ void Area::Init()
 
 void Area::ProcessInput(double dt)
 {
-	if (Input::KeyPressed(KEY_G))
+	if (Input::KeyPressed(ALLEGRO_KEY_G))
 		m_showGrid = !m_showGrid;
 	for (size_t i = 0; i < m_entities.size(); i++)
 		m_entities[i]->ProcessInput(dt);
@@ -195,7 +195,7 @@ void Area::Update(double dt)
 	m_camera->Update(dt);
 }
 
-void Area::Render(BITMAP *buffer, Vec2 offset)
+void Area::Render(ALLEGRO_BITMAP *buffer, Vec2 offset)
 {
 	offset = m_camera->GetOffset();
 	// Render blocks
@@ -218,20 +218,20 @@ void Area::Render(BITMAP *buffer, Vec2 offset)
 		m_entities[i]->Render(buffer, offset);
 
 	// Borders
-	rectfill(buffer, 0, 0, 32, Game::SCREEN_Y, makecol(32, 32, 32));
+	/*rectfill(buffer, 0, 0, 32, Game::SCREEN_Y, makecol(32, 32, 32));
 	rectfill(buffer, Game::SCREEN_X - 32, 0, Game::SCREEN_X, Game::SCREEN_Y, makecol(32, 32, 32));
 
 	rectfill(buffer, 0, 0, Game::SCREEN_X, 16, makecol(32, 32, 32));
-	rectfill(buffer, 0, Game::SCREEN_Y - 16, Game::SCREEN_X, Game::SCREEN_Y, makecol(32, 32, 32));
+	rectfill(buffer, 0, Game::SCREEN_Y - 16, Game::SCREEN_X, Game::SCREEN_Y, makecol(32, 32, 32));*/
 }
 
 static const int BLOCK_SIZE = 64;
-void Area::DrawGrid(BITMAP *buffer, Vec2 offset)
+void Area::DrawGrid(ALLEGRO_BITMAP *buffer, Vec2 offset)
 {
-	int sizeX = m_size.x * BLOCK_SIZE;
+	/*int sizeX = m_size.x * BLOCK_SIZE;
 	int sizeY = m_size.y * BLOCK_SIZE;
 	for (int i = 0; i <= sizeX; i += BLOCK_SIZE)
 		vline(buffer, i + (int)offset.x, 0 + (int)offset.y, sizeY + (int)offset.y, makecol(255, 255, 255));
 	for (int i = 0; i <= sizeY; i += BLOCK_SIZE)
-		hline(buffer, 0 + (int)offset.x, i + (int)offset.y, sizeX + (int)offset.x, makecol(255, 255, 255));
+		hline(buffer, 0 + (int)offset.x, i + (int)offset.y, sizeX + (int)offset.x, makecol(255, 255, 255));*/
 }

@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "Vec2.h"
-#include "Sprite.h"
+//#include "Sprite.h"
 #include "Entity.h"
 #include "Camera.h"
 
@@ -33,6 +33,8 @@ struct WARP_DETAILS_T
 	Vec2 startPos;
 	DIR startDir;
 };
+
+class Sprite;
 
 class BLOCK_T
 {
@@ -81,8 +83,8 @@ public:
 
 	void ProcessInput(double dt);
 	void Update(double dt);
-	void Render(BITMAP *buffer, Vec2 offset);
-	void DrawGrid(BITMAP *buffer, Vec2 offset);
+	void Render(ALLEGRO_BITMAP *buffer, Vec2 offset);
+	void DrawGrid(ALLEGRO_BITMAP *buffer, Vec2 offset);
 
 private:
 	WorldGameState *m_worldGameState;

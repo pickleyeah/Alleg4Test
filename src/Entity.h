@@ -1,6 +1,5 @@
 #pragma once
 
-#include <allegro.h>
 #include "Vec2.h"
 #include "Components.h"
 
@@ -24,7 +23,7 @@ public:
 
 	virtual void ProcessInput(double dt) { m_input->ProcessInput(this, dt); }
 	virtual void Update(double dt);
-	virtual void Render(BITMAP *buffer, Vec2 offset) { m_render->Render(this, buffer, offset); }
+	virtual void Render(ALLEGRO_BITMAP *buffer, Vec2 offset) { m_render->Render(this, buffer, offset); }
 
 	bool CanMoveTo(int x, int y);
 

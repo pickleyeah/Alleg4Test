@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Components.h"
-#include "Sprite.h"
 
 class TestInput;
+class Sprite;
 
 #define WALK_FRAMES_PER_SEC 8
 
@@ -13,7 +13,7 @@ public:
 	TestRender(TestInput* input);
 	~TestRender(void);
 
-	void Render(Entity *entity, BITMAP *buffer, Vec2 offset);
+	void Render(Entity *entity, ALLEGRO_BITMAP *buffer, Vec2 offset);
 
 private:
 	TestInput *m_input;
