@@ -14,18 +14,18 @@ Area::Area(Vec2 size, WorldGameState *world) :
 	m_blocks = std::unique_ptr<BLOCK_T[]>(new BLOCK_T[(int)(size.x * size.y)]);
 	m_sprites.resize(COL_ALL+1, nullptr);
 
-	m_sprites[0] = Sprite::GetSprite("Data/Tiles/Grass.bmp", 1, 1);
-	m_sprites[COL_NORTH] = Sprite::GetSprite("Data/Tiles/Grass_BlockN.bmp", 1, 1);
-	m_sprites[COL_SOUTH] = Sprite::GetSprite("Data/Tiles/Grass_BlockS.bmp", 1, 1);
-	m_sprites[COL_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockW.bmp", 1, 1);
-	m_sprites[COL_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockE.bmp", 1, 1);
+	m_sprites[0] = Sprite::GetSprite("Data/Tiles/Grass.png", 1, 1);
+	m_sprites[COL_NORTH] = Sprite::GetSprite("Data/Tiles/Grass_BlockN.png", 1, 1);
+	m_sprites[COL_SOUTH] = Sprite::GetSprite("Data/Tiles/Grass_BlockS.png", 1, 1);
+	m_sprites[COL_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockW.png", 1, 1);
+	m_sprites[COL_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockE.png", 1, 1);
 
-	m_sprites[COL_NORTH | COL_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockNW.bmp", 1, 1);
-	m_sprites[COL_NORTH | COL_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockNE.bmp", 1, 1);
-	m_sprites[COL_SOUTH | COL_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockSW.bmp", 1, 1);
-	m_sprites[COL_SOUTH | COL_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockSE.bmp", 1, 1);
+	m_sprites[COL_NORTH | COL_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockNW.png", 1, 1);
+	m_sprites[COL_NORTH | COL_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockNE.png", 1, 1);
+	m_sprites[COL_SOUTH | COL_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockSW.png", 1, 1);
+	m_sprites[COL_SOUTH | COL_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockSE.png", 1, 1);
 
-	m_sprites[COL_ALL] = Sprite::GetSprite("Data/Tiles/Water.bmp", 4, 4);
+	m_sprites[COL_ALL] = Sprite::GetSprite("Data/Tiles/Water.png", 4, 4);
 }
 
 

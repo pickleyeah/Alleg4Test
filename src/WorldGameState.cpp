@@ -1,13 +1,17 @@
 #include "WorldGameState.h"
 #include "Sprite.h"
 
+#include <allegro5/allegro5.h>
+#include <allegro5/allegro_primitives.h>
+
 const double WorldGameState::FADE_PERIOD = 0.5f;
 
 WorldGameState::WorldGameState(void) :
 	m_area(nullptr),
 	m_newArea(nullptr),
 	m_transitionTime(0),
-	m_state(STATE_NORMAL)
+	m_state(STATE_NORMAL),
+	m_buffer(nullptr)
 {
 
 }
@@ -19,6 +23,7 @@ WorldGameState::~WorldGameState(void)
 
 void WorldGameState::Init()
 {
+	m_buffer = al_create_bitmap(Game::SCREEN_X, Game::SCREEN_Y);
 	// Preload sprites
 	Sprite::PreloadSpriteList("Data/Sprites.psl");
 
@@ -30,6 +35,11 @@ void WorldGameState::Init()
 }
 void WorldGameState::Shutdown()
 {
+	if (m_buffer != nullptr)
+	{
+		al_destroy_bitmap(m_buffer);
+		m_buffer = nullptr;
+	}
 }
 
 void WorldGameState::Pause()
@@ -82,31 +92,28 @@ void WorldGameState::Render(Game *game, ALLEGRO_BITMAP *buffer)
 	// Clear the buffer bitmap
 	al_set_target_bitmap(buffer);
 	al_clear_to_color(al_map_rgb(0, 0, 0));
-	al_set_target_backbuffer(al_get_current_display());
+	
+	// Draw scene
+	Vec2 _offset = Vec2(0, 0);
+	m_area->Render(buffer, _offset);
 
-	// Draw grid
-	Vec2 offset = Vec2(0,0);
-	m_area->Render(buffer, offset);
-	// TODO: find way to fade to/from black
+	// Draw fade if applicable
 	if (m_state == STATE_FADEOUT)
 	{
-
+		float alpha = 1 - (m_transitionTime * 2);
+		al_draw_filled_rectangle(0, 0, al_get_bitmap_width(buffer), al_get_bitmap_height(buffer), al_map_rgba_f(0, 0, 0, alpha));
 	}
 	else if (m_state == STATE_FADEIN)
 	{
-
+		float alpha = (m_transitionTime * 2);
+		al_draw_filled_rectangle(0, 0, al_get_bitmap_width(buffer), al_get_bitmap_height(buffer), al_map_rgba_f(0, 0, 0, alpha));
 	}
-	
+	return;
 }
 
 void WorldGameState::TransitionToArea(WARP_DETAILS_T *details)
 {
-	/*if (strcmp(details->areaName, "1") == 0)
-		m_newArea = Area::CreateTestArea(m_area->GetPlayer(), this);
-	else if (strcmp(details->areaName, "2") == 0)
-		m_newArea = Area::CreateTestArea2(m_area->GetPlayer(), this);
-	else*/
-		m_newArea = Area::LoadArea(details->areaName, m_area->GetPlayer(), this);
+	m_newArea = Area::LoadArea(details->areaName, m_area->GetPlayer(), this);
 	m_newArea->SetStartPosAndDir(details->startPos, details->startDir);
 	
 	m_state = STATE_FADEOUT;

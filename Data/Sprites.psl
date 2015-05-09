@@ -3,29 +3,29 @@
 # [spriteFilePath],[numberOfFrames],[framesPerSecond]
 
 # Player sprites
-Data/Sprites/Player_Idle_E.bmp,1,1
-Data/Sprites/Player_Idle_N.bmp,1,1
-Data/Sprites/Player_Idle_S.bmp,1,1
-Data/Sprites/Player_Idle_W.bmp,1,1
-Data/Sprites/Player_Walk_E.bmp,4,8
-Data/Sprites/Player_Walk_N.bmp,4,8
-Data/Sprites/Player_Walk_S.bmp,4,8
-Data/Sprites/Player_Walk_W.bmp,4,8
+Data/Sprites/Player_Idle_E.png,1,1
+Data/Sprites/Player_Idle_N.png,1,1
+Data/Sprites/Player_Idle_S.png,1,1
+Data/Sprites/Player_Idle_W.png,1,1
+Data/Sprites/Player_Walk_E.png,4,8
+Data/Sprites/Player_Walk_N.png,4,8
+Data/Sprites/Player_Walk_S.png,4,8
+Data/Sprites/Player_Walk_W.png,4,8
 
 # Grass tiles
-Data/Tiles/Grass.bmp,1,1
-Data/Tiles/Grass_BlockAll.bmp,1,1
-Data/Tiles/Grass_BlockE.bmp,1,1
-Data/Tiles/Grass_BlockN.bmp,1,1
-Data/Tiles/Grass_BlockNE.bmp,1,1
-Data/Tiles/Grass_BlockNW.bmp,1,1
-Data/Tiles/Grass_BlockS.bmp,1,1
-Data/Tiles/Grass_BlockSE.bmp,1,1
-Data/Tiles/Grass_BlockSW.bmp,1,1
-Data/Tiles/Grass_BlockW.bmp,1,1
+Data/Tiles/Grass.png,1,1
+Data/Tiles/Grass_BlockAll.png,1,1
+Data/Tiles/Grass_BlockE.png,1,1
+Data/Tiles/Grass_BlockN.png,1,1
+Data/Tiles/Grass_BlockNE.png,1,1
+Data/Tiles/Grass_BlockNW.png,1,1
+Data/Tiles/Grass_BlockS.png,1,1
+Data/Tiles/Grass_BlockSE.png,1,1
+Data/Tiles/Grass_BlockSW.png,1,1
+Data/Tiles/Grass_BlockW.png,1,1
 
 # Water
-Data/Tiles/Water.bmp,4,4
+Data/Tiles/Water.png,4,4
 
 # Boulder
-Data/Tiles/Boulder.bmp,1,1
+Data/Tiles/Boulder.png,1,1

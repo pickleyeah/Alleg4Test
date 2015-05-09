@@ -1,7 +1,9 @@
 #include "Game.h"
 
+#include <allegro5/allegro.h>
 #include <allegro5/allegro_native_dialog.h>
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_primitives.h>
 
 #include "GameState.h"
 #include "InputManager.h"
@@ -24,13 +26,7 @@ bool Game::Init(const char* title)
 	al_set_window_title(m_display, m_title);
 
 	al_init_image_addon();
-
-	//al_set_color_depth(32);
-	/*if (set_gfx_mode(GFX_AUTODETECT_WINDOWED, Game::SCREEN_X, Game::SCREEN_Y, 0, 0)) {
-		al_show_native_message_box(al_get_current_display(), "Error", NULL, "Video Error: %s, NULL, ALLEGRO_MESSAGEBOX_ERROR);
-		allegro_message("Video Error: %s.\n", allegro_error);
-		return false;
-	}*/
+	al_init_primitives_addon();
 
 	m_buffer = al_create_bitmap(Game::SCREEN_X, Game::SCREEN_Y);
 	Input::Init();
@@ -103,12 +99,9 @@ void Game::Render()
 {
 	m_states.back()->Render(this, m_buffer);
 
-	al_wait_for_vsync();
+	al_set_target_backbuffer(al_get_current_display());
 	al_draw_bitmap(m_buffer, 0, 0, 0);
+	al_wait_for_vsync();
 	al_flip_display();
-	//vsync();
-	//acquire_screen();
-	//blit(m_buffer, screen, 0,0, 0,0, SCREEN_X, SCREEN_Y);
-	//release_screen();
 }
 

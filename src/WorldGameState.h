@@ -34,6 +34,8 @@ private:
 	static const double FADE_PERIOD;
 	void DoAreaChange();
 
+	ALLEGRO_BITMAP *m_buffer;
+
 	bool m_paused;
 
 	TRANSITION_STATE m_state;

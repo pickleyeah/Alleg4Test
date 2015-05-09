@@ -24,6 +24,8 @@ Sprite* Sprite::GetSprite(const char* filename, int numFrames, int fps)
 
 	Sprite *result = new Sprite();
 	result->m_srcBitmap = al_load_bitmap(filename);
+	// Magenta = transparent
+	al_convert_mask_to_alpha(result->m_srcBitmap, al_map_rgb(255, 0, 255));
 	result->m_numFrames = numFrames;
 	result->m_fps = fps;
 	// Infer frame size based on bitmap width and number of frames
@@ -44,11 +46,9 @@ Sprite::~Sprite()
 	al_destroy_bitmap(m_srcBitmap);
 }
 
+// TODO: remove unnecessary buffer argument
 void Sprite::Render(ALLEGRO_BITMAP *buffer, double time, int x, int y)
 {
 	int frame = (int)(time * m_fps) % m_numFrames;
-	al_set_target_bitmap(buffer);
 	al_draw_bitmap(m_frames[frame], x, y, 0);
-	al_set_target_backbuffer(al_get_current_display());
-	//draw_sprite(buffer, m_frames[frame], x, y);
 }
