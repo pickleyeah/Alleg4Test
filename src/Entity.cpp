@@ -12,17 +12,14 @@ Entity::Entity(void)
 
 Entity::~Entity(void)
 {
-	delete m_input;
-	delete m_move;
-	delete m_render;
 }
 
-Entity* Entity::MakeTestEntity(Area *area)
+Entity* Entity::CreatePlayerEntity(Area *area)
 {
 	Entity* result = new Entity();
-	result->m_input = new TestInput();
-	result->m_move = new TestMove();
-	result->m_render = new TestRender((TestInput*)result->m_input);
+	result->m_input = std::unique_ptr<InputComponent>(new TestInput());
+	result->m_move = std::unique_ptr<MoveComponent>(new TestMove());
+	result->m_render = std::unique_ptr<RenderComponent>(new TestRender((TestInput*)result->m_input.get()));
 
 	result->Size = Vec2(WorldGameState::BLOCK_SIZE,WorldGameState::BLOCK_SIZE);
 	result->Dir = DIR_NORTH;
@@ -44,8 +41,6 @@ void Entity::Update(double dt)
 	m_timeAlive += dt;
 
 	m_move->Update(this, NULL, dt);
-	// Pos += dt*Vel
-	//Pos = Vec2::Add(Pos, Vec2::Mul(Vel, (float)dt));
 }
 
 bool Entity::CanMoveTo(int x, int y)

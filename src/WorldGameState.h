@@ -2,6 +2,13 @@
 #include "gamestate.h"
 #include "Area.h"
 
+enum TRANSITION_STATE
+{
+	STATE_NORMAL,
+	STATE_FADEOUT,
+	STATE_FADEIN,
+};
+
 class WorldGameState :
 	public GameState
 {
@@ -24,7 +31,13 @@ public:
 	void TransitionToArea(WARP_DETAILS_T *details);
 
 private:
+	static const double FADE_PERIOD;
+	void DoAreaChange();
+
 	bool m_paused;
+
+	TRANSITION_STATE m_state;
+	double m_transitionTime;
 
 	Area* m_area;
 	Area* m_newArea;

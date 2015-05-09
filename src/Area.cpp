@@ -11,7 +11,7 @@ Area::Area(Vec2 size, WorldGameState *world) :
 	m_startPos(Vec2(0,0)),
 	m_startDir(DIR_SOUTH)
 {
-	m_blocks = new BLOCK_T[(int)(size.x * size.y)];
+	m_blocks = std::unique_ptr<BLOCK_T[]>(new BLOCK_T[(int)(size.x * size.y)]);
 	m_sprites.resize(COL_ALL+1, nullptr);
 
 	m_sprites[0] = Sprite::GetSprite("Data/Tiles/Grass.bmp", 1, 1);
@@ -32,9 +32,84 @@ Area::Area(Vec2 size, WorldGameState *world) :
 Area::~Area(void)
 {
 	delete m_camera;
-	delete[] m_blocks;
+	//delete[] m_blocks;
 	for (size_t i = 0; i < m_entities.size(); i++)
 		delete m_entities[i];
+}
+
+struct MAP_HEADER_T
+{
+	char header[8];
+	short width;
+	short height;
+	short entityCount;
+	short spare;
+};
+
+const char Area::MAGIC_NUM[] = { 'M', 'A', 'P', 'T', 'E', 'S', 'T', '\0' };
+
+Area* Area::LoadArea(const char* filename, Entity *player, WorldGameState *world)
+{
+	FILE *fp = fopen(filename, "rb");
+	if (!fp)
+		return false;
+	MAP_HEADER_T header;
+	fread(&header, sizeof(MAP_HEADER_T), 1, fp);
+	if (memcmp(header.header, MAGIC_NUM, sizeof(MAGIC_NUM)) != 0)
+		return nullptr;	// The header doesn't match, file must be wrong
+	Area* result = new Area(Vec2(header.width, header.height), world);
+	// Read blocks
+	int blockCount = header.width * header.height;
+	for (int i = 0; i < blockCount; i++)
+	{
+		fread(&result->m_blocks[i].colMask, sizeof(result->m_blocks[i].colMask), 1, fp);
+		fread(&result->m_blocks[i].spriteName, sizeof(result->m_blocks[i].spriteName), 1, fp);
+		fread(&result->m_blocks[i].warp, sizeof(result->m_blocks[i].warp), 1, fp);
+		if (result->m_blocks[i].warp)
+		{
+			result->m_blocks[i].warpDetails = new WARP_DETAILS_T{ "" };
+			fread(result->m_blocks[i].warpDetails, sizeof(*result->m_blocks[i].warpDetails), 1, fp);
+		}
+	}
+	fclose(fp);
+	// Load entities
+	/*m_entities = new ENTITY[m_entityCount];
+	if (fread(m_entities, sizeof(ENTITY), m_entityCount, fp) != m_entityCount)
+		return false;*/
+	// Set player
+	if (player == nullptr)
+	{
+		player = Entity::CreatePlayerEntity(result);
+		result->SetPlayer(player);
+	}
+	
+	return result;
+}
+
+void Area::Write(const char* filename)
+{
+	FILE *fp = fopen(filename, "wb");
+	if (!fp)
+		return;
+	// Write header
+	MAP_HEADER_T header;
+	memcpy(header.header, MAGIC_NUM, sizeof(MAGIC_NUM));
+	header.width = (short)m_size.x;
+	header.height = (short)m_size.y;
+	header.entityCount = 0;
+	header.spare = 0;
+	fwrite(&header, sizeof(MAP_HEADER_T), 1, fp);
+	// Write blocks
+	for (int i = 0; i < (int)(m_size.x * m_size.y); i++)
+	{
+		fwrite(&m_blocks[i].colMask, sizeof(m_blocks[i].colMask), 1, fp);
+		fwrite(&m_blocks[i].spriteName, sizeof(m_blocks[i].spriteName), 1, fp);
+		fwrite(&m_blocks[i].warp, sizeof(m_blocks[i].warp), 1, fp);
+		if (m_blocks[i].warp)
+			fwrite(m_blocks[i].warpDetails, sizeof(*m_blocks[i].warpDetails), 1, fp);
+	}
+
+	fclose(fp);
 }
 
 void Area::SetPlayer(Entity *player)
@@ -55,7 +130,7 @@ Area *Area::CreateTestArea(Entity *player, WorldGameState *world)
 {
 	int m = 16, n = 16;
 	Area *result = new Area(Vec2(m, n), world);
-	memset(result->m_blocks, 0, sizeof(BLOCK_T)*m*n);
+	memset(result->m_blocks.get(), 0, sizeof(BLOCK_T)*m*n);
 
 	// Water block
 	for (int x = 4; x < 8; x++)
@@ -69,11 +144,11 @@ Area *Area::CreateTestArea(Entity *player, WorldGameState *world)
 
 	// Warp block
 	result->GetBlock(6, 0)->warp = true;
-	result->GetBlock(6, 0)->warpDetails = new WARP_DETAILS_T{ "2", Vec2(2, 3), DIR_NORTH };
+	result->GetBlock(6, 0)->warpDetails = new WARP_DETAILS_T{ "Data/Areas/Area2.lvl", Vec2(2, 3), DIR_NORTH };
 	// Player
 	if (player == nullptr)
 	{
-		player = Entity::MakeTestEntity(result);
+		player = Entity::CreatePlayerEntity(result);
 		result->SetPlayer(player);
 	}
 	return result;
@@ -83,11 +158,11 @@ Area *Area::CreateTestArea2(Entity *player, WorldGameState *world)
 {
 	int m = 4, n = 4; // small-ass area
 	Area *result = new Area(Vec2(m, n), world);
-	memset(result->m_blocks, 0, sizeof(BLOCK_T)*m*n);
+	memset(result->m_blocks.get(), 0, sizeof(BLOCK_T)*m*n);
 
 	// Warp block
 	result->GetBlock(2, 3)->warp = true;
-	result->GetBlock(2, 3)->warpDetails = new WARP_DETAILS_T{ "1", Vec2(6, 0), DIR_SOUTH };
+	result->GetBlock(2, 3)->warpDetails = new WARP_DETAILS_T{ "Data/Areas/Area1.lvl", Vec2(6, 0), DIR_SOUTH };
 
 	return result;
 }
@@ -95,11 +170,12 @@ Area *Area::CreateTestArea2(Entity *player, WorldGameState *world)
 void Area::Init()
 {
 	m_elapsedTime = 0;
-	m_camera = new Camera(m_player);
 	for (size_t i = 0; i < m_entities.size(); i++)
 		m_entities[i]->Init(this);
 	m_player->SetGridXY(m_startPos.x, m_startPos.y);
 	m_player->Dir = m_startDir;
+	m_camera = new Camera(m_player);
+	m_camera->Update(0);
 }
 
 void Area::ProcessInput(double dt)

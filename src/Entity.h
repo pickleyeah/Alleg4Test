@@ -14,7 +14,7 @@ enum DIR {
 class Entity
 {
 public:
-	static Entity* MakeTestEntity(Area *area);
+	static Entity* CreatePlayerEntity(Area *area);
 
 	Entity(void);
 	virtual ~Entity(void);
@@ -68,9 +68,9 @@ private:
 	float m_timeAlive;
 	bool m_alive, m_remove;
 
-	InputComponent *m_input;
-	MoveComponent *m_move;
-	RenderComponent *m_render;
+	std::unique_ptr<InputComponent> m_input;
+	std::unique_ptr<MoveComponent> m_move;
+	std::unique_ptr<RenderComponent> m_render;
 };
 
 

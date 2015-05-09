@@ -6,6 +6,18 @@
 #include "Entity.h"
 #include "Camera.h"
 
+enum BLOCKFLAGS
+{
+	COLLIDE_NORTH = 0x01,
+	COLLIDE_WEST = 0x02,
+	COLLIDE_SOUTH = 0x04,
+	COLLIDE_EAST = 0x08,
+	COLLIDE_ALL = 0x0f,
+	HAS_WARP = 0x10,
+
+};
+
+// TODO: Retire these in favour of BLOCKFLAGS
 enum COL_MASK
 {
 	COL_NORTH = 0x01,
@@ -17,7 +29,7 @@ enum COL_MASK
 
 struct WARP_DETAILS_T
 {
-	std::string areaName;
+	const char areaName[32];
 	Vec2 startPos;
 	DIR startDir;
 };
@@ -25,15 +37,18 @@ struct WARP_DETAILS_T
 class BLOCK_T
 {
 public:
-	BLOCK_T() { sprintf(sprite, "none"); }
+	BLOCK_T() : colMask(0), warp(false)
+	{
+		sprintf(spriteName, "none");
+	}
 	~BLOCK_T()
 	{
 		if (warp)
 			delete warpDetails;
 	}
 	char colMask;
+	char spriteName[64];
 	bool warp;
-	char sprite[64];
 	WARP_DETAILS_T *warpDetails;
 };
 
@@ -42,6 +57,10 @@ class WorldGameState;
 class Area
 {
 public:
+	static const char Area::MAGIC_NUM[];
+	static Area* LoadArea(const char* filename, Entity *player, WorldGameState *world);
+	void Write(const char* filename);
+
 	Area(Vec2 size, WorldGameState *world);
 	~Area(void);
 
@@ -78,7 +97,7 @@ private:
 
 	bool m_showGrid;
 
-	BLOCK_T *m_blocks;
+	std::unique_ptr<BLOCK_T[]> m_blocks;
 	std::vector<Sprite*> m_sprites;
 	Camera* m_camera;
 };

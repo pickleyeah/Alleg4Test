@@ -22,10 +22,6 @@ TestRender::TestRender(TestInput* input)
 
 TestRender::~TestRender(void)
 {
-	for (size_t i = 0; i < m_idleSprites.size(); i++)
-		delete m_idleSprites[i];
-	for (size_t i = 0; i < m_walkSprites.size(); i++)
-		delete m_walkSprites[i];
 }
 
 void TestRender::Render(Entity *entity, BITMAP *buffer, Vec2 offset)

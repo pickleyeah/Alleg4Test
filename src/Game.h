@@ -29,7 +29,7 @@ public:
 
 private:
 	BITMAP *m_buffer;
-	std::vector<GameState*> m_states;
+	std::vector<std::unique_ptr<GameState>> m_states;
 	bool m_finished;
 	const char *m_title;
 };

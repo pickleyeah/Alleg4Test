@@ -48,7 +48,7 @@ void Game::ChangeState(GameState* state)
 		m_states.back()->Shutdown();
 		m_states.pop_back();
 	}
-	m_states.push_back(state);
+	m_states.push_back(std::unique_ptr<GameState>(state));
 	m_states.back()->Init();
 }
 
@@ -56,7 +56,7 @@ void Game::PushState(GameState* state)
 {
 	if (!m_states.empty())
 		m_states.back()->Pause();
-	m_states.push_back(state);
+	m_states.push_back(std::unique_ptr<GameState>(state));
 	m_states.back()->Init();
 }
 

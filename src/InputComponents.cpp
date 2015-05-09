@@ -22,6 +22,12 @@ void TestInput::ProcessInput(Entity *entity, double dt)
 	switch (m_state)
 	{
 	case TE_IDLE:
+		if (Input::KeyPressed(KEY_SPACE))
+		{
+			// TODO: Perform use/talk action here
+			return;
+		}
+
 		m_oldPos = entity->Pos;
 		m_newGridX = entity->GridX();
 		m_newGridY = entity->GridY();
@@ -62,7 +68,7 @@ void TestInput::ProcessInput(Entity *entity, double dt)
 		break;
 	case TE_MOVING:
 		Vec2 moved = Vec2::Sub(entity->Pos, m_oldPos);
-		if (moved.Length() >= WorldGameState::BLOCK_SIZE)
+		if (moved.Length() >= WorldGameState::BLOCK_SIZE * 0.95f)	// If it's close enough, snap to the grid position a bit early to make it less jerky when we stop moving
 		{
 			// If we've hit a warp block, trigger the area transition on the next frame
 			// Sort of hacky in that it creates a dependency on WorldGameState, but since Entities should only exist inside of an Area/WorldGameState it seems reasonable enough
