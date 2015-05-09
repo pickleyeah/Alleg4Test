@@ -78,7 +78,7 @@ Area* Area::LoadArea(const char* filename, Entity *player, WorldGameState *world
 	// Set player
 	if (player == nullptr)
 	{
-		player = Entity::CreatePlayerEntity(result);
+		player = Entity::CreatePlayerEntity();
 		result->SetPlayer(player);
 	}
 	
@@ -147,7 +147,7 @@ Area *Area::CreateTestArea(Entity *player, WorldGameState *world)
 	// Player
 	if (player == nullptr)
 	{
-		player = Entity::CreatePlayerEntity(result);
+		player = Entity::CreatePlayerEntity();
 		result->SetPlayer(player);
 	}
 	return result;

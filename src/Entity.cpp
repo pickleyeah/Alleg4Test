@@ -5,7 +5,8 @@
 #include "WorldGameState.h"
 
 
-Entity::Entity(void)
+Entity::Entity(void) :
+	m_area(nullptr)
 {
 }
 
@@ -14,7 +15,7 @@ Entity::~Entity(void)
 {
 }
 
-Entity* Entity::CreatePlayerEntity(Area *area)
+Entity* Entity::CreatePlayerEntity()
 {
 	auto msgBus = std::make_shared<ComponentMsgBus>();
 	Entity* result = new Entity();
@@ -24,13 +25,13 @@ Entity* Entity::CreatePlayerEntity(Area *area)
 
 	result->Size = Vec2(WorldGameState::BLOCK_SIZE,WorldGameState::BLOCK_SIZE);
 	result->Dir = DIR_NORTH;
-	result->SetArea(area);
 
 	return result;
 }
 
 void Entity::Init(Area *area)
 {
+	SetArea(area);
 	m_timeAlive = 0;
 	m_alive = true;
 	m_remove = false;

@@ -13,7 +13,7 @@ enum DIR {
 class Entity
 {
 public:
-	static Entity* CreatePlayerEntity(Area *area);
+	static Entity* CreatePlayerEntity();
 
 	Entity(void);
 	virtual ~Entity(void);
