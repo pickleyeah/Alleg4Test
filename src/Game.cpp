@@ -8,6 +8,7 @@
 #include "GameState.h"
 #include "InputManager.h"
 #include "Sprite.h"
+#include "GameTime.h"
 
 Game::~Game()
 {
@@ -79,6 +80,7 @@ void Game::PopState()
 void Game::ProcessInput(double dt)
 {
 	Input::Update();
+	GameTime::Update(dt);
 	// Process input
 	if (Input::KeyDown(ALLEGRO_KEY_ESCAPE))
 		m_finished = true;
@@ -88,10 +90,6 @@ void Game::ProcessInput(double dt)
 
 void Game::Update(double dt)
 {
-	// Update game state
-	// Prevent dt from jumping ahead too much
-	if (dt > 0.1)
-		dt = 0.1;
 	m_states.back()->Update(this, dt);
 }
 

@@ -4,12 +4,14 @@
 #include "Vec2.h"
 #include "Entity.h"
 #include "Sprite.h"
+#include "GameTime.h"
 
 
-TestRender::TestRender(TestInput* input)
+TestRender::TestRender(std::shared_ptr<ComponentMsgBus> bus) :
+	RenderComponent(bus),
+	m_state(TE_IDLE),
+	m_secsSinceStateChange(0)
 {
-	m_input = input;
-
 	m_idleSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Idle_N.png", 1, 1));
 	m_idleSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Idle_E.png", 1, 1));
 	m_idleSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Idle_S.png", 1, 1));
@@ -25,8 +27,24 @@ TestRender::~TestRender(void)
 {
 }
 
+void TestRender::ReceiveMsg(COMPONENTMSG_T msg, Component *sender)
+{
+	if (sender == this)
+		return;
+	switch (msg.type)
+	{
+	case MSG_STATECHANGE:
+		m_state = *((TE_STATE*)msg.data.get());
+		m_secsSinceStateChange = 0;
+		printf("State change: %d\n", m_state);
+		break;
+	}
+}
+
 void TestRender::Render(Entity *entity, Vec2 offset)
 {
+	m_secsSinceStateChange += GameTime::FrameTime();
+
 	Vec2 Pos = entity->Pos;
 	Vec2 Size = entity->Size;
 
@@ -34,15 +52,15 @@ void TestRender::Render(Entity *entity, Vec2 offset)
 	int y = offset.y + Pos.y;
 
 	Sprite *sprite = nullptr;
-	switch (m_input->GetState())
+	switch (m_state)
 	{
 	case TE_IDLE:
 		sprite = m_idleSprites[entity->Dir];
 		break;
 	case TE_MOVING:
-		int frame = ((int)(m_input->TimeSinceStateChange() * WALK_FRAMES_PER_SEC)) % 4;
+		int frame = ((int)(m_secsSinceStateChange * WALK_FRAMES_PER_SEC)) % 4;
 		sprite = m_walkSprites[entity->Dir];
 		break;
 	}
-	sprite->Render(m_input->TimeSinceStateChange(), x, y);
+	sprite->Render(m_secsSinceStateChange, x, y);
 }

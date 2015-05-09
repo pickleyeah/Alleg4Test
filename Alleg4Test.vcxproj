@@ -11,7 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ComponentMsgBus.cpp" />
+    <ClCompile Include="src\Components.cpp" />
     <ClCompile Include="src\CSVFile.cpp" />
+    <ClCompile Include="src\GameTime.cpp" />
     <ClCompile Include="src\Sprite.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\InputManager.cpp" />
@@ -31,7 +34,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ComponentMsgBus.h" />
     <ClInclude Include="src\CSVFile.h" />
+    <ClInclude Include="src\GameTime.h" />
     <ClInclude Include="src\Sprite.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\InputManager.h" />

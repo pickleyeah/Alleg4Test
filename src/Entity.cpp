@@ -16,10 +16,11 @@ Entity::~Entity(void)
 
 Entity* Entity::CreatePlayerEntity(Area *area)
 {
+	auto msgBus = std::make_shared<ComponentMsgBus>();
 	Entity* result = new Entity();
-	result->m_input = std::unique_ptr<InputComponent>(new TestInput());
-	result->m_move = std::unique_ptr<MoveComponent>(new TestMove());
-	result->m_render = std::unique_ptr<RenderComponent>(new TestRender((TestInput*)result->m_input.get()));
+	result->m_input = std::unique_ptr<InputComponent>(new TestInput(msgBus));
+	result->m_move = std::unique_ptr<MoveComponent>(new TestMove(msgBus));
+	result->m_render = std::unique_ptr<RenderComponent>(new TestRender(msgBus));
 
 	result->Size = Vec2(WorldGameState::BLOCK_SIZE,WorldGameState::BLOCK_SIZE);
 	result->Dir = DIR_NORTH;

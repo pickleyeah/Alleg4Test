@@ -3,7 +3,8 @@
 #include "Area.h"
 #include "WorldGameState.h"
 
-TestInput::TestInput(void) :
+TestInput::TestInput(std::shared_ptr<ComponentMsgBus> bus) :
+	InputComponent(bus),
 	m_secsSinceStateChange(0),
 	m_state(TE_IDLE)
 {
@@ -12,6 +13,13 @@ TestInput::TestInput(void) :
 
 TestInput::~TestInput(void)
 {
+}
+
+void TestInput::ReceiveMsg(COMPONENTMSG_T msg, Component *sender)
+{
+	if (sender == this)
+		return;
+	int i = 0;
 }
 
 static int MOVESPEED = 256;
@@ -35,35 +43,35 @@ void TestInput::ProcessInput(Entity *entity, double dt)
 		{
 			entity->Vel.x = -MOVESPEED;
 			entity->Dir = DIR_WEST;
-			m_state = TE_MOVING;
+			SetState(TE_MOVING);
 			m_newGridX--;
 		}
 		else if (Input::KeyDown(ALLEGRO_KEY_RIGHT))
 		{
 			entity->Vel.x = MOVESPEED;
 			entity->Dir = DIR_EAST;
-			m_state = TE_MOVING;
+			SetState(TE_MOVING);
 			m_newGridX++;
 		}
 		else if (Input::KeyDown(ALLEGRO_KEY_UP))
 		{
 			entity->Vel.y = -MOVESPEED;
 			entity->Dir = DIR_NORTH;
-			m_state = TE_MOVING;
+			SetState(TE_MOVING);
 			m_newGridY--;
 		}
 		else if (Input::KeyDown(ALLEGRO_KEY_DOWN))
 		{
 			entity->Vel.y = MOVESPEED;
 			entity->Dir = DIR_SOUTH;
-			m_state = TE_MOVING;
+			SetState(TE_MOVING);
 			m_newGridY++;
 		}
 
 		if (m_state == TE_MOVING && !entity->CanMoveTo(m_newGridX, m_newGridY))
 		{
 			entity->Vel = Vec2(0, 0);
-			m_state = TE_IDLE;
+			SetState(TE_IDLE);
 		}
 		break;
 	case TE_MOVING:
@@ -78,7 +86,7 @@ void TestInput::ProcessInput(Entity *entity, double dt)
 				WorldGameState *world = entity->GetArea()->GetWorldGameState();
 				world->TransitionToArea(block->warpDetails);
 				entity->Vel = Vec2(0, 0);
-				m_state = TE_IDLE;
+				SetState(TE_IDLE);
 				return;
 			}
 			// Save the player position before the grid clamp and put it back afterward to smooth out continuous movement 
@@ -111,7 +119,7 @@ void TestInput::ProcessInput(Entity *entity, double dt)
 				// Stop here and reset to idle state
 				entity->SetGridXY(entity->GridX(), entity->GridY());
 				entity->Vel = Vec2(0, 0);
-				m_state = TE_IDLE;
+				SetState(TE_IDLE);
 			}
 		}
 		break;

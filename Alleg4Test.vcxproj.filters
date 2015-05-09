@@ -75,6 +75,15 @@
     <ClCompile Include="src\CSVFile.cpp">
       <Filter>Util</Filter>
     </ClCompile>
+    <ClCompile Include="src\Components.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ComponentMsgBus.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameTime.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h">
@@ -120,6 +129,12 @@
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="src\CSVFile.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ComponentMsgBus.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameTime.h">
       <Filter>Util</Filter>
     </ClInclude>
   </ItemGroup>

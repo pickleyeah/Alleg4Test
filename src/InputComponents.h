@@ -12,10 +12,17 @@ class TestInput :
 	public InputComponent
 {
 public:
-	TestInput(void);
+	TestInput(std::shared_ptr<ComponentMsgBus> bus);
 	~TestInput(void);
 
+	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender);
+
 	TE_STATE GetState() { return m_state; }
+	void SetState(TE_STATE state)
+	{
+		m_state = state;
+		GetMsgBus()->Send(COMPONENTMSG_T{ MSG_STATECHANGE, std::shared_ptr<TE_STATE>(new TE_STATE(state)) }, this);
+	}
 	double TimeSinceStateChange() { return m_secsSinceStateChange; }
 
 	void ProcessInput(Entity *entity, double dt);
