@@ -1,5 +1,6 @@
 #include "Area.h"
 
+#include <allegro5/allegro_primitives.h>
 #include <string.h>
 #include "Game.h"
 #include "Sprite.h"
@@ -216,20 +217,20 @@ void Area::Render(Vec2 offset)
 		m_entities[i]->Render(offset);
 
 	// Borders
-	/*rectfill(buffer, 0, 0, 32, Game::SCREEN_Y, makecol(32, 32, 32));
-	rectfill(buffer, Game::SCREEN_X - 32, 0, Game::SCREEN_X, Game::SCREEN_Y, makecol(32, 32, 32));
+	al_draw_filled_rectangle(0, 0, 32, Game::SCREEN_Y, al_map_rgb(32, 32, 32));
+	al_draw_filled_rectangle(Game::SCREEN_X - 32, 0, Game::SCREEN_X, Game::SCREEN_Y, al_map_rgb(32, 32, 32));
 
-	rectfill(buffer, 0, 0, Game::SCREEN_X, 16, makecol(32, 32, 32));
-	rectfill(buffer, 0, Game::SCREEN_Y - 16, Game::SCREEN_X, Game::SCREEN_Y, makecol(32, 32, 32));*/
+	al_draw_filled_rectangle(0, 0, Game::SCREEN_X, 16, al_map_rgb(32, 32, 32));
+	al_draw_filled_rectangle(0, Game::SCREEN_Y - 16, Game::SCREEN_X, Game::SCREEN_Y, al_map_rgb(32, 32, 32));
 }
 
 static const int BLOCK_SIZE = 64;
 void Area::DrawGrid(Vec2 offset)
 {
-	/*int sizeX = m_size.x * BLOCK_SIZE;
+	int sizeX = m_size.x * BLOCK_SIZE;
 	int sizeY = m_size.y * BLOCK_SIZE;
 	for (int i = 0; i <= sizeX; i += BLOCK_SIZE)
-		vline(buffer, i + (int)offset.x, 0 + (int)offset.y, sizeY + (int)offset.y, makecol(255, 255, 255));
+		al_draw_line(i + (int)offset.x, 0 + (int)offset.y, i + (int)offset.x, sizeY + (int)offset.y, al_map_rgb(255, 255, 255), 1);
 	for (int i = 0; i <= sizeY; i += BLOCK_SIZE)
-		hline(buffer, 0 + (int)offset.x, i + (int)offset.y, sizeX + (int)offset.x, makecol(255, 255, 255));*/
+		al_draw_line(0 + (int)offset.x, i + (int)offset.y, sizeX + (int)offset.x, i + (int)offset.y, al_map_rgb(255, 255, 255), 1);
 }

@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "Vec2.h"
-//#include "Sprite.h"
+#include "Sprite.h"
 #include "Entity.h"
 #include "Camera.h"
 
@@ -33,8 +33,6 @@ struct WARP_DETAILS_T
 	Vec2 startPos;
 	DIR startDir;
 };
-
-class Sprite;
 
 class BLOCK_T
 {
