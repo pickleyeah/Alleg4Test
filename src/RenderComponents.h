@@ -19,7 +19,7 @@ public:
 
 private:
 	TE_STATE m_state;
-	double m_secsSinceStateChange;
+	double m_lastStateChangeTime;
 
 	TestInput *m_input;
 	std::vector<Sprite*> m_idleSprites;

@@ -10,17 +10,17 @@
 TestRender::TestRender(std::shared_ptr<ComponentMsgBus> bus) :
 	RenderComponent(bus),
 	m_state(TE_IDLE),
-	m_secsSinceStateChange(0)
+	m_lastStateChangeTime(0)
 {
-	m_idleSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Idle_N.png", 1, 1));
-	m_idleSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Idle_E.png", 1, 1));
-	m_idleSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Idle_S.png", 1, 1));
-	m_idleSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Idle_W.png", 1, 1));
+	m_idleSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Idle_N.png"));
+	m_idleSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Idle_E.png"));
+	m_idleSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Idle_S.png"));
+	m_idleSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Idle_W.png"));
 
-	m_walkSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Walk_N.png", 4, WALK_FRAMES_PER_SEC));
-	m_walkSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Walk_E.png", 4, WALK_FRAMES_PER_SEC));
-	m_walkSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Walk_S.png", 4, WALK_FRAMES_PER_SEC));
-	m_walkSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Walk_W.png", 4, WALK_FRAMES_PER_SEC));
+	m_walkSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Walk_N.png"));
+	m_walkSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Walk_E.png"));
+	m_walkSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Walk_S.png"));
+	m_walkSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Walk_W.png"));
 }
 
 TestRender::~TestRender(void)
@@ -35,7 +35,7 @@ void TestRender::ReceiveMsg(COMPONENTMSG_T msg, Component *sender)
 	{
 	case MSG_STATECHANGE:
 		m_state = *((TE_STATE*)msg.data.get());
-		m_secsSinceStateChange = 0;
+		m_lastStateChangeTime = GameTime::TotalElapsedTime();
 		printf("State change: %d\n", m_state);
 		break;
 	}
@@ -43,7 +43,7 @@ void TestRender::ReceiveMsg(COMPONENTMSG_T msg, Component *sender)
 
 void TestRender::Render(Entity *entity, Vec2 offset)
 {
-	m_secsSinceStateChange += GameTime::FrameTime();
+	double secsSinceStateChange = GameTime::TotalElapsedTime() - m_lastStateChangeTime;
 
 	Vec2 Pos = entity->Pos;
 	Vec2 Size = entity->Size;
@@ -58,9 +58,8 @@ void TestRender::Render(Entity *entity, Vec2 offset)
 		sprite = m_idleSprites[entity->Dir];
 		break;
 	case TE_MOVING:
-		int frame = ((int)(m_secsSinceStateChange * WALK_FRAMES_PER_SEC)) % 4;
 		sprite = m_walkSprites[entity->Dir];
 		break;
 	}
-	sprite->Render(m_secsSinceStateChange, x, y);
+	sprite->Render(secsSinceStateChange, x, y);
 }
