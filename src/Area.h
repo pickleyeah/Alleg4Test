@@ -64,9 +64,7 @@ public:
 	Area(Vec2 size, WorldGameState *world);
 	~Area(void);
 
-	static Area *CreateTestArea(Entity *player, WorldGameState *world);
-	static Area *CreateTestArea2(Entity *player, WorldGameState *world);
-
+	Entity *GetEntityAt(int x, int y);
 	BLOCK_T *GetBlock(int x, int y) { return &m_blocks[y*(int)m_size.x + x]; }
 	Vec2 Size() { return m_size; }
 

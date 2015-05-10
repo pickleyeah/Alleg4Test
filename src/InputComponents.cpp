@@ -3,7 +3,10 @@
 #include "Area.h"
 #include "WorldGameState.h"
 
-TestInput::TestInput(std::shared_ptr<ComponentMsgBus> bus) :
+//-----------------------------------------------------------------------------
+// PlayerInput
+//-----------------------------------------------------------------------------
+PlayerInput::PlayerInput(std::shared_ptr<ComponentMsgBus> bus) :
 	InputComponent(bus),
 	m_secsSinceStateChange(0),
 	m_state(TE_IDLE)
@@ -11,20 +14,25 @@ TestInput::TestInput(std::shared_ptr<ComponentMsgBus> bus) :
 }
 
 
-TestInput::~TestInput(void)
+PlayerInput::~PlayerInput(void)
 {
 }
 
-void TestInput::ReceiveMsg(COMPONENTMSG_T msg, Component *sender)
+void PlayerInput::ReceiveMsg(COMPONENTMSG_T msg, Component *sender)
 {
 	if (sender == this)
 		return;
-	int i = 0;
+}
+
+void PlayerInput::SetState(TE_STATE state)
+{
+	m_state = state;
+	GetMsgBus()->Send(COMPONENTMSG_T{ MSG_STATECHANGE, std::shared_ptr<TE_STATE>(new TE_STATE(state)) }, this);
 }
 
 static int MOVESPEED = 256;
 
-void TestInput::ProcessInput(Entity *entity, double dt)
+void PlayerInput::ProcessInput(Entity *entity, double dt)
 {
 	m_secsSinceStateChange += dt;
 	switch (m_state)
@@ -32,7 +40,20 @@ void TestInput::ProcessInput(Entity *entity, double dt)
 	case TE_IDLE:
 		if (Input::KeyPressed(ALLEGRO_KEY_SPACE))
 		{
-			// TODO: Perform use/talk action here
+			// Get the grid block we're facing
+			int x = entity->GridX();
+			int y = entity->GridY();
+			switch (entity->Dir)
+			{
+			case DIR_NORTH: --y; break;
+			case DIR_SOUTH: ++y; break;
+			case DIR_WEST: --x; break;
+			case DIR_EAST: ++x; break;
+			}
+			auto other = entity->GetArea()->GetEntityAt(x, y);
+			// If there's an object, try and use it
+			if (other)
+				other->ReceiveMsg(COMPONENTMSG_T{ MSG_USE, std::shared_ptr<void>(nullptr) }, this);
 			return;
 		}
 
@@ -123,5 +144,25 @@ void TestInput::ProcessInput(Entity *entity, double dt)
 			}
 		}
 		break;
+	}
+}
+
+//-----------------------------------------------------------------------------
+// NPCTextInput
+//-----------------------------------------------------------------------------
+void NPCTextInput::ProcessInput(Entity *entity, double dt)
+{
+
+}
+
+void NPCTextInput::ReceiveMsg(COMPONENTMSG_T msg, Component *sender)
+{
+	if (sender == this)
+		return;
+	if (msg.type == MSG_USE)
+	{
+		// Player (presumably) interacted with the sign
+		printf("Player is reading the sign\n");
+		// TODO: trigger text overlay in WorldGameState
 	}
 }

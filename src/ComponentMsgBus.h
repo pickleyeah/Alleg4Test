@@ -6,6 +6,7 @@
 enum MSGTYPE
 {
 	MSG_STATECHANGE,
+	MSG_USE,
 };
 
 struct COMPONENTMSG_T

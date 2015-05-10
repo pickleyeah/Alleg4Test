@@ -2,11 +2,11 @@
 
 #include "Components.h"
 
-class TestMove : public MoveComponent
+class DefaultMove : public MoveComponent
 {
 public:
-	TestMove(std::shared_ptr<ComponentMsgBus> bus);
-	~TestMove(void);
+	DefaultMove(std::shared_ptr<ComponentMsgBus> bus);
+	~DefaultMove(void);
 
 	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender);
 	void Update(Entity *entity, Area *area, double dt);

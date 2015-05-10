@@ -2,17 +2,16 @@
 
 #include "Components.h"
 #include "InputComponents.h"
+#include "Sprite.h"
 
-class TestInput;
-class Sprite;
+class PlayerInput;
 
 #define WALK_FRAMES_PER_SEC 8
 
-class TestRender : public RenderComponent
+class PlayerRender : public RenderComponent
 {
 public:
-	TestRender(std::shared_ptr<ComponentMsgBus> bus);
-	~TestRender(void);
+	PlayerRender(std::shared_ptr<ComponentMsgBus> bus);
 
 	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender);
 	void Render(Entity *entity, Vec2 offset);
@@ -21,7 +20,19 @@ private:
 	TE_STATE m_state;
 	double m_lastStateChangeTime;
 
-	TestInput *m_input;
+	PlayerInput *m_input;
 	std::vector<Sprite*> m_idleSprites;
 	std::vector<Sprite*> m_walkSprites;
+};
+
+class PropRender : public RenderComponent
+{
+public:
+	PropRender(std::shared_ptr<ComponentMsgBus> bus);
+	void SetSprite(Sprite *sprite) { m_sprite = sprite; }
+	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender);
+	void Render(Entity *entity, Vec2 offset);
+private:
+	double m_lastStateChangeTime;
+	Sprite *m_sprite;
 };

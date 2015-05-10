@@ -6,7 +6,8 @@
 
 
 Entity::Entity(void) :
-	m_area(nullptr)
+	m_area(nullptr),
+	m_solid(true)
 {
 }
 
@@ -15,15 +16,37 @@ Entity::~Entity(void)
 {
 }
 
-Entity* Entity::CreatePlayerEntity()
+//-------------------------------------------------------------------------------
+// CreateEntity
+// To add a new entity type, add another block which checks for the entity name
+// and initializes it accordingly
+// e.g. if (type == "NewEntity") ...
+//-------------------------------------------------------------------------------
+Entity* Entity::CreateEntity(std::string type)
 {
 	auto msgBus = std::make_shared<ComponentMsgBus>();
 	Entity* result = new Entity();
-	result->m_input = std::unique_ptr<InputComponent>(new TestInput(msgBus));
-	result->m_move = std::unique_ptr<MoveComponent>(new TestMove(msgBus));
-	result->m_render = std::unique_ptr<RenderComponent>(new TestRender(msgBus));
-
-	result->Size = Vec2(WorldGameState::BLOCK_SIZE,WorldGameState::BLOCK_SIZE);
+	result->m_msgBus = msgBus.get();	// Give the container Entity object a pointer to the message bus to enable cross-Entity communication
+	if (type == "Player")
+	{
+		result->m_input = std::unique_ptr<InputComponent>(new PlayerInput(msgBus));
+		result->m_move = std::unique_ptr<MoveComponent>(new DefaultMove(msgBus));
+		result->m_render = std::unique_ptr<RenderComponent>(new PlayerRender(msgBus));
+		result->Size = Vec2(WorldGameState::BLOCK_SIZE, WorldGameState::BLOCK_SIZE);
+	}
+	else if (type == "Sign")
+	{
+		result->m_input = std::unique_ptr<InputComponent>(new NPCTextInput(msgBus));
+		result->m_move = std::unique_ptr<MoveComponent>(new DefaultMove(msgBus));
+		auto render = new PropRender(msgBus);
+		render->SetSprite(Sprite::GetSprite("Data/Sprites/Sign.png"));
+		result->m_render = std::unique_ptr<RenderComponent>(render);
+		result->Size = Vec2(WorldGameState::BLOCK_SIZE, WorldGameState::BLOCK_SIZE);
+	}
+	else
+	{
+		throw std::exception("Unrecognised player type");
+	}
 	result->Dir = DIR_NORTH;
 
 	return result;
@@ -53,6 +76,10 @@ bool Entity::CanMoveTo(int x, int y)
 	}
 	else
 	{
+		// See if there are any entities in the way
+		auto otherEntity = m_area->GetEntityAt(x, y);
+		if (otherEntity && otherEntity)
+			return false;
 		// See if we can pass thru block from this direction
 		BLOCK_T *block = m_area->GetBlock(x, y);
 		switch (Dir)

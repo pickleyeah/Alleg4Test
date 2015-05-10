@@ -6,8 +6,10 @@
 #include "Sprite.h"
 #include "GameTime.h"
 
-
-TestRender::TestRender(std::shared_ptr<ComponentMsgBus> bus) :
+//-----------------------------------------------------------------------------
+// PlayerRender
+//-----------------------------------------------------------------------------
+PlayerRender::PlayerRender(std::shared_ptr<ComponentMsgBus> bus) :
 	RenderComponent(bus),
 	m_state(TE_IDLE),
 	m_lastStateChangeTime(0)
@@ -23,11 +25,7 @@ TestRender::TestRender(std::shared_ptr<ComponentMsgBus> bus) :
 	m_walkSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Walk_W.png"));
 }
 
-TestRender::~TestRender(void)
-{
-}
-
-void TestRender::ReceiveMsg(COMPONENTMSG_T msg, Component *sender)
+void PlayerRender::ReceiveMsg(COMPONENTMSG_T msg, Component *sender)
 {
 	if (sender == this)
 		return;
@@ -36,12 +34,11 @@ void TestRender::ReceiveMsg(COMPONENTMSG_T msg, Component *sender)
 	case MSG_STATECHANGE:
 		m_state = *((TE_STATE*)msg.data.get());
 		m_lastStateChangeTime = GameTime::TotalElapsedTime();
-		printf("State change: %d\n", m_state);
 		break;
 	}
 }
 
-void TestRender::Render(Entity *entity, Vec2 offset)
+void PlayerRender::Render(Entity *entity, Vec2 offset)
 {
 	double secsSinceStateChange = GameTime::TotalElapsedTime() - m_lastStateChangeTime;
 
@@ -62,4 +59,28 @@ void TestRender::Render(Entity *entity, Vec2 offset)
 		break;
 	}
 	sprite->Render(secsSinceStateChange, x, y);
+}
+
+//-----------------------------------------------------------------------------
+// PropRender
+//-----------------------------------------------------------------------------
+PropRender::PropRender(std::shared_ptr<ComponentMsgBus> bus) :
+	RenderComponent(bus),
+	m_lastStateChangeTime(0),
+	m_sprite(0)
+{
+}
+
+void PropRender::ReceiveMsg(COMPONENTMSG_T msg, Component *sender)
+{
+	if (sender == this)
+		return;
+}
+
+void PropRender::Render(Entity *entity, Vec2 offset)
+{
+	double secsSinceStateChange = GameTime::TotalElapsedTime() - m_lastStateChangeTime;
+	int x = offset.x + entity->Pos.x;
+	int y = offset.y + entity->Pos.y;
+	m_sprite->Render(secsSinceStateChange, x, y);
 }

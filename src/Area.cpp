@@ -15,18 +15,18 @@ Area::Area(Vec2 size, WorldGameState *world) :
 	m_blocks = std::unique_ptr<BLOCK_T[]>(new BLOCK_T[(int)(size.x * size.y)]);
 	m_sprites.resize(COL_ALL+1, nullptr);
 
-	m_sprites[0] = Sprite::GetSprite("Data/Tiles/Grass.png", 1, 1);
-	m_sprites[COL_NORTH] = Sprite::GetSprite("Data/Tiles/Grass_BlockN.png", 1, 1);
-	m_sprites[COL_SOUTH] = Sprite::GetSprite("Data/Tiles/Grass_BlockS.png", 1, 1);
-	m_sprites[COL_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockW.png", 1, 1);
-	m_sprites[COL_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockE.png", 1, 1);
+	m_sprites[0] = Sprite::GetSprite("Data/Tiles/Grass.png");
+	m_sprites[COL_NORTH] = Sprite::GetSprite("Data/Tiles/Grass_BlockN.png");
+	m_sprites[COL_SOUTH] = Sprite::GetSprite("Data/Tiles/Grass_BlockS.png");
+	m_sprites[COL_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockW.png");
+	m_sprites[COL_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockE.png");
 
-	m_sprites[COL_NORTH | COL_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockNW.png", 1, 1);
-	m_sprites[COL_NORTH | COL_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockNE.png", 1, 1);
-	m_sprites[COL_SOUTH | COL_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockSW.png", 1, 1);
-	m_sprites[COL_SOUTH | COL_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockSE.png", 1, 1);
+	m_sprites[COL_NORTH | COL_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockNW.png");
+	m_sprites[COL_NORTH | COL_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockNE.png");
+	m_sprites[COL_SOUTH | COL_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockSW.png");
+	m_sprites[COL_SOUTH | COL_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockSE.png");
 
-	m_sprites[COL_ALL] = Sprite::GetSprite("Data/Tiles/Water.png", 4, 4);
+	m_sprites[COL_ALL] = Sprite::GetSprite("Data/Tiles/Water.png");
 }
 
 
@@ -34,6 +34,16 @@ Area::~Area(void)
 {
 	for (size_t i = 0; i < m_entities.size(); i++)
 		delete m_entities[i];
+}
+
+Entity *Area::GetEntityAt(int x, int y)
+{
+	for (size_t i = 0; i < m_entities.size(); i++)
+	{
+		if (m_entities[i]->GridX() == x && m_entities[i]->GridY() == y)
+			return m_entities[i];
+	}
+	return nullptr;
 }
 
 struct MAP_HEADER_T
@@ -78,9 +88,12 @@ Area* Area::LoadArea(const char* filename, Entity *player, WorldGameState *world
 	// Set player
 	if (player == nullptr)
 	{
-		player = Entity::CreatePlayerEntity();
+		player = Entity::CreateEntity("Player");
 		result->SetPlayer(player);
 	}
+	auto sign = Entity::CreateEntity("Sign");
+	sign->SetGridXY(3, 0);
+	result->m_entities.push_back(sign);
 	
 	return result;
 }
@@ -123,47 +136,6 @@ void Area::SetPlayer(Entity *player)
 	m_player = player;
 	m_entities.push_back(player);
 	m_player->SetArea(this);
-}
-
-Area *Area::CreateTestArea(Entity *player, WorldGameState *world)
-{
-	int m = 16, n = 16;
-	Area *result = new Area(Vec2(m, n), world);
-	memset(result->m_blocks.get(), 0, sizeof(BLOCK_T)*m*n);
-
-	// Water block
-	for (int x = 4; x < 8; x++)
-	{
-		for (int y = 4; y < 8; y++)
-		{
-			BLOCK_T *block = result->GetBlock(x, y);
-			block->colMask |= COL_ALL;
-		}
-	}
-
-	// Warp block
-	result->GetBlock(6, 0)->warp = true;
-	result->GetBlock(6, 0)->warpDetails = new WARP_DETAILS_T{ "Data/Areas/Area2.lvl", Vec2(2, 3), DIR_NORTH };
-	// Player
-	if (player == nullptr)
-	{
-		player = Entity::CreatePlayerEntity();
-		result->SetPlayer(player);
-	}
-	return result;
-}
-
-Area *Area::CreateTestArea2(Entity *player, WorldGameState *world)
-{
-	int m = 4, n = 4; // small-ass area
-	Area *result = new Area(Vec2(m, n), world);
-	memset(result->m_blocks.get(), 0, sizeof(BLOCK_T)*m*n);
-
-	// Warp block
-	result->GetBlock(2, 3)->warp = true;
-	result->GetBlock(2, 3)->warpDetails = new WARP_DETAILS_T{ "Data/Areas/Area1.lvl", Vec2(6, 0), DIR_SOUTH };
-
-	return result;
 }
 
 void Area::Init()

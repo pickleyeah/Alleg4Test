@@ -8,23 +8,14 @@ enum TE_STATE
 	TE_MOVING,
 };
 
-class TestInput :
-	public InputComponent
+class PlayerInput : public InputComponent
 {
 public:
-	TestInput(std::shared_ptr<ComponentMsgBus> bus);
-	~TestInput(void);
+	PlayerInput(std::shared_ptr<ComponentMsgBus> bus);
+	~PlayerInput(void);
 
 	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender);
-
-	TE_STATE GetState() { return m_state; }
-	void SetState(TE_STATE state)
-	{
-		m_state = state;
-		GetMsgBus()->Send(COMPONENTMSG_T{ MSG_STATECHANGE, std::shared_ptr<TE_STATE>(new TE_STATE(state)) }, this);
-	}
-	double TimeSinceStateChange() { return m_secsSinceStateChange; }
-
+	void SetState(TE_STATE state);
 	void ProcessInput(Entity *entity, double dt);
 
 private:
@@ -32,5 +23,15 @@ private:
 	Vec2 m_oldPos;
 	int m_newGridX, m_newGridY;
 	double m_secsSinceStateChange;
+};
+
+class NPCTextInput : public InputComponent
+{
+public:
+	NPCTextInput(std::shared_ptr<ComponentMsgBus> bus) : InputComponent(bus) { }
+	~NPCTextInput(void) { };
+
+	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender);
+	void ProcessInput(Entity *entity, double dt);
 };
 

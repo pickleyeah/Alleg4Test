@@ -3,23 +3,23 @@
 #include "Entity.h"
 
 
-TestMove::TestMove(std::shared_ptr<ComponentMsgBus> bus) :
+DefaultMove::DefaultMove(std::shared_ptr<ComponentMsgBus> bus) :
 	MoveComponent(bus)
 {
 }
 
 
-TestMove::~TestMove(void)
+DefaultMove::~DefaultMove(void)
 {
 }
 
-void TestMove::ReceiveMsg(COMPONENTMSG_T msg, Component *sender)
+void DefaultMove::ReceiveMsg(COMPONENTMSG_T msg, Component *sender)
 {
 	if (sender == this)
 		return;
 }
 
-void TestMove::Update(Entity *entity, Area *area, double dt)
+void DefaultMove::Update(Entity *entity, Area *area, double dt)
 {
 	// Pos += dt*Vel
 	Vec2 oldPos = entity->Pos;
