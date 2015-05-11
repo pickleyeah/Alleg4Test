@@ -7,7 +7,7 @@
 
 Entity::Entity(void) :
 	m_area(nullptr),
-	m_solid(true)
+	m_msgBus(nullptr)
 {
 }
 

@@ -37,7 +37,7 @@ public:
 	void SetAlive(bool alive) { m_alive = alive; }
 
 	bool ShouldRemove() { return m_remove; }
-	bool Solid() { return m_solid; }
+	bool Solid() { return true; }
 
 	int GridX() { return m_gridX; }
 	void SetGridX(int x) { m_gridX = x; Pos.x = x * 64; }
@@ -56,7 +56,7 @@ private:
 	int m_gridX, m_gridY;
 	Area *m_area;
 	float m_timeAlive;
-	bool m_alive, m_remove, m_solid;
+	bool m_alive, m_remove;
 
 	std::unique_ptr<InputComponent> m_input;
 	std::unique_ptr<MoveComponent> m_move;
