@@ -36,7 +36,12 @@ Entity* Entity::CreateEntity(std::string type)
 	}
 	else if (type == "Sign")
 	{
-		result->m_input = std::unique_ptr<InputComponent>(new NPCTextInput(msgBus, result));
+		auto signText = new NPCText();
+		signText->Strings.push_back("GARY MOTHERFUCKING OAK WAS HERE\nGET REKT FGT\n");
+		auto input = new NPCTextInput(msgBus, result);
+		input->SetText(signText); // Transfer ownership of NPCText pointer to the component
+		result->m_input = std::unique_ptr<InputComponent>(input);
+
 		result->m_move = std::unique_ptr<MoveComponent>(new DefaultMove(msgBus, result));
 		auto render = new PropRender(msgBus, result);
 		render->SetSprite(Sprite::GetSprite("Data/Sprites/Sign.png"));

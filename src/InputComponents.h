@@ -25,6 +25,12 @@ private:
 	double m_secsSinceStateChange;
 };
 
+class NPCText
+{
+public:
+	std::vector<std::string> Strings;
+};
+
 class NPCTextInput : public InputComponent
 {
 public:
@@ -33,5 +39,8 @@ public:
 
 	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender, Entity *source);
 	void ProcessInput(double dt);
+	void SetText(NPCText *strings) { m_text = std::unique_ptr<NPCText>(strings); }
+private:
+	std::unique_ptr<NPCText> m_text;
 };
 

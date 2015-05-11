@@ -105,7 +105,7 @@ void PlayerInput::ProcessInput(double dt)
 			if (block->warp)
 			{
 				WorldGameState *world = m_entity->GetArea()->GetWorldGameState();
-				world->TransitionToArea(block->warpDetails);
+				world->TriggerAreaTransition(block->warpDetails);
 				m_entity->Vel = Vec2(0, 0);
 				SetState(ENTSTATE_IDLE);
 				return;
@@ -165,5 +165,6 @@ void NPCTextInput::ReceiveMsg(COMPONENTMSG_T msg, Component *sender, Entity *sou
 		printf("Player is reading the sign\n"
 			"The sign says:\nGARY MOTHERFUCKING OAK WAS HERE\nGET REKT FGT\n\n");
 		// TODO: trigger text overlay in WorldGameState
+		source->GetArea()->GetWorldGameState()->TriggerNPCTextDisplay(m_text.get());
 	}
 }

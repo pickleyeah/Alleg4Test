@@ -1,12 +1,17 @@
 #pragma once
 #include "gamestate.h"
+#include <allegro5/allegro_font.h>
 #include "Area.h"
+#include "InputComponents.h"
 
-enum TRANSITION_STATE
+enum WORLDSTATE
 {
-	STATE_NORMAL,
-	STATE_FADEOUT,
-	STATE_FADEIN,
+	WORLDSTATE_NORMAL,
+	WORLDSTATE_FADEOUT,
+	WORLDSTATE_SWAPAREAS,
+	WORLDSTATE_FADEIN,
+	WORLDSTATE_NPCTEXT_WRITING,
+	WORLDSTATE_NPCTEXT_WAITFORPLAYER,
 };
 
 class WorldGameState :
@@ -28,17 +33,21 @@ public:
 	void Update(Game *game, double dt);
 	void Render(Game *game, ALLEGRO_BITMAP *buffer);
 
-	void TransitionToArea(WARP_DETAILS_T *details);
+	void TriggerAreaTransition(WARP_DETAILS_T *details);
+	void TriggerNPCTextDisplay(NPCText *text);
 
 private:
 	static const double FADE_PERIOD;
 	void DoAreaChange();
 	bool m_paused;
 
-	TRANSITION_STATE m_state;
+	WORLDSTATE m_state;
 	double m_transitionTime;
 
 	Area* m_area;
 	Area* m_newArea;
+
+	NPCText* m_npcText;
+	ALLEGRO_FONT *m_font;
 };
 

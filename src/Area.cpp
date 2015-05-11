@@ -203,11 +203,11 @@ void Area::Render(Vec2 offset)
 		m_entities[i]->Render(offset);
 
 	// Borders
-	al_draw_filled_rectangle(0, 0, 32, Game::SCREEN_Y, al_map_rgb(32, 32, 32));
+	/*al_draw_filled_rectangle(0, 0, 32, Game::SCREEN_Y, al_map_rgb(32, 32, 32));
 	al_draw_filled_rectangle(Game::SCREEN_X - 32, 0, Game::SCREEN_X, Game::SCREEN_Y, al_map_rgb(32, 32, 32));
 
 	al_draw_filled_rectangle(0, 0, Game::SCREEN_X, 16, al_map_rgb(32, 32, 32));
-	al_draw_filled_rectangle(0, Game::SCREEN_Y - 16, Game::SCREEN_X, Game::SCREEN_Y, al_map_rgb(32, 32, 32));
+	al_draw_filled_rectangle(0, Game::SCREEN_Y - 16, Game::SCREEN_X, Game::SCREEN_Y, al_map_rgb(32, 32, 32));*/
 }
 
 static const int BLOCK_SIZE = 64;

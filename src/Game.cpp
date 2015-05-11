@@ -4,6 +4,8 @@
 #include <allegro5/allegro_native_dialog.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 
 #include "GameState.h"
 #include "InputManager.h"
@@ -28,6 +30,8 @@ bool Game::Init(const char* title)
 
 	al_init_image_addon();
 	al_init_primitives_addon();
+	al_init_font_addon();
+	al_init_ttf_addon();
 
 	m_buffer = al_create_bitmap(Game::SCREEN_X, Game::SCREEN_Y);
 	Input::Init();
