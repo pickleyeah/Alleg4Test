@@ -11,7 +11,7 @@ public:
 	void ProcessInput();
 	void Update(double dt);
 
-	Vec2 GetOffset() { return Vec2::Mul(m_pos, -1); }
+	Vec2 GetOffset() { return m_pos * -1.0f; }
 	Vec2 Pos() { return m_pos;  }
 
 private:

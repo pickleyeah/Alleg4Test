@@ -96,7 +96,7 @@ void PlayerInput::ProcessInput(Entity *entity, double dt)
 		}
 		break;
 	case TE_MOVING:
-		Vec2 moved = Vec2::Sub(entity->Pos, m_oldPos);
+		Vec2 moved = entity->Pos - m_oldPos;
 		if (moved.Length() >= WorldGameState::BLOCK_SIZE * 0.95f)	// If it's close enough, snap to the grid position a bit early to make it less jerky when we stop moving
 		{
 			// If we've hit a warp block, trigger the area transition on the next frame

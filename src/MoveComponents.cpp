@@ -23,5 +23,5 @@ void DefaultMove::Update(Entity *entity, Area *area, double dt)
 {
 	// Pos += dt*Vel
 	Vec2 oldPos = entity->Pos;
-	entity->Pos = Vec2::Add(entity->Pos, Vec2::Mul(entity->Vel, (float)dt));
+	entity->Pos = entity->Pos + entity->Vel * (float)dt;
 }
