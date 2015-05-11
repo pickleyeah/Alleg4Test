@@ -21,11 +21,11 @@ public:
 	void Init(Area *area);
 	void Remove() { m_remove = true; }
 
-	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender) { m_msgBus->Send(msg, sender); }
+	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender, Entity *source) { m_msgBus->Send(msg, sender, source); }
 
-	void ProcessInput(double dt) { m_input->ProcessInput(this, dt); }
+	void ProcessInput(double dt) { m_input->ProcessInput(dt); }
 	void Update(double dt);
-	void Render(Vec2 offset) { m_render->Render(this, offset); }
+	void Render(Vec2 offset) { m_render->Render(offset); }
 
 	bool CanMoveTo(int x, int y);
 

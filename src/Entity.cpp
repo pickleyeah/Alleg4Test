@@ -29,16 +29,16 @@ Entity* Entity::CreateEntity(std::string type)
 	result->m_msgBus = msgBus.get();	// Give the container Entity object a pointer to the message bus to enable cross-Entity communication
 	if (type == "Player")
 	{
-		result->m_input = std::unique_ptr<InputComponent>(new PlayerInput(msgBus));
-		result->m_move = std::unique_ptr<MoveComponent>(new DefaultMove(msgBus));
-		result->m_render = std::unique_ptr<RenderComponent>(new PlayerRender(msgBus));
+		result->m_input = std::unique_ptr<InputComponent>(new PlayerInput(msgBus, result));
+		result->m_move = std::unique_ptr<MoveComponent>(new DefaultMove(msgBus, result));
+		result->m_render = std::unique_ptr<RenderComponent>(new PlayerRender(msgBus, result));
 		result->Size = Vec2(WorldGameState::BLOCK_SIZE, WorldGameState::BLOCK_SIZE);
 	}
 	else if (type == "Sign")
 	{
-		result->m_input = std::unique_ptr<InputComponent>(new NPCTextInput(msgBus));
-		result->m_move = std::unique_ptr<MoveComponent>(new DefaultMove(msgBus));
-		auto render = new PropRender(msgBus);
+		result->m_input = std::unique_ptr<InputComponent>(new NPCTextInput(msgBus, result));
+		result->m_move = std::unique_ptr<MoveComponent>(new DefaultMove(msgBus, result));
+		auto render = new PropRender(msgBus, result);
 		render->SetSprite(Sprite::GetSprite("Data/Sprites/Sign.png"));
 		result->m_render = std::unique_ptr<RenderComponent>(render);
 		result->Size = Vec2(WorldGameState::BLOCK_SIZE, WorldGameState::BLOCK_SIZE);
@@ -64,8 +64,7 @@ void Entity::Init(Area *area)
 void Entity::Update(double dt)
 {
 	m_timeAlive += dt;
-
-	m_move->Update(this, NULL, dt);
+	m_move->Update(dt);
 }
 
 bool Entity::CanMoveTo(int x, int y)

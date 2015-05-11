@@ -3,6 +3,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <string.h>
 #include "Game.h"
+#include "WorldGameState.h"
 #include "Sprite.h"
 
 Area::Area(Vec2 size, WorldGameState *world) :
@@ -40,7 +41,9 @@ Entity *Area::GetEntityAt(int x, int y)
 {
 	for (size_t i = 0; i < m_entities.size(); i++)
 	{
-		if (m_entities[i]->GridX() == x && m_entities[i]->GridY() == y)
+		Vec2 gridTopLeft = Vec2(m_entities[i]->GridX(), m_entities[i]->GridY());
+		Vec2 gridBottomRight = gridTopLeft + Vec2((int)(m_entities[i]->Size.x / WorldGameState::BLOCK_SIZE), (int)(m_entities[i]->Size.y / WorldGameState::BLOCK_SIZE));
+		if (x >= gridTopLeft.x && x < gridBottomRight.x && y >= gridTopLeft.y && y < gridBottomRight.y)
 			return m_entities[i];
 	}
 	return nullptr;
@@ -164,6 +167,17 @@ void Area::Update(double dt)
 	for (size_t i = 0; i < m_entities.size(); i++)
 		m_entities[i]->Update(dt);
 	m_camera->Update(dt);
+
+	// Remove entities awaiting removal
+	for (size_t i = m_entities.size(); i > 0; i--)
+	{
+		if (m_entities[i-1]->ShouldRemove())
+		{
+			// TODO: turn Entity pointers into smart pointers
+			delete m_entities[i - 1];
+			m_entities.erase(m_entities.begin() + i - 1);
+		}
+	}
 }
 
 void Area::Render(Vec2 offset)
@@ -205,4 +219,10 @@ void Area::DrawGrid(Vec2 offset)
 		al_draw_line(i + (int)offset.x, 0 + (int)offset.y, i + (int)offset.x, sizeY + (int)offset.y, al_map_rgb(255, 255, 255), 1);
 	for (int i = 0; i <= sizeY; i += BLOCK_SIZE)
 		al_draw_line(0 + (int)offset.x, i + (int)offset.y, sizeX + (int)offset.x, i + (int)offset.y, al_map_rgb(255, 255, 255), 1);
+}
+
+void Area::BroadcastMsgToEntities(COMPONENTMSG_T msg, Component *sender, Entity *source)
+{
+	for (size_t i = 0; i < m_entities.size(); i++)
+		m_entities[i]->ReceiveMsg(msg, sender, source);
 }

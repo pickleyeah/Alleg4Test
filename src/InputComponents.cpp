@@ -6,10 +6,10 @@
 //-----------------------------------------------------------------------------
 // PlayerInput
 //-----------------------------------------------------------------------------
-PlayerInput::PlayerInput(std::shared_ptr<ComponentMsgBus> bus) :
-	InputComponent(bus),
+PlayerInput::PlayerInput(std::shared_ptr<ComponentMsgBus> bus, Entity *entity) :
+	InputComponent(bus, entity),
 	m_secsSinceStateChange(0),
-	m_state(TE_IDLE)
+	m_state(ENTSTATE_IDLE)
 {
 }
 
@@ -18,110 +18,110 @@ PlayerInput::~PlayerInput(void)
 {
 }
 
-void PlayerInput::ReceiveMsg(COMPONENTMSG_T msg, Component *sender)
+void PlayerInput::ReceiveMsg(COMPONENTMSG_T msg, Component *sender, Entity *source)
 {
 	if (sender == this)
 		return;
 }
 
-void PlayerInput::SetState(TE_STATE state)
+void PlayerInput::SetState(ENTSTATE state)
 {
 	m_state = state;
-	GetMsgBus()->Send(COMPONENTMSG_T{ MSG_STATECHANGE, std::shared_ptr<TE_STATE>(new TE_STATE(state)) }, this);
+	m_msgBus->Send(COMPONENTMSG_T{ MSG_STATECHANGE, std::shared_ptr<ENTSTATE>(new ENTSTATE(state)) }, this, m_entity);
 }
 
 static int MOVESPEED = 256;
 
-void PlayerInput::ProcessInput(Entity *entity, double dt)
+void PlayerInput::ProcessInput(double dt)
 {
 	m_secsSinceStateChange += dt;
 	switch (m_state)
 	{
-	case TE_IDLE:
+	case ENTSTATE_IDLE:
 		if (Input::KeyPressed(ALLEGRO_KEY_SPACE))
 		{
 			// Get the grid block we're facing
-			int x = entity->GridX();
-			int y = entity->GridY();
-			switch (entity->Dir)
+			int x = m_entity->GridX();
+			int y = m_entity->GridY();
+			switch (m_entity->Dir)
 			{
 			case DIR_NORTH: --y; break;
 			case DIR_SOUTH: ++y; break;
 			case DIR_WEST: --x; break;
 			case DIR_EAST: ++x; break;
 			}
-			auto other = entity->GetArea()->GetEntityAt(x, y);
+			auto other = m_entity->GetArea()->GetEntityAt(x, y);
 			// If there's an object, try and use it
 			if (other)
-				other->ReceiveMsg(COMPONENTMSG_T{ MSG_USE, std::shared_ptr<void>(nullptr) }, this);
+				other->ReceiveMsg(COMPONENTMSG_T{ MSG_USE, std::shared_ptr<void>(nullptr) }, this, m_entity);
 			return;
 		}
 
-		m_oldPos = entity->Pos;
-		m_newGridX = entity->GridX();
-		m_newGridY = entity->GridY();
+		m_oldPos = m_entity->Pos;
+		m_newGridX = m_entity->GridX();
+		m_newGridY = m_entity->GridY();
 		if (Input::KeyDown(ALLEGRO_KEY_LEFT))
 		{
-			entity->Vel.x = -MOVESPEED;
-			entity->Dir = DIR_WEST;
-			SetState(TE_MOVING);
+			m_entity->Vel.x = -MOVESPEED;
+			m_entity->Dir = DIR_WEST;
+			SetState(ENTSTATE_MOVING);
 			m_newGridX--;
 		}
 		else if (Input::KeyDown(ALLEGRO_KEY_RIGHT))
 		{
-			entity->Vel.x = MOVESPEED;
-			entity->Dir = DIR_EAST;
-			SetState(TE_MOVING);
+			m_entity->Vel.x = MOVESPEED;
+			m_entity->Dir = DIR_EAST;
+			SetState(ENTSTATE_MOVING);
 			m_newGridX++;
 		}
 		else if (Input::KeyDown(ALLEGRO_KEY_UP))
 		{
-			entity->Vel.y = -MOVESPEED;
-			entity->Dir = DIR_NORTH;
-			SetState(TE_MOVING);
+			m_entity->Vel.y = -MOVESPEED;
+			m_entity->Dir = DIR_NORTH;
+			SetState(ENTSTATE_MOVING);
 			m_newGridY--;
 		}
 		else if (Input::KeyDown(ALLEGRO_KEY_DOWN))
 		{
-			entity->Vel.y = MOVESPEED;
-			entity->Dir = DIR_SOUTH;
-			SetState(TE_MOVING);
+			m_entity->Vel.y = MOVESPEED;
+			m_entity->Dir = DIR_SOUTH;
+			SetState(ENTSTATE_MOVING);
 			m_newGridY++;
 		}
 
-		if (m_state == TE_MOVING && !entity->CanMoveTo(m_newGridX, m_newGridY))
+		if (m_state == ENTSTATE_MOVING && !m_entity->CanMoveTo(m_newGridX, m_newGridY))
 		{
-			entity->Vel = Vec2(0, 0);
-			SetState(TE_IDLE);
+			m_entity->Vel = Vec2(0, 0);
+			SetState(ENTSTATE_IDLE);
 		}
 		break;
-	case TE_MOVING:
-		Vec2 moved = entity->Pos - m_oldPos;
+	case ENTSTATE_MOVING:
+		Vec2 moved = m_entity->Pos - m_oldPos;
 		if (moved.Length() >= WorldGameState::BLOCK_SIZE * 0.95f)	// If it's close enough, snap to the grid position a bit early to make it less jerky when we stop moving
 		{
 			// If we've hit a warp block, trigger the area transition on the next frame
 			// Sort of hacky in that it creates a dependency on WorldGameState, but since Entities should only exist inside of an Area/WorldGameState it seems reasonable enough
-			BLOCK_T *block = entity->GetArea()->GetBlock(m_newGridX, m_newGridY);
+			BLOCK_T *block = m_entity->GetArea()->GetBlock(m_newGridX, m_newGridY);
 			if (block->warp)
 			{
-				WorldGameState *world = entity->GetArea()->GetWorldGameState();
+				WorldGameState *world = m_entity->GetArea()->GetWorldGameState();
 				world->TransitionToArea(block->warpDetails);
-				entity->Vel = Vec2(0, 0);
-				SetState(TE_IDLE);
+				m_entity->Vel = Vec2(0, 0);
+				SetState(ENTSTATE_IDLE);
 				return;
 			}
 			// Save the player position before the grid clamp and put it back afterward to smooth out continuous movement 
-			Vec2 tempPos = entity->Pos;
+			Vec2 tempPos = m_entity->Pos;
 			// Once we've moved a whole grid space, clamp to the grid
-			entity->SetGridXY(m_newGridX, m_newGridY);
-			bool keepMoving = Input::KeyDown(ALLEGRO_KEY_UP) && entity->Dir == DIR_NORTH;
-			keepMoving |= Input::KeyDown(ALLEGRO_KEY_RIGHT) && entity->Dir == DIR_EAST;
-			keepMoving |= Input::KeyDown(ALLEGRO_KEY_DOWN) && entity->Dir == DIR_SOUTH;
-			keepMoving |= Input::KeyDown(ALLEGRO_KEY_LEFT) && entity->Dir == DIR_WEST;
+			m_entity->SetGridXY(m_newGridX, m_newGridY);
+			bool keepMoving = Input::KeyDown(ALLEGRO_KEY_UP) && m_entity->Dir == DIR_NORTH;
+			keepMoving |= Input::KeyDown(ALLEGRO_KEY_RIGHT) && m_entity->Dir == DIR_EAST;
+			keepMoving |= Input::KeyDown(ALLEGRO_KEY_DOWN) && m_entity->Dir == DIR_SOUTH;
+			keepMoving |= Input::KeyDown(ALLEGRO_KEY_LEFT) && m_entity->Dir == DIR_WEST;
 			// Stay in moving state if button is held down and we can move to the next space
 			if (keepMoving)
 			{
-				switch (entity->Dir)
+				switch (m_entity->Dir)
 				{
 				case DIR_NORTH: m_newGridY--; break;
 				case DIR_EAST: m_newGridX++; break;
@@ -130,17 +130,17 @@ void PlayerInput::ProcessInput(Entity *entity, double dt)
 				}
 			}
 
-			if (keepMoving && entity->CanMoveTo(m_newGridX, m_newGridY))
+			if (keepMoving && m_entity->CanMoveTo(m_newGridX, m_newGridY))
 			{
-				m_oldPos = entity->Pos;
-				entity->Pos = tempPos;
+				m_oldPos = m_entity->Pos;
+				m_entity->Pos = tempPos;
 			}
 			else
 			{
 				// Stop here and reset to idle state
-				entity->SetGridXY(entity->GridX(), entity->GridY());
-				entity->Vel = Vec2(0, 0);
-				SetState(TE_IDLE);
+				m_entity->SetGridXY(m_entity->GridX(), m_entity->GridY());
+				m_entity->Vel = Vec2(0, 0);
+				SetState(ENTSTATE_IDLE);
 			}
 		}
 		break;
@@ -150,19 +150,20 @@ void PlayerInput::ProcessInput(Entity *entity, double dt)
 //-----------------------------------------------------------------------------
 // NPCTextInput
 //-----------------------------------------------------------------------------
-void NPCTextInput::ProcessInput(Entity *entity, double dt)
+void NPCTextInput::ProcessInput(double dt)
 {
 
 }
 
-void NPCTextInput::ReceiveMsg(COMPONENTMSG_T msg, Component *sender)
+void NPCTextInput::ReceiveMsg(COMPONENTMSG_T msg, Component *sender, Entity *source)
 {
 	if (sender == this)
 		return;
 	if (msg.type == MSG_USE)
 	{
 		// Player (presumably) interacted with the sign
-		printf("Player is reading the sign\n");
+		printf("Player is reading the sign\n"
+			"The sign says:\nGARY MOTHERFUCKING OAK WAS HERE\nGET REKT FGT\n\n");
 		// TODO: trigger text overlay in WorldGameState
 	}
 }

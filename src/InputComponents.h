@@ -2,24 +2,24 @@
 
 #include "Components.h"
 
-enum TE_STATE
+enum ENTSTATE
 {
-	TE_IDLE,
-	TE_MOVING,
+	ENTSTATE_IDLE,
+	ENTSTATE_MOVING,
 };
 
 class PlayerInput : public InputComponent
 {
 public:
-	PlayerInput(std::shared_ptr<ComponentMsgBus> bus);
+	PlayerInput(std::shared_ptr<ComponentMsgBus> bus, Entity *entity);
 	~PlayerInput(void);
 
-	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender);
-	void SetState(TE_STATE state);
-	void ProcessInput(Entity *entity, double dt);
+	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender, Entity *source);
+	void SetState(ENTSTATE state);
+	void ProcessInput(double dt);
 
 private:
-	TE_STATE m_state;
+	ENTSTATE m_state;
 	Vec2 m_oldPos;
 	int m_newGridX, m_newGridY;
 	double m_secsSinceStateChange;
@@ -28,10 +28,10 @@ private:
 class NPCTextInput : public InputComponent
 {
 public:
-	NPCTextInput(std::shared_ptr<ComponentMsgBus> bus) : InputComponent(bus) { }
+	NPCTextInput(std::shared_ptr<ComponentMsgBus> bus, Entity *entity) : InputComponent(bus, entity) { }
 	~NPCTextInput(void) { };
 
-	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender);
-	void ProcessInput(Entity *entity, double dt);
+	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender, Entity *source);
+	void ProcessInput(double dt);
 };
 

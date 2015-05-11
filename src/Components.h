@@ -9,44 +9,45 @@ class Area;
 class Component
 {
 public:
-	Component(std::shared_ptr<ComponentMsgBus> bus) :
-		m_msgBus(bus)
+	Component(std::shared_ptr<ComponentMsgBus> bus, Entity *entity) :
+		m_msgBus(bus),
+		m_entity(entity)
 	{
 		bus.get()->AddComponent(this);
 	};
 	virtual ~Component() = 0;
-	virtual void ReceiveMsg(COMPONENTMSG_T msg, Component *sender) = 0;
-	ComponentMsgBus *GetMsgBus() { return m_msgBus.get(); }
-private:
+	virtual void ReceiveMsg(COMPONENTMSG_T msg, Component *sender, Entity *source) = 0;
+protected:
 	std::shared_ptr<ComponentMsgBus> m_msgBus;
+	Entity *m_entity;
 };
 
 class InputComponent : public Component
 {
 public:
-	InputComponent(std::shared_ptr<ComponentMsgBus> bus) :
-		Component(bus)
+	InputComponent(std::shared_ptr<ComponentMsgBus> bus, Entity *entity) :
+		Component(bus, entity)
 	{}
 	virtual ~InputComponent() { }
-	virtual void ProcessInput(Entity *entity, double dt) = 0;
+	virtual void ProcessInput(double dt) = 0;
 };
 
 class RenderComponent : public Component
 {
 public:
-	RenderComponent(std::shared_ptr<ComponentMsgBus> bus) :
-		Component(bus)
+	RenderComponent(std::shared_ptr<ComponentMsgBus> bus, Entity *entity) :
+		Component(bus, entity)
 	{}
 	virtual ~RenderComponent() {};
-	virtual void Render(Entity *entity, Vec2 offset) = 0;
+	virtual void Render(Vec2 offset) = 0;
 };
 
 class MoveComponent : public Component
 {
 public:
-	MoveComponent(std::shared_ptr<ComponentMsgBus> bus) :
-		Component(bus)
+	MoveComponent(std::shared_ptr<ComponentMsgBus> bus, Entity *entity) :
+		Component(bus, entity)
 	{}
 	virtual ~MoveComponent() {};
-	virtual void Update(Entity *entity, Area *area, double dt) = 0;
+	virtual void Update(double dt) = 0;
 };

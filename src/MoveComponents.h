@@ -5,9 +5,9 @@
 class DefaultMove : public MoveComponent
 {
 public:
-	DefaultMove(std::shared_ptr<ComponentMsgBus> bus);
+	DefaultMove(std::shared_ptr<ComponentMsgBus> bus, Entity *entity);
 	~DefaultMove(void);
 
-	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender);
-	void Update(Entity *entity, Area *area, double dt);
+	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender, Entity *source);
+	void Update(double dt);
 };

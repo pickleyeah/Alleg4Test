@@ -9,9 +9,9 @@
 //-----------------------------------------------------------------------------
 // PlayerRender
 //-----------------------------------------------------------------------------
-PlayerRender::PlayerRender(std::shared_ptr<ComponentMsgBus> bus) :
-	RenderComponent(bus),
-	m_state(TE_IDLE),
+PlayerRender::PlayerRender(std::shared_ptr<ComponentMsgBus> bus, Entity *entity) :
+	RenderComponent(bus, entity),
+	m_state(ENTSTATE_IDLE),
 	m_lastStateChangeTime(0)
 {
 	m_idleSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Idle_N.png"));
@@ -25,25 +25,25 @@ PlayerRender::PlayerRender(std::shared_ptr<ComponentMsgBus> bus) :
 	m_walkSprites.push_back(Sprite::GetSprite("Data/Sprites/Player_Walk_W.png"));
 }
 
-void PlayerRender::ReceiveMsg(COMPONENTMSG_T msg, Component *sender)
+void PlayerRender::ReceiveMsg(COMPONENTMSG_T msg, Component *sender, Entity *source)
 {
 	if (sender == this)
 		return;
 	switch (msg.type)
 	{
 	case MSG_STATECHANGE:
-		m_state = *((TE_STATE*)msg.data.get());
+		m_state = *((ENTSTATE*)msg.data.get());
 		m_lastStateChangeTime = GameTime::TotalElapsedTime();
 		break;
 	}
 }
 
-void PlayerRender::Render(Entity *entity, Vec2 offset)
+void PlayerRender::Render(Vec2 offset)
 {
 	double secsSinceStateChange = GameTime::TotalElapsedTime() - m_lastStateChangeTime;
 
-	Vec2 Pos = entity->Pos;
-	Vec2 Size = entity->Size;
+	Vec2 Pos = m_entity->Pos;
+	Vec2 Size = m_entity->Size;
 
 	int x = offset.x + Pos.x;
 	int y = offset.y + Pos.y;
@@ -51,11 +51,11 @@ void PlayerRender::Render(Entity *entity, Vec2 offset)
 	Sprite *sprite = nullptr;
 	switch (m_state)
 	{
-	case TE_IDLE:
-		sprite = m_idleSprites[entity->Dir];
+	case ENTSTATE_IDLE:
+		sprite = m_idleSprites[m_entity->Dir];
 		break;
-	case TE_MOVING:
-		sprite = m_walkSprites[entity->Dir];
+	case ENTSTATE_MOVING:
+		sprite = m_walkSprites[m_entity->Dir];
 		break;
 	}
 	sprite->Render(secsSinceStateChange, x, y);
@@ -64,23 +64,23 @@ void PlayerRender::Render(Entity *entity, Vec2 offset)
 //-----------------------------------------------------------------------------
 // PropRender
 //-----------------------------------------------------------------------------
-PropRender::PropRender(std::shared_ptr<ComponentMsgBus> bus) :
-	RenderComponent(bus),
+PropRender::PropRender(std::shared_ptr<ComponentMsgBus> bus, Entity *entity) :
+	RenderComponent(bus, entity),
 	m_lastStateChangeTime(0),
 	m_sprite(0)
 {
 }
 
-void PropRender::ReceiveMsg(COMPONENTMSG_T msg, Component *sender)
+void PropRender::ReceiveMsg(COMPONENTMSG_T msg, Component *sender, Entity *source)
 {
 	if (sender == this)
 		return;
 }
 
-void PropRender::Render(Entity *entity, Vec2 offset)
+void PropRender::Render(Vec2 offset)
 {
 	double secsSinceStateChange = GameTime::TotalElapsedTime() - m_lastStateChangeTime;
-	int x = offset.x + entity->Pos.x;
-	int y = offset.y + entity->Pos.y;
+	int x = offset.x + m_entity->Pos.x;
+	int y = offset.y + m_entity->Pos.y;
 	m_sprite->Render(secsSinceStateChange, x, y);
 }

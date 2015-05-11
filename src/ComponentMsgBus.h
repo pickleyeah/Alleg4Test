@@ -16,6 +16,7 @@ struct COMPONENTMSG_T
 };
 
 class Component;
+class Entity;
 
 class ComponentMsgBus
 {
@@ -23,7 +24,7 @@ public:
 	ComponentMsgBus();
 	~ComponentMsgBus();
 	void AddComponent(Component *c) { m_components.push_back(c); }
-	void Send(COMPONENTMSG_T msg, Component *sender);
+	void Send(COMPONENTMSG_T msg, Component *sender, Entity *source);
 private:
 	std::vector<Component*> m_components;
 };

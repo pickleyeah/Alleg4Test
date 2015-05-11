@@ -11,13 +11,13 @@ class PlayerInput;
 class PlayerRender : public RenderComponent
 {
 public:
-	PlayerRender(std::shared_ptr<ComponentMsgBus> bus);
+	PlayerRender(std::shared_ptr<ComponentMsgBus> bus, Entity *entity);
 
-	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender);
-	void Render(Entity *entity, Vec2 offset);
+	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender, Entity *source);
+	void Render(Vec2 offset);
 
 private:
-	TE_STATE m_state;
+	ENTSTATE m_state;
 	double m_lastStateChangeTime;
 
 	PlayerInput *m_input;
@@ -28,10 +28,10 @@ private:
 class PropRender : public RenderComponent
 {
 public:
-	PropRender(std::shared_ptr<ComponentMsgBus> bus);
+	PropRender(std::shared_ptr<ComponentMsgBus> bus, Entity *entity);
 	void SetSprite(Sprite *sprite) { m_sprite = sprite; }
-	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender);
-	void Render(Entity *entity, Vec2 offset);
+	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender, Entity *source);
+	void Render(Vec2 offset);
 private:
 	double m_lastStateChangeTime;
 	Sprite *m_sprite;

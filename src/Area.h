@@ -81,6 +81,7 @@ public:
 	void Update(double dt);
 	void Render(Vec2 offset);
 	void DrawGrid(Vec2 offset);
+	void BroadcastMsgToEntities(COMPONENTMSG_T msg, Component *sender, Entity *source);
 
 private:
 	WorldGameState *m_worldGameState;
