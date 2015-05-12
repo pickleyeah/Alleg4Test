@@ -156,4 +156,7 @@
   <ItemGroup>
     <None Include="Data\Sprites.psl" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="todo.txt" />
+  </ItemGroup>
 </Project>
