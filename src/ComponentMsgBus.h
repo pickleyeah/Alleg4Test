@@ -1,5 +1,4 @@
-#ifndef COMPONENTMSGBUS_H
-#define COMPONENTMSGBUS_H
+#pragma once
 
 #include <vector>
 
@@ -28,5 +27,3 @@ public:
 private:
 	std::vector<Component*> m_components;
 };
-
-#endif
