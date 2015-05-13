@@ -101,6 +101,8 @@ void WorldGameState::Render(Game *game, ALLEGRO_BITMAP *buffer)
 	{
 		Vec2 topLeft(0, al_get_bitmap_height(buffer) / 3 * 2);
 		Vec2 bottomRight(al_get_bitmap_width(buffer), al_get_bitmap_height(buffer));
+		topLeft = topLeft + Vec2(32, 32);
+		bottomRight = bottomRight - Vec2(32, 32);
 		al_draw_filled_rectangle(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y, al_map_rgba_f(1, 1, 1, 1));
 		Vec2 textPos = topLeft + Vec2(32, 32);
 		al_draw_textf(m_font, al_map_rgb(0,0,0), textPos.x, textPos.y, 0, m_npcText->Strings[0].c_str());
