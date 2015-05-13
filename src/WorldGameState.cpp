@@ -65,7 +65,12 @@ void WorldGameState::ProcessInput(double dt)
 		break;
 	case WORLDSTATE_NPCTEXT_WAITFORPLAYER:
 		if (Input::KeyPressed(ALLEGRO_KEY_SPACE))
-			m_state = WORLDSTATE_NORMAL;
+		{
+			if (++m_npcTextIndex >= m_npcText->Strings.size())
+				m_state = WORLDSTATE_NORMAL;
+			else
+				m_state = WORLDSTATE_NPCTEXT_WRITING;
+		}
 		break;
 	}
 }
@@ -105,7 +110,7 @@ void WorldGameState::Render(Game *game, ALLEGRO_BITMAP *buffer)
 		bottomRight = bottomRight - Vec2(32, 32);
 		al_draw_filled_rectangle(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y, al_map_rgba_f(1, 1, 1, 1));
 		Vec2 textPos = topLeft + Vec2(32, 32);
-		al_draw_textf(m_font, al_map_rgb(0,0,0), textPos.x, textPos.y, 0, m_npcText->Strings[0].c_str());
+		al_draw_textf(m_font, al_map_rgb(0, 0, 0), textPos.x, textPos.y, 0, m_npcText->Strings[m_npcTextIndex].c_str());
 	}
 
 	// Draw fade if applicable
@@ -135,6 +140,7 @@ void WorldGameState::TriggerAreaTransition(WARPDETAILS_T *details)
 void WorldGameState::TriggerNPCTextDisplay(NPCText *text)
 {
 	m_npcText = text;
+	m_npcTextIndex = 0;
 	m_state = WORLDSTATE_NPCTEXT_WRITING;
 }
 

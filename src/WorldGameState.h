@@ -48,6 +48,7 @@ private:
 	Area* m_newArea;
 
 	NPCText* m_npcText;
+	int m_npcTextIndex;
 	ALLEGRO_FONT *m_font;
 };
 

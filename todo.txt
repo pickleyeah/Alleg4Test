@@ -6,11 +6,11 @@ Area:
 - Fix up m_entities (make into a vector of smart pointers or something)
 
 XMLAreaLoader:
-- Finish implementing Entity loading and Component loading
-- Get a level loaded and working in game
+- Finish implementing Entity loading and Component loading (Done)
+- Get a level loaded and working in game (Done)
 
 WorldGameState:
-- Add ability to scroll through multi-line text messages on screen
+- Add ability to scroll through multi-line text messages on screen (Done)
 - Fix text font size
 
 
