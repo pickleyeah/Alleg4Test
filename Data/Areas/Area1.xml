@@ -1,0 +1,306 @@
+<?xml version="1.0" ?>
+<Area width="16" height="16">
+	<Blocks>
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+
+		<Block flags="0" sprite="Data/Tiles/Grass.png">
+			<Warp>
+				<Area>Data/Areas/Area2.xml</Area>
+				<Pos>
+					<x>2</x>
+					<y>3</y>
+				</Pos>
+				<Dir>0</Dir>
+			</Warp>
+		</Block>
+
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+
+
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+
+
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="15" sprite="Data/Tiles/Water.png" />
+		<Block flags="15" sprite="Data/Tiles/Water.png" />
+		<Block flags="15" sprite="Data/Tiles/Water.png" />
+		<Block flags="15" sprite="Data/Tiles/Water.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+
+
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="15" sprite="Data/Tiles/Water.png" />
+		<Block flags="15" sprite="Data/Tiles/Water.png" />
+		<Block flags="15" sprite="Data/Tiles/Water.png" />
+		<Block flags="15" sprite="Data/Tiles/Water.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="15" sprite="Data/Tiles/Water.png" />
+		<Block flags="15" sprite="Data/Tiles/Water.png" />
+		<Block flags="15" sprite="Data/Tiles/Water.png" />
+		<Block flags="15" sprite="Data/Tiles/Water.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="15" sprite="Data/Tiles/Water.png" />
+		<Block flags="15" sprite="Data/Tiles/Water.png" />
+		<Block flags="15" sprite="Data/Tiles/Water.png" />
+		<Block flags="15" sprite="Data/Tiles/Water.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+	</Blocks>
+	
+	<Entities>
+		<Entity>
+			<Pos>
+				<x>3</x>
+				<y>0</y>
+			</Pos>
+			<Size>
+				<x>1</x>
+				<y>1</y>
+			</Size>
+			<Dir>0</Dir>
+			
+			<InputComponent type="NPCTextInput">
+				<NPCText>
+					<NPCTextLine>YOU ARE READING A SIGN. CONGRATULATIONS!</NPCTextLine>
+				</NPCText>
+			</InputComponent>
+			
+			<MoveComponent type="DefaultMove" />
+			
+			<RenderComponent type="PropRender">
+				<Sprite>Data/Sprites/Sign.png</Sprite>
+			</RenderComponent>
+		</Entity>
+	</Entities>
+</Area>

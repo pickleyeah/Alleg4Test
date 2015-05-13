@@ -29,7 +29,7 @@ void WorldGameState::Init()
 	// Preload sprites
 	Sprite::PreloadSpriteList("Data/Sprites.psl");
 
-	m_area = XMLAreaLoader::LoadAreaFromXMLFile("Data/Areas/area.xml", this);
+	m_area = XMLAreaLoader::LoadAreaFromXMLFile("Data/Areas/Area1.xml", this);
 	m_area->SetPlayer(Entity::CreateEntity("Player"));
 	m_area->SetStartPosAndDir(Vec2(0, 0), DIR_SOUTH);
 	m_area->Init();
@@ -130,8 +130,9 @@ void WorldGameState::Render(Game *game, ALLEGRO_BITMAP *buffer)
 
 void WorldGameState::TriggerAreaTransition(WARPDETAILS_T *details)
 {
-	m_newArea = Area::LoadArea(details->area.c_str(), m_area->GetPlayer(), this);
+	m_newArea = XMLAreaLoader::LoadAreaFromXMLFile(details->area.c_str(), this);
 	m_newArea->SetStartPosAndDir(details->pos, details->dir);
+	m_newArea->SetPlayer(m_area->GetPlayer());
 	
 	m_state = WORLDSTATE_FADEOUT;
 	m_transitionTime = FADE_PERIOD;
