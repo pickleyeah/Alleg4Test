@@ -15,7 +15,8 @@ class Entity
 {
 public:
 	static Entity* CreateEntity(std::string type);
-
+	//Entity(void);
+	Entity(InputComponent *input, MoveComponent *move, RenderComponent *render);
 	~Entity(void);
 
 	void Init(Area *area);
@@ -32,6 +33,8 @@ public:
 	// Getters/setters
 	Area *GetArea() { return m_area; }
 	void SetArea(Area *area) { m_area = area; } // Used on Area transitions
+
+	void SetMsgBus(ComponentMsgBus* bus) { m_msgBus = bus; }
 
 	bool Alive() { return m_alive; }
 	void SetAlive(bool alive) { m_alive = alive; }
@@ -51,8 +54,6 @@ public:
 	DIR Dir;
 
 private:
-	Entity(void);
-
 	int m_gridX, m_gridY;
 	Area *m_area;
 	float m_timeAlive;

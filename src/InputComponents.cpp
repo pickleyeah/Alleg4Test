@@ -6,8 +6,8 @@
 //-----------------------------------------------------------------------------
 // PlayerInput
 //-----------------------------------------------------------------------------
-PlayerInput::PlayerInput(std::shared_ptr<ComponentMsgBus> bus, Entity *entity) :
-	InputComponent(bus, entity),
+PlayerInput::PlayerInput(std::shared_ptr<ComponentMsgBus> bus) :
+	InputComponent(bus),
 	m_secsSinceStateChange(0),
 	m_state(ENTSTATE_IDLE)
 {

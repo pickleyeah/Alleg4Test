@@ -9,8 +9,8 @@
 //-----------------------------------------------------------------------------
 // PlayerRender
 //-----------------------------------------------------------------------------
-PlayerRender::PlayerRender(std::shared_ptr<ComponentMsgBus> bus, Entity *entity) :
-	RenderComponent(bus, entity),
+PlayerRender::PlayerRender(std::shared_ptr<ComponentMsgBus> bus) :
+	RenderComponent(bus),
 	m_state(ENTSTATE_IDLE),
 	m_lastStateChangeTime(0)
 {
@@ -64,8 +64,8 @@ void PlayerRender::Render(Vec2 offset)
 //-----------------------------------------------------------------------------
 // PropRender
 //-----------------------------------------------------------------------------
-PropRender::PropRender(std::shared_ptr<ComponentMsgBus> bus, Entity *entity) :
-	RenderComponent(bus, entity),
+PropRender::PropRender(std::shared_ptr<ComponentMsgBus> bus) :
+	RenderComponent(bus),
 	m_lastStateChangeTime(0),
 	m_sprite(0)
 {

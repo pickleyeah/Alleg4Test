@@ -29,10 +29,9 @@ void WorldGameState::Init()
 	// Preload sprites
 	Sprite::PreloadSpriteList("Data/Sprites.psl");
 
-	Area* xmlArea = XMLAreaLoader::LoadAreaFromXMLFile("Data/Areas/area.xml", this);
-
-	m_area = Area::LoadArea("Data/Areas/Area1.lvl", nullptr, this);
-	m_area->SetStartPosAndDir(Vec2(1, 1), DIR_SOUTH);
+	m_area = XMLAreaLoader::LoadAreaFromXMLFile("Data/Areas/area.xml", this);
+	m_area->SetPlayer(Entity::CreateEntity("Player"));
+	m_area->SetStartPosAndDir(Vec2(0, 0), DIR_SOUTH);
 	m_area->Init();
 
 	m_font = al_create_builtin_font();

@@ -1,7 +1,6 @@
 <?xml version="1.0" ?>
-<Area width="2" height="2">
+<Area width="3" height="2">
 	<Blocks>
-		<Block flags="0" sprite="Data/Tiles/Grass.png" />
 		<Block flags="0" sprite="Data/Tiles/Grass.png" />
 		<Block flags="0" sprite="Data/Tiles/Grass.png" />
 		<Block flags="0" sprite="Data/Tiles/Grass.png">
@@ -14,6 +13,9 @@
 				<Dir>0</Dir>
 			</Warp>
 		</Block>
+		<Block flags="0" sprite="Data/Tiles/Boulder.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
 	</Blocks>
 	
 	<Entities>

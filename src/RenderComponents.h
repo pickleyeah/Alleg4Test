@@ -11,7 +11,7 @@ class PlayerInput;
 class PlayerRender : public RenderComponent
 {
 public:
-	PlayerRender(std::shared_ptr<ComponentMsgBus> bus, Entity *entity);
+	PlayerRender(std::shared_ptr<ComponentMsgBus> bus);
 
 	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender, Entity *source);
 	void Render(Vec2 offset);
@@ -28,8 +28,8 @@ private:
 class PropRender : public RenderComponent
 {
 public:
-	PropRender(std::shared_ptr<ComponentMsgBus> bus, Entity *entity);
-	void SetSprite(Sprite *sprite) { m_sprite = sprite; }
+	PropRender(std::shared_ptr<ComponentMsgBus> bus);
+	void SetSprite(const char* spriteFile) { m_sprite = Sprite::GetSprite(spriteFile); }
 	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender, Entity *source);
 	void Render(Vec2 offset);
 private:

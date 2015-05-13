@@ -5,10 +5,16 @@
 #include "WorldGameState.h"
 
 
-Entity::Entity(void) :
+Entity::Entity(InputComponent *input, MoveComponent *move, RenderComponent *render) :
+	m_input(std::unique_ptr<InputComponent>(input)),
+	m_move(std::unique_ptr<MoveComponent>(move)),
+	m_render(std::unique_ptr<RenderComponent>(render)),
 	m_area(nullptr),
 	m_msgBus(nullptr)
 {
+	m_input->SetEntity(this);
+	m_move->SetEntity(this);
+	m_render->SetEntity(this);
 }
 
 
@@ -24,35 +30,37 @@ Entity::~Entity(void)
 //-------------------------------------------------------------------------------
 Entity* Entity::CreateEntity(std::string type)
 {
-	auto msgBus = std::make_shared<ComponentMsgBus>();
-	Entity* result = new Entity();
-	result->m_msgBus = msgBus.get();	// Give the container Entity object a pointer to the message bus to enable cross-Entity communication
+	std::shared_ptr<ComponentMsgBus> msgBus = std::make_shared<ComponentMsgBus>();
+	InputComponent *input;
+	MoveComponent *move;
+	RenderComponent *render;
+	Entity* result;
 	if (type == "Player")
 	{
-		result->m_input = std::unique_ptr<InputComponent>(new PlayerInput(msgBus, result));
-		result->m_move = std::unique_ptr<MoveComponent>(new DefaultMove(msgBus, result));
-		result->m_render = std::unique_ptr<RenderComponent>(new PlayerRender(msgBus, result));
-		result->Size = Vec2(WorldGameState::BLOCK_SIZE, WorldGameState::BLOCK_SIZE);
+		input = new PlayerInput(msgBus);
+		move = new DefaultMove(msgBus);
+		render = new PlayerRender(msgBus);
 	}
 	else if (type == "Sign")
 	{
-		auto signText = new NPCText();
+		input = new NPCTextInput(msgBus);
+		NPCText *signText = new NPCText();
 		signText->Strings.push_back("YOU ARE READING A SIGN. CONGRATULATIONS!");
-		auto input = new NPCTextInput(msgBus, result);
-		input->SetText(signText); // Transfer ownership of NPCText pointer to the component
-		result->m_input = std::unique_ptr<InputComponent>(input);
+		((NPCTextInput*)input)->SetText(signText);
 
-		result->m_move = std::unique_ptr<MoveComponent>(new DefaultMove(msgBus, result));
-		auto render = new PropRender(msgBus, result);
-		render->SetSprite(Sprite::GetSprite("Data/Sprites/Sign.png"));
-		result->m_render = std::unique_ptr<RenderComponent>(render);
-		result->Size = Vec2(WorldGameState::BLOCK_SIZE, WorldGameState::BLOCK_SIZE);
+		move = new DefaultMove(msgBus);
+
+		render = new PropRender(msgBus);
+		((PropRender*)render)->SetSprite("Data/Sprites/Sign.png");
 	}
 	else
 	{
 		throw std::exception("Unrecognised player type");
 	}
+	result = new Entity(input, move, render);
 	result->Dir = DIR_NORTH;
+	result->Size = Vec2(WorldGameState::BLOCK_SIZE, WorldGameState::BLOCK_SIZE);
+	result->SetMsgBus(msgBus.get());	// Give the container Entity object a pointer to the message bus to enable cross-Entity communication
 
 	return result;
 }

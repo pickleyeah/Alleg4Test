@@ -1,4 +1,7 @@
 #include "XMLAreaLoader.h"
+#include "InputComponents.h"
+#include "MoveComponents.h"
+#include "RenderComponents.h"
 
 Area *XMLAreaLoader::LoadAreaFromXMLFile(const char* filename, WorldGameState *world)
 {
@@ -13,33 +16,40 @@ Area *XMLAreaLoader::LoadArea(tinyxml2::XMLElement *element, WorldGameState *wor
 	int width = atoi(element->Attribute("width"));
 	int height = atoi(element->Attribute("height"));
 	Area *result = new Area(Vec2(width, height), world);
-	tinyxml2::XMLElement *blockNode = element->FirstChildElement("Blocks")->FirstChildElement("Block");
+	tinyxml2::XMLElement *blockElement = element->FirstChildElement("Blocks")->FirstChildElement("Block");
 	int iBlock = 0;
-	while (blockNode != NULL)
+	while (blockElement != NULL)
 	{
 		if (iBlock >= width*height)
 			throw std::exception();
-		result->m_blocks[iBlock] = LoadBlock(blockNode);
+		LoadBlock(result->GetBlock(iBlock % width, iBlock / width), blockElement);
 		printf("block - flags: %d sprite: %s\n", result->m_blocks[iBlock].colMask, result->m_blocks[iBlock].spriteName);
 
-		blockNode = blockNode->NextSiblingElement("Block");
+		blockElement = blockElement->NextSiblingElement("Block");
 		iBlock++;
 	}
+
+	tinyxml2::XMLElement *entityElement = element->FirstChildElement("Entities")->FirstChildElement("Entity");
+	while (entityElement)
+	{
+		result->m_entities.push_back(LoadEntity(entityElement));
+		entityElement = entityElement->NextSiblingElement("Entity");
+	}
+
 	return result;
 }
 
-BLOCK_T XMLAreaLoader::LoadBlock(tinyxml2::XMLElement *element)
+void XMLAreaLoader::LoadBlock(BLOCK_T *result, tinyxml2::XMLElement *element)
 {
-	BLOCK_T result;
-	result.colMask = atoi(element->Attribute("flags"));
-	sprintf(result.spriteName, "%s", element->Attribute("sprite"));
+	result->colMask = atoi(element->Attribute("flags"));
+	sprintf(result->spriteName, "%s", element->Attribute("sprite"));
 	tinyxml2::XMLElement *warpElement = element->FirstChildElement("Warp");
 	if (warpElement)
 	{
-		result.warpDetails = new WARPDETAILS_T(LoadWarpDetails(warpElement));
-		printf("warp - area: %s dir: %d pos.x: %d pos.y: %d\n", result.warpDetails->area.c_str(), result.warpDetails->dir, result.warpDetails->pos.x, result.warpDetails->pos.y);
+		result->warp = true;
+		result->warpDetails = new WARPDETAILS_T(LoadWarpDetails(warpElement));
+		printf("warp - area: %s dir: %d pos.x: %f pos.y: %f\n", result->warpDetails->area.c_str(), result->warpDetails->dir, result->warpDetails->pos.x, result->warpDetails->pos.y);
 	}
-	return result;
 }
 
 WARPDETAILS_T XMLAreaLoader::LoadWarpDetails(tinyxml2::XMLElement *element)
@@ -61,20 +71,60 @@ Vec2 XMLAreaLoader::LoadVec2(tinyxml2::XMLElement *element)
 
 Entity *XMLAreaLoader::LoadEntity(tinyxml2::XMLElement *element)
 {
-	throw std::exception("lel");
+	auto bus = std::make_shared<ComponentMsgBus>();
+	InputComponent *input = LoadInputComponent(element->FirstChildElement("InputComponent"), bus);
+	MoveComponent *move = LoadMoveComponent(element->FirstChildElement("MoveComponent"), bus);
+	RenderComponent *render = LoadRenderComponent(element->FirstChildElement("RenderComponent"), bus);
+	Entity *result = new Entity(input, move, render);
+	result->Dir = (DIR)atoi(element->FirstChildElement("Dir")->GetText());
+	result->Size = LoadVec2(element->FirstChildElement("Size")) * 64;
+	Vec2 gridPos = LoadVec2(element->FirstChildElement("Pos"));
+	result->SetGridXY((int)gridPos.x, (int)gridPos.y);
+	result->SetMsgBus(bus.get());
+	return result;
 }
 
-InputComponent *XMLAreaLoader::LoadInputComponent(tinyxml2::XMLElement *element)
+InputComponent *XMLAreaLoader::LoadInputComponent(tinyxml2::XMLElement *element, std::shared_ptr<ComponentMsgBus> bus)
 {
-	throw std::exception("lel");
+	std::string type = element->Attribute("type");
+	InputComponent *result = nullptr;
+	if (type == "NPCTextInput")
+	{
+		result = new NPCTextInput(bus);
+		NPCTextInput *npcInput = dynamic_cast<NPCTextInput*>(result);
+		tinyxml2::XMLElement *textElement = element->FirstChildElement("NPCText")->FirstChildElement("NPCTextLine");
+		NPCText *strings = new NPCText();
+		while (textElement)
+		{
+			strings->Strings.push_back(textElement->GetText());
+			textElement = textElement->NextSiblingElement("NPCTextLine");
+		}
+		npcInput->SetText(strings);
+	}
+	// TODO: Add handlers for more InputComponent types here
+
+	return result;
 }
 
-MoveComponent *XMLAreaLoader::LoadMoveComponent(tinyxml2::XMLElement *element)
+MoveComponent *XMLAreaLoader::LoadMoveComponent(tinyxml2::XMLElement *element, std::shared_ptr<ComponentMsgBus> bus)
 {
-	throw std::exception("lel");
+	std::string type = element->Attribute("type");
+	MoveComponent *result = nullptr;
+	if (type == "DefaultMove")
+	{
+		result = new DefaultMove(bus);
+	}
+	return result;
 }
 
-RenderComponent *XMLAreaLoader::LoadRenderComponent(tinyxml2::XMLElement *element)
+RenderComponent *XMLAreaLoader::LoadRenderComponent(tinyxml2::XMLElement *element, std::shared_ptr<ComponentMsgBus> bus)
 {
-	throw std::exception("lel");
+	std::string type = element->Attribute("type");
+	RenderComponent *result = nullptr;
+	if (type == "PropRender")
+	{
+		result = new PropRender(bus);
+		((PropRender*)result)->SetSprite(element->FirstChildElement("Sprite")->GetText());
+	}
+	return result;
 }

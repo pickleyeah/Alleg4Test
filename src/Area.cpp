@@ -205,8 +205,9 @@ void Area::Render(Vec2 offset)
 	if (m_showGrid)
 		DrawGrid(offset);
 
+	// Move the entity just a little bit higher to give the illusion of depth
 	for (size_t i = 0; i < m_entities.size(); i++)
-		m_entities[i]->Render(offset);
+		m_entities[i]->Render(offset + Vec2(0,-12));
 
 	// Borders
 	/*al_draw_filled_rectangle(0, 0, 32, Game::SCREEN_Y, al_map_rgb(32, 32, 32));

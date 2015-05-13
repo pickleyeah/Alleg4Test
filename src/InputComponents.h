@@ -11,7 +11,7 @@ enum ENTSTATE
 class PlayerInput : public InputComponent
 {
 public:
-	PlayerInput(std::shared_ptr<ComponentMsgBus> bus, Entity *entity);
+	PlayerInput(std::shared_ptr<ComponentMsgBus> bus);
 	~PlayerInput(void);
 
 	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender, Entity *source);
@@ -34,7 +34,7 @@ public:
 class NPCTextInput : public InputComponent
 {
 public:
-	NPCTextInput(std::shared_ptr<ComponentMsgBus> bus, Entity *entity) : InputComponent(bus, entity) { }
+	NPCTextInput(std::shared_ptr<ComponentMsgBus> bus) : InputComponent(bus) { }
 	~NPCTextInput(void) { };
 
 	void ReceiveMsg(COMPONENTMSG_T msg, Component *sender, Entity *source);

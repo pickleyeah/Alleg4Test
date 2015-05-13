@@ -37,13 +37,13 @@ struct WARPDETAILS_T
 class BLOCK_T
 {
 public:
-	BLOCK_T() : colMask(0), warp(false)
+	BLOCK_T() : colMask(0), warp(false), warpDetails(nullptr)
 	{
 		sprintf(spriteName, "none");
 	}
 	~BLOCK_T()
 	{
-		if (warp)
+		if (warpDetails != nullptr)
 			delete warpDetails;
 	}
 	char colMask;

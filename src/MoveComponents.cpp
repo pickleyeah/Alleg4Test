@@ -3,8 +3,8 @@
 #include "Entity.h"
 
 
-DefaultMove::DefaultMove(std::shared_ptr<ComponentMsgBus> bus, Entity *entity) :
-	MoveComponent(bus, entity)
+DefaultMove::DefaultMove(std::shared_ptr<ComponentMsgBus> bus) :
+	MoveComponent(bus)
 {
 }
 
