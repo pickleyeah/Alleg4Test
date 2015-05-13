@@ -28,6 +28,9 @@
     <Filter Include="Entities">
       <UniqueIdentifier>{c658660d-8ff4-467e-8351-a49546c76ae3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Util\tinyxml2">
+      <UniqueIdentifier>{a9b33021-8718-47b5-97d4-130a6d82a95d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp">
@@ -84,6 +87,12 @@
     <ClCompile Include="src\GameTime.cpp">
       <Filter>Util</Filter>
     </ClCompile>
+    <ClCompile Include="src\tinyxml2\tinyxml2.cpp">
+      <Filter>Util\tinyxml2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\XMLAreaLoader.cpp">
+      <Filter>Areas</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h">
@@ -137,8 +146,17 @@
     <ClInclude Include="src\GameTime.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="src\tinyxml2\tinyxml2.h">
+      <Filter>Util\tinyxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="src\XMLAreaLoader.h">
+      <Filter>Areas</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\Sprites.psl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="todo.txt" />
   </ItemGroup>
 </Project>

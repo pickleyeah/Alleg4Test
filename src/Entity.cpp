@@ -37,7 +37,7 @@ Entity* Entity::CreateEntity(std::string type)
 	else if (type == "Sign")
 	{
 		auto signText = new NPCText();
-		signText->Strings.push_back("GARY MOTHERFUCKING OAK WAS HERE\nGET REKT FGT\n");
+		signText->Strings.push_back("YOU ARE READING A SIGN. CONGRATULATIONS!");
 		auto input = new NPCTextInput(msgBus, result);
 		input->SetText(signText); // Transfer ownership of NPCText pointer to the component
 		result->m_input = std::unique_ptr<InputComponent>(input);

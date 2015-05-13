@@ -163,7 +163,7 @@ void NPCTextInput::ReceiveMsg(COMPONENTMSG_T msg, Component *sender, Entity *sou
 	{
 		// Player (presumably) interacted with the sign
 		printf("Player is reading the sign\n"
-			"The sign says:\nGARY MOTHERFUCKING OAK WAS HERE\nGET REKT FGT\n\n");
+			"The sign says:\n%s\n\n", m_text.get()->Strings[0].c_str());
 		// TODO: trigger text overlay in WorldGameState
 		source->GetArea()->GetWorldGameState()->TriggerNPCTextDisplay(m_text.get());
 	}

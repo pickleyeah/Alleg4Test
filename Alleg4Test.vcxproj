@@ -25,6 +25,7 @@
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameState.cpp" />
+    <ClCompile Include="src\tinyxml2\tinyxml2.cpp" />
     <ClCompile Include="src\WorldGameState.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Vec2.cpp" />
@@ -32,6 +33,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\XMLAreaLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ComponentMsgBus.h" />
@@ -48,12 +50,17 @@
     <ClInclude Include="src\Entity.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GameState.h" />
+    <ClInclude Include="src\tinyxml2\tinyxml2.h" />
     <ClInclude Include="src\WorldGameState.h" />
     <ClInclude Include="src\Vec2.h" />
     <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\XMLAreaLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\Sprites.psl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="todo.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E01C5638-F8EB-4F16-9F15-370C979F8DCF}</ProjectGuid>

@@ -1,0 +1,19 @@
+TODO List:
+
+Area:
+- Refactor structures, change BLOCK_T colMask to int size bitmask, make char arrays strings, etc.
+- Add setter methods for player, worldstate, entities, so a factory class can create an Area without private access
+- Fix up m_entities (make into a vector of smart pointers or something)
+
+XMLAreaLoader:
+- Finish implementing Entity loading and Component loading
+- Get a level loaded and working in game
+
+WorldGameState:
+- Add ability to scroll through multi-line text messages on screen
+- Fix text font size
+
+
+Other:
+- Design level editor (C#, XNA, Direct2D?)
+- Implement basic NPC (extend from current state of Sign)

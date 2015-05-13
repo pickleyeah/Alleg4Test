@@ -27,11 +27,11 @@ enum COL_MASK
 	COL_ALL = 0x0f,
 };
 
-struct WARP_DETAILS_T
+struct WARPDETAILS_T
 {
-	const char areaName[32];
-	Vec2 startPos;
-	DIR startDir;
+	std::string area;
+	Vec2 pos;
+	DIR dir;
 };
 
 class BLOCK_T
@@ -49,7 +49,7 @@ public:
 	char colMask;
 	char spriteName[64];
 	bool warp;
-	WARP_DETAILS_T *warpDetails;
+	WARPDETAILS_T *warpDetails;
 };
 
 class WorldGameState;
@@ -57,6 +57,7 @@ class WorldGameState;
 class Area
 {
 public:
+	friend class XMLAreaLoader;
 	static const char Area::MAGIC_NUM[];
 	static Area* LoadArea(const char* filename, Entity *player, WorldGameState *world);
 	void Write(const char* filename);

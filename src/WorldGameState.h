@@ -33,7 +33,7 @@ public:
 	void Update(Game *game, double dt);
 	void Render(Game *game, ALLEGRO_BITMAP *buffer);
 
-	void TriggerAreaTransition(WARP_DETAILS_T *details);
+	void TriggerAreaTransition(WARPDETAILS_T *details);
 	void TriggerNPCTextDisplay(NPCText *text);
 
 private:

@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<Area width="2" height="2">
+	<Blocks>
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png" />
+		<Block flags="0" sprite="Data/Tiles/Grass.png">
+			<Warp>
+				<Area>Data/Areas/Area2.lvl</Area>
+				<Pos>
+					<x>1</x>
+					<y>1</y>
+				</Pos>
+				<Dir>0</Dir>
+			</Warp>
+		</Block>
+	</Blocks>
+	
+	<Entities>
+		<Entity>
+			<Pos>
+				<x>1</x>
+				<y>1</y>
+			</Pos>
+			<Size>
+				<x>1</x>
+				<y>1</y>
+			</Size>
+			<Dir>0</Dir>
+			
+			<InputComponent type="NPCTextInput">
+				<NPCText>
+					<NPCTextLine>Hello, world</NPCTextLine>
+					<NPCTextLine>Another line</NPCTextLine>
+				</NPCText>
+			</InputComponent>
+			
+			<MoveComponent type="DefaultMove" />
+			
+			<RenderComponent type="PropRender">
+				<Sprite>Data/Sprites/Sign.png</Sprite>
+			</RenderComponent>
+		</Entity>
+	</Entities>
+</Area>

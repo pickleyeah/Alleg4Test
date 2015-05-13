@@ -11,7 +11,9 @@ Area::Area(Vec2 size, WorldGameState *world) :
 	m_showGrid(false),
 	m_worldGameState(world),
 	m_startPos(Vec2(0,0)),
-	m_startDir(DIR_SOUTH)
+	m_startDir(DIR_SOUTH),
+	m_player(nullptr),
+	m_elapsedTime(0)
 {
 	m_blocks = std::unique_ptr<BLOCK_T[]>(new BLOCK_T[(int)(size.x * size.y)]);
 	m_sprites.resize(COL_ALL+1, nullptr);
@@ -79,8 +81,12 @@ Area* Area::LoadArea(const char* filename, Entity *player, WorldGameState *world
 		fread(&result->m_blocks[i].warp, sizeof(result->m_blocks[i].warp), 1, fp);
 		if (result->m_blocks[i].warp)
 		{
-			result->m_blocks[i].warpDetails = new WARP_DETAILS_T{ "" };
-			fread(result->m_blocks[i].warpDetails, sizeof(*result->m_blocks[i].warpDetails), 1, fp);
+			result->m_blocks[i].warpDetails = new WARPDETAILS_T{ "" };
+			char areaName[32];
+			fread(areaName, 1, 32, fp);
+			result->m_blocks[i].warpDetails->area = std::string(areaName);
+			fread(&result->m_blocks[i].warpDetails->pos, sizeof(result->m_blocks[i].warpDetails->pos), 1, fp);
+			fread(&result->m_blocks[i].warpDetails->dir, sizeof(result->m_blocks[i].warpDetails->dir), 1, fp);
 		}
 	}
 	fclose(fp);

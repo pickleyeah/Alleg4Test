@@ -1,5 +1,6 @@
 #include "WorldGameState.h"
 #include "Sprite.h"
+#include "XMLAreaLoader.h"
 
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_primitives.h>
@@ -28,9 +29,9 @@ void WorldGameState::Init()
 	// Preload sprites
 	Sprite::PreloadSpriteList("Data/Sprites.psl");
 
-	//m_area = Area::CreateTestArea(nullptr, this);
+	Area* xmlArea = XMLAreaLoader::LoadAreaFromXMLFile("Data/Areas/area.xml", this);
+
 	m_area = Area::LoadArea("Data/Areas/Area1.lvl", nullptr, this);
-	//m_area->Write("Data/Areas/Area2.lvl");
 	m_area->SetStartPosAndDir(Vec2(1, 1), DIR_SOUTH);
 	m_area->Init();
 
@@ -123,10 +124,10 @@ void WorldGameState::Render(Game *game, ALLEGRO_BITMAP *buffer)
 	return;
 }
 
-void WorldGameState::TriggerAreaTransition(WARP_DETAILS_T *details)
+void WorldGameState::TriggerAreaTransition(WARPDETAILS_T *details)
 {
-	m_newArea = Area::LoadArea(details->areaName, m_area->GetPlayer(), this);
-	m_newArea->SetStartPosAndDir(details->startPos, details->startDir);
+	m_newArea = Area::LoadArea(details->area.c_str(), m_area->GetPlayer(), this);
+	m_newArea->SetStartPosAndDir(details->pos, details->dir);
 	
 	m_state = WORLDSTATE_FADEOUT;
 	m_transitionTime = FADE_PERIOD;
