@@ -31,7 +31,7 @@ Area *XMLAreaLoader::LoadArea(tinyxml2::XMLElement *element, WorldGameState *wor
 	tinyxml2::XMLElement *entityElement = element->FirstChildElement("Entities")->FirstChildElement("Entity");
 	while (entityElement)
 	{
-		result->m_entities.push_back(LoadEntity(entityElement));
+		result->AddEntity(LoadEntity(entityElement));
 		entityElement = entityElement->NextSiblingElement("Entity");
 	}
 

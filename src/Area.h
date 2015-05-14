@@ -52,12 +52,12 @@ class WorldGameState;
 class Area
 {
 public:
-	friend class XMLAreaLoader;
-
 	Area(Vec2 size, WorldGameState *world);
 	~Area(void);
 
 	Entity *GetEntityAt(int x, int y);
+	void AddEntity(Entity *entity) { m_entities.push_back(entity); }
+
 	BLOCK_T *GetBlock(int x, int y) { return &m_blocks[y*(int)m_size.x + x]; }
 	Vec2 Size() { return m_size; }
 
