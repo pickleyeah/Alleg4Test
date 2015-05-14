@@ -16,20 +16,20 @@ Area::Area(Vec2 size, WorldGameState *world) :
 	m_elapsedTime(0)
 {
 	m_blocks = std::unique_ptr<BLOCK_T[]>(new BLOCK_T[(int)(size.x * size.y)]);
-	m_sprites.resize(COL_ALL+1, nullptr);
+	m_sprites.resize(COLLIDE_ALL+1, nullptr);
 
 	m_sprites[0] = Sprite::GetSprite("Data/Tiles/Grass.png");
-	m_sprites[COL_NORTH] = Sprite::GetSprite("Data/Tiles/Grass_BlockN.png");
-	m_sprites[COL_SOUTH] = Sprite::GetSprite("Data/Tiles/Grass_BlockS.png");
-	m_sprites[COL_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockW.png");
-	m_sprites[COL_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockE.png");
+	m_sprites[COLLIDE_NORTH] = Sprite::GetSprite("Data/Tiles/Grass_BlockN.png");
+	m_sprites[COLLIDE_SOUTH] = Sprite::GetSprite("Data/Tiles/Grass_BlockS.png");
+	m_sprites[COLLIDE_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockW.png");
+	m_sprites[COLLIDE_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockE.png");
 
-	m_sprites[COL_NORTH | COL_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockNW.png");
-	m_sprites[COL_NORTH | COL_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockNE.png");
-	m_sprites[COL_SOUTH | COL_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockSW.png");
-	m_sprites[COL_SOUTH | COL_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockSE.png");
+	m_sprites[COLLIDE_NORTH | COLLIDE_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockNW.png");
+	m_sprites[COLLIDE_NORTH | COLLIDE_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockNE.png");
+	m_sprites[COLLIDE_SOUTH | COLLIDE_WEST] = Sprite::GetSprite("Data/Tiles/Grass_BlockSW.png");
+	m_sprites[COLLIDE_SOUTH | COLLIDE_EAST] = Sprite::GetSprite("Data/Tiles/Grass_BlockSE.png");
 
-	m_sprites[COL_ALL] = Sprite::GetSprite("Data/Tiles/Water.png");
+	m_sprites[COLLIDE_ALL] = Sprite::GetSprite("Data/Tiles/Water.png");
 }
 
 
@@ -59,79 +59,6 @@ struct MAP_HEADER_T
 	short entityCount;
 	short spare;
 };
-
-const char Area::MAGIC_NUM[] = { 'M', 'A', 'P', 'T', 'E', 'S', 'T', '\0' };
-
-Area* Area::LoadArea(const char* filename, Entity *player, WorldGameState *world)
-{
-	FILE *fp = fopen(filename, "rb");
-	if (!fp)
-		return false;
-	MAP_HEADER_T header;
-	fread(&header, sizeof(MAP_HEADER_T), 1, fp);
-	if (memcmp(header.header, MAGIC_NUM, sizeof(MAGIC_NUM)) != 0)
-		return nullptr;	// The header doesn't match, file must be wrong
-	Area* result = new Area(Vec2(header.width, header.height), world);
-	// Read blocks
-	int blockCount = header.width * header.height;
-	for (int i = 0; i < blockCount; i++)
-	{
-		fread(&result->m_blocks[i].colMask, sizeof(result->m_blocks[i].colMask), 1, fp);
-		fread(&result->m_blocks[i].spriteName, sizeof(result->m_blocks[i].spriteName), 1, fp);
-		fread(&result->m_blocks[i].warp, sizeof(result->m_blocks[i].warp), 1, fp);
-		if (result->m_blocks[i].warp)
-		{
-			result->m_blocks[i].warpDetails = new WARPDETAILS_T{ "" };
-			char areaName[32];
-			fread(areaName, 1, 32, fp);
-			result->m_blocks[i].warpDetails->area = std::string(areaName);
-			fread(&result->m_blocks[i].warpDetails->pos, sizeof(result->m_blocks[i].warpDetails->pos), 1, fp);
-			fread(&result->m_blocks[i].warpDetails->dir, sizeof(result->m_blocks[i].warpDetails->dir), 1, fp);
-		}
-	}
-	fclose(fp);
-	// Load entities
-	/*m_entities = new ENTITY[m_entityCount];
-	if (fread(m_entities, sizeof(ENTITY), m_entityCount, fp) != m_entityCount)
-		return false;*/
-	// Set player
-	if (player == nullptr)
-	{
-		player = Entity::CreateEntity("Player");
-		result->SetPlayer(player);
-	}
-	auto sign = Entity::CreateEntity("Sign");
-	sign->SetGridXY(3, 0);
-	result->m_entities.push_back(sign);
-	
-	return result;
-}
-
-void Area::Write(const char* filename)
-{
-	FILE *fp = fopen(filename, "wb");
-	if (!fp)
-		return;
-	// Write header
-	MAP_HEADER_T header;
-	memcpy(header.header, MAGIC_NUM, sizeof(MAGIC_NUM));
-	header.width = (short)m_size.x;
-	header.height = (short)m_size.y;
-	header.entityCount = 0;
-	header.spare = 0;
-	fwrite(&header, sizeof(MAP_HEADER_T), 1, fp);
-	// Write blocks
-	for (int i = 0; i < (int)(m_size.x * m_size.y); i++)
-	{
-		fwrite(&m_blocks[i].colMask, sizeof(m_blocks[i].colMask), 1, fp);
-		fwrite(&m_blocks[i].spriteName, sizeof(m_blocks[i].spriteName), 1, fp);
-		fwrite(&m_blocks[i].warp, sizeof(m_blocks[i].warp), 1, fp);
-		if (m_blocks[i].warp)
-			fwrite(m_blocks[i].warpDetails, sizeof(*m_blocks[i].warpDetails), 1, fp);
-	}
-
-	fclose(fp);
-}
 
 void Area::SetPlayer(Entity *player)
 {
@@ -196,9 +123,9 @@ void Area::Render(Vec2 offset)
 		{
 			int x = (int)offset.x + i * 64;
 			int y = (int)offset.y + j * 64;
-			int spriteIndex = GetBlock(i, j)->colMask;
-			if (!GetBlock(i, j)->warp)
-				m_sprites[spriteIndex]->Render(m_elapsedTime, x, y);
+			int spriteIndex = GetBlock(i, j)->flags;
+			if (!(GetBlock(i, j)->flags & HAS_WARP))
+				GetBlock(i, j)->GetSprite()->Render(m_elapsedTime, x, y);
 		}
 	}
 

@@ -8,7 +8,7 @@
 		<Block flags="0" sprite="Data/Tiles/Grass.png" />
 		<Block flags="0" sprite="Data/Tiles/Grass.png" />
 
-		<Block flags="0" sprite="Data/Tiles/Grass.png">
+		<Block flags="16" sprite="Data/Tiles/Grass.png">
 			<Warp>
 				<Area>Data/Areas/Area2.xml</Area>
 				<Pos>

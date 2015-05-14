@@ -17,16 +17,6 @@ enum BLOCKFLAGS
 
 };
 
-// TODO: Retire these in favour of BLOCKFLAGS
-enum COL_MASK
-{
-	COL_NORTH = 0x01,
-	COL_WEST = 0x02,
-	COL_SOUTH = 0x04,
-	COL_EAST = 0x08,
-	COL_ALL = 0x0f,
-};
-
 struct WARPDETAILS_T
 {
 	std::string area;
@@ -37,19 +27,24 @@ struct WARPDETAILS_T
 class BLOCK_T
 {
 public:
-	BLOCK_T() : colMask(0), warp(false), warpDetails(nullptr)
+	BLOCK_T() :
+		flags((BLOCKFLAGS)0),
+		warpDetails(nullptr),
+		sprite(nullptr)
 	{
-		sprintf(spriteName, "none");
 	}
 	~BLOCK_T()
 	{
 		if (warpDetails != nullptr)
 			delete warpDetails;
 	}
-	char colMask;
-	char spriteName[64];
-	bool warp;
+	BLOCKFLAGS flags;
+	Sprite *GetSprite() { return sprite; }
+	void SetSprite(const char* filename) { sprite = Sprite::GetSprite(filename); }
 	WARPDETAILS_T *warpDetails;
+
+private:
+	Sprite *sprite;
 };
 
 class WorldGameState;
@@ -58,9 +53,6 @@ class Area
 {
 public:
 	friend class XMLAreaLoader;
-	static const char Area::MAGIC_NUM[];
-	static Area* LoadArea(const char* filename, Entity *player, WorldGameState *world);
-	void Write(const char* filename);
 
 	Area(Vec2 size, WorldGameState *world);
 	~Area(void);

@@ -159,4 +159,8 @@
   <ItemGroup>
     <Text Include="todo.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Data\Areas\Area1.xml" />
+    <Xml Include="Data\Areas\Area2.xml" />
+  </ItemGroup>
 </Project>

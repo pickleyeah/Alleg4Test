@@ -62,6 +62,10 @@
   <ItemGroup>
     <Text Include="todo.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Data\Areas\Area1.xml" />
+    <Xml Include="Data\Areas\Area2.xml" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E01C5638-F8EB-4F16-9F15-370C979F8DCF}</ProjectGuid>
     <RootNamespace>Alleg4Test</RootNamespace>

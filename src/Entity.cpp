@@ -97,16 +97,16 @@ bool Entity::CanMoveTo(int x, int y)
 		switch (Dir)
 		{
 		case DIR_NORTH:
-			return (~block->colMask & COL_SOUTH) > 0;
+			return (~block->flags & COLLIDE_SOUTH) > 0;
 			break;
 		case DIR_EAST:
-			return (~block->colMask & COL_WEST) > 0;
+			return (~block->flags & COLLIDE_WEST) > 0;
 			break;
 		case DIR_SOUTH:
-			return (~block->colMask & COL_NORTH) > 0;
+			return (~block->flags & COLLIDE_NORTH) > 0;
 			break;
 		case DIR_WEST:
-			return (~block->colMask & COL_EAST) > 0;
+			return (~block->flags & COLLIDE_EAST) > 0;
 			break;
 		}
 	}

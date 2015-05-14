@@ -102,7 +102,7 @@ void PlayerInput::ProcessInput(double dt)
 			// If we've hit a warp block, trigger the area transition on the next frame
 			// Sort of hacky in that it creates a dependency on WorldGameState, but since Entities should only exist inside of an Area/WorldGameState it seems reasonable enough
 			BLOCK_T *block = m_entity->GetArea()->GetBlock(m_newGridX, m_newGridY);
-			if (block->warp)
+			if (block->flags & HAS_WARP)
 			{
 				WorldGameState *world = m_entity->GetArea()->GetWorldGameState();
 				world->TriggerAreaTransition(block->warpDetails);

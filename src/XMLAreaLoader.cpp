@@ -23,7 +23,6 @@ Area *XMLAreaLoader::LoadArea(tinyxml2::XMLElement *element, WorldGameState *wor
 		if (iBlock >= width*height)
 			throw std::exception();
 		LoadBlock(result->GetBlock(iBlock % width, iBlock / width), blockElement);
-		//printf("block - flags: %d sprite: %s\n", result->m_blocks[iBlock].colMask, result->m_blocks[iBlock].spriteName);
 
 		blockElement = blockElement->NextSiblingElement("Block");
 		iBlock++;
@@ -41,14 +40,13 @@ Area *XMLAreaLoader::LoadArea(tinyxml2::XMLElement *element, WorldGameState *wor
 
 void XMLAreaLoader::LoadBlock(BLOCK_T *result, tinyxml2::XMLElement *element)
 {
-	result->colMask = atoi(element->Attribute("flags"));
-	sprintf(result->spriteName, "%s", element->Attribute("sprite"));
+	result->flags = (BLOCKFLAGS)atoi(element->Attribute("flags"));
+	result->SetSprite(element->Attribute("sprite"));
 	tinyxml2::XMLElement *warpElement = element->FirstChildElement("Warp");
 	if (warpElement)
 	{
-		result->warp = true;
+		//result->warp = true;
 		result->warpDetails = new WARPDETAILS_T(LoadWarpDetails(warpElement));
-		//printf("warp - area: %s dir: %d pos.x: %f pos.y: %f\n", result->warpDetails->area.c_str(), result->warpDetails->dir, result->warpDetails->pos.x, result->warpDetails->pos.y);
 	}
 }
 

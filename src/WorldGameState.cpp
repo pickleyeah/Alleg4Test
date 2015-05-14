@@ -132,7 +132,6 @@ void WorldGameState::TriggerAreaTransition(WARPDETAILS_T *details)
 {
 	m_newArea = XMLAreaLoader::LoadAreaFromXMLFile(details->area.c_str(), this);
 	m_newArea->SetStartPosAndDir(details->pos, details->dir);
-	m_newArea->SetPlayer(m_area->GetPlayer());
 	
 	m_state = WORLDSTATE_FADEOUT;
 	m_transitionTime = FADE_PERIOD;
