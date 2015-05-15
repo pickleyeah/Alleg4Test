@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using System.IO;
+using AreaEditor.ToolContexts;
 
 namespace AreaEditor
 {
@@ -20,23 +21,32 @@ namespace AreaEditor
 
         private string m_filename;
         private Dictionary<string, Image> m_imageMap = new Dictionary<string, Image>();
+        private List<ToolContext> m_toolContexts = new List<ToolContext>();
+        private ToolContext m_currentTool;
         
-        private const int m_blockSize = 64;
-
 
         public Form1()
         {
             InitializeComponent();
             pictureBox1.MouseWheel += pictureBox1_MouseWheel;
+            InitToolContexts();
             LoadImageMap();
+        }
+
+        private void InitToolContexts()
+        {
+            m_toolContexts.Clear();
+            m_toolContexts.Add(new SelectBlockToolContext(propertyGrid1, imageList1));
+
+            m_currentTool = m_toolContexts.Where(t => t is SelectBlockToolContext).FirstOrDefault();
         }
 
         private void RefreshDisplay()
         {
             pictureBox1.BeginInvoke(new MethodInvoker(() =>
                 {
-                    pictureBox1.Width = m_area.width * m_blockSize + 1;
-                    pictureBox1.Height = m_area.height * m_blockSize + 1;
+                    pictureBox1.Width = m_area.width * Area.BlockSize + 1;
+                    pictureBox1.Height = m_area.height * Area.BlockSize + 1;
                     pictureBox1.Invalidate();
                 }));
         }
@@ -55,11 +65,6 @@ namespace AreaEditor
                 imageList1.Images.Add(f, image);
                 m_imageMap.Add(f, image);
             }
-        }
-
-        void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
-        {
-            
         }
 
         private void CreateArea(int width, int height)
@@ -106,32 +111,6 @@ namespace AreaEditor
             propertyGrid1.SelectedObject = m_area;
         }
 
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
-        {
-            if (m_area == null)
-                return;
-            Graphics g = e.Graphics;
-            for (int y = 0; y < m_area.height; y++)
-            {
-                for (int x = 0; x < m_area.width; x++)
-                {
-                    var imageName = m_area.GetBlock(x, y).sprite;
-                    g.DrawImage(m_imageMap[imageName], new Point(x * m_blockSize, y * m_blockSize));
-                }
-            }
-
-            // Draw cursor image
-            if (m_displayCursorImage && !string.IsNullOrEmpty(m_cursorImage))
-                g.DrawImage(imageList1.Images[m_cursorImage], m_cursorImagePos);
-
-            Pen p = new Pen(Color.Black);
-
-            for (int y = 0; y < pictureBox1.Height; y += m_blockSize)
-                g.DrawLine(p, 0, y, pictureBox1.Width, y);
-            for (int x = 0; x < pictureBox1.Width; x += m_blockSize)
-                g.DrawLine(p, x, 0, x, pictureBox1.Height);
-        }
-
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (frmNewDialog dialog = new frmNewDialog())
@@ -139,23 +118,6 @@ namespace AreaEditor
                 if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     CreateArea(dialog.AreaWidth, dialog.AreaHeight);
             }
-        }
-
-        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (m_area == null)
-                return;
-            int x = e.X / m_blockSize;
-            int y = e.Y / m_blockSize;
-            if (x >= m_area.width || y >= m_area.height)
-                return;
-
-            var block = m_area.GetBlock(x, y);
-            if (m_cursorImage != null)
-            {
-                block.sprite = m_cursorImage;
-            }
-            propertyGrid1.SelectedObject = m_area.GetBlock(x, y);
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -221,22 +183,86 @@ namespace AreaEditor
             }
         }
 
+        #region PictureBox Events
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
-            m_cursorImagePos.X = e.X - (e.X % m_blockSize);
-            m_cursorImagePos.Y = e.Y - (e.Y % m_blockSize);
+            if (m_area == null)
+                return;
+            //m_cursorImagePos.X = e.X - (e.X % m_blockSize);
+            //m_cursorImagePos.Y = e.Y - (e.Y % m_blockSize);
+            m_currentTool.MouseMove(sender, e, m_area);
             pictureBox1.Invalidate();
         }
 
         private void pictureBox1_MouseEnter(object sender, EventArgs e)
         {
-            m_displayCursorImage = true;
+            if (m_area == null)
+                return;
+            //m_displayCursorImage = true;
+            m_currentTool.MouseEnter(sender, e, m_area);
+            pictureBox1.Invalidate();
         }
 
         private void pictureBox1_MouseLeave(object sender, EventArgs e)
         {
-            m_displayCursorImage = false;
+            if (m_area == null)
+                return;
+            //m_displayCursorImage = false;
+            m_currentTool.MouseLeave(sender, e, m_area);
             pictureBox1.Invalidate();
         }
+
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (m_area == null)
+                return;
+            m_currentTool.MouseDown(sender, e, m_area);
+            pictureBox1.Invalidate();
+        }
+
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (m_area == null)
+                return;
+            m_currentTool.MouseUp(sender, e, m_area);
+            pictureBox1.Invalidate();
+        }
+
+        void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            if (m_area == null)
+                return;
+            Graphics g = e.Graphics;
+            // Draw Blocks
+            for (int y = 0; y < m_area.height; y++)
+            {
+                for (int x = 0; x < m_area.width; x++)
+                {
+                    var imageName = m_area.GetBlock(x, y).sprite;
+                    g.DrawImage(imageList1.Images[imageName], new Point(x * Area.BlockSize, y * Area.BlockSize));
+                }
+            }
+            // TODO: Draw entities
+
+            // Draw tool context data
+            m_currentTool.Paint(sender, e, m_area);
+
+            // Draw cursor image
+            //if (m_displayCursorImage && !string.IsNullOrEmpty(m_cursorImage))
+            //    g.DrawImage(imageList1.Images[m_cursorImage], m_cursorImagePos);
+
+            // Draw grid
+            Pen p = new Pen(Color.Black);
+            for (int y = 0; y < pictureBox1.Height; y += Area.BlockSize)
+                g.DrawLine(p, 0, y, pictureBox1.Width, y);
+            for (int x = 0; x < pictureBox1.Width; x += Area.BlockSize)
+                g.DrawLine(p, x, 0, x, pictureBox1.Height);
+        }
+        #endregion
     }
 }

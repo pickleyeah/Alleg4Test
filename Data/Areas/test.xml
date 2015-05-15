@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Area xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" width="8" height="8">
+  <Blocks>
+    <Block flags="15" sprite="Data/Tiles/Boulder.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Boulder.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Boulder.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Boulder.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Boulder.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Boulder.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Boulder.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Boulder.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Water.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Water.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Water.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Water.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Water.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Water.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Water.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Water.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="0" sprite="Data/Tiles/WoodFloor.png">
+      <Flags>None</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Water.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Water.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Water.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Water.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Water.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Water.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Water.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Water.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Boulder.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Boulder.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Boulder.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Boulder.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Boulder.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Boulder.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Boulder.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+    <Block flags="15" sprite="Data/Tiles/Boulder.png">
+      <Flags>COLLIDE_ALL</Flags>
+    </Block>
+  </Blocks>
+  <Entities />
+</Area>

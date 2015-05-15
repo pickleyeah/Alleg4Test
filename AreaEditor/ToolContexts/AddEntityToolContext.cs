@@ -8,8 +8,8 @@ namespace AreaEditor.ToolContexts
 {
     public class AddEntityToolContext : ToolContext
     {
-        public AddEntityToolContext(PropertyGrid grid) :
-            base(grid)
+        public AddEntityToolContext(PropertyGrid grid, ImageList imgList) :
+            base(grid, imgList)
         {
         }
     }

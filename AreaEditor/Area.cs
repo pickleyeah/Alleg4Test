@@ -9,6 +9,8 @@ namespace AreaEditor
 {
     public class Area
     {
+        public const int BlockSize = 64;
+
         public Area() { }
         public Area(int width_, int height_)
         {
