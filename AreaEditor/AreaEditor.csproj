@@ -70,6 +70,9 @@
     <Compile Include="ToolContexts\SelectBlockToolContext.cs" />
     <Compile Include="ToolContexts\SelectEntityToolContext.cs" />
     <Compile Include="ToolContexts\ToolContext.cs" />
+    <Compile Include="Util\FlagEnumEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Vec2.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -96,6 +99,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

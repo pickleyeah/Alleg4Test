@@ -107,7 +107,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmNewDialog";
-            this.Text = "frmNewDialog";
+            this.Text = "New Area";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -44,6 +44,7 @@ namespace AreaEditor
         [ReadOnlyAttribute(true)]
         public int _flags { get; set; }
 
+        [Editor(typeof(Utils.FlagEnumUIEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public BlockFlags Flags
         {
             get
