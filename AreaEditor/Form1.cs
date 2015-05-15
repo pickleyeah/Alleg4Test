@@ -127,14 +127,9 @@ namespace AreaEditor
             Pen p = new Pen(Color.Black);
 
             for (int y = 0; y < pictureBox1.Height; y += m_blockSize)
-            {
                 g.DrawLine(p, 0, y, pictureBox1.Width, y);
-            }
-
             for (int x = 0; x < pictureBox1.Width; x += m_blockSize)
-            {
                 g.DrawLine(p, x, 0, x, pictureBox1.Height);
-            }
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)

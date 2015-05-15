@@ -42,6 +42,7 @@
             this.txtWidth.Name = "txtWidth";
             this.txtWidth.Size = new System.Drawing.Size(100, 20);
             this.txtWidth.TabIndex = 0;
+            this.txtWidth.Text = "8";
             // 
             // txtHeight
             // 
@@ -49,6 +50,7 @@
             this.txtHeight.Name = "txtHeight";
             this.txtHeight.Size = new System.Drawing.Size(100, 20);
             this.txtHeight.TabIndex = 1;
+            this.txtHeight.Text = "8";
             // 
             // label1
             // 
