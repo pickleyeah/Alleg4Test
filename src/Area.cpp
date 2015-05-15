@@ -124,8 +124,10 @@ void Area::Render(Vec2 offset)
 			int x = (int)offset.x + i * 64;
 			int y = (int)offset.y + j * 64;
 			int spriteIndex = GetBlock(i, j)->flags;
-			if (!(GetBlock(i, j)->flags & HAS_WARP))
+			if (GetBlock(i, j)->GetSprite())
 				GetBlock(i, j)->GetSprite()->Render(m_elapsedTime, x, y);
+			if (GetBlock(i, j)->GetOverlay())
+				GetBlock(i, j)->GetOverlay()->Render(m_elapsedTime, x, y);
 		}
 	}
 

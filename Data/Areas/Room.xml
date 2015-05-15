@@ -1,0 +1,117 @@
+<?xml version="1.0" ?>
+<Area width="8" height="8">
+	<Blocks>
+	
+		<Block flags="15" sprite="Data/Tiles/WoodWall.png">
+			<Overlay sprite="Data/Tiles/Overlay/PC_1.png" />
+		</Block>
+		<Block flags="15" sprite="Data/Tiles/WoodWall.png" />
+		<Block flags="15" sprite="Data/Tiles/WoodWall.png" />
+		<Block flags="15" sprite="Data/Tiles/WoodWall.png" />
+		<Block flags="15" sprite="Data/Tiles/Bookcase1_1.png" />
+		<Block flags="15" sprite="Data/Tiles/Bookcase2_1.png" />
+		<Block flags="15" sprite="Data/Tiles/WoodWall.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodStairs.png">
+			<Warp>
+				<Area>Data/Areas/Area1.xml</Area>
+				<Pos>
+					<x>2</x>
+					<y>2</y>
+				</Pos>
+				<Dir>2</Dir>
+			</Warp>
+		</Block>
+
+		<Block flags="15" sprite="Data/Tiles/WoodFloor.png">
+			<Overlay sprite="Data/Tiles/Overlay/PC_2.png" />
+		</Block>
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="15" sprite="Data/Tiles/Table_1.png" />
+		<Block flags="15" sprite="Data/Tiles/Table_2.png" />
+		<Block flags="15" sprite="Data/Tiles/Bookcase1_2.png" />
+		<Block flags="15" sprite="Data/Tiles/Bookcase2_2.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/Table_3.png" />
+		<Block flags="0" sprite="Data/Tiles/Table_4.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="15" sprite="Data/Tiles/TV.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+
+		<Block flags="15" sprite="Data/Tiles/Bed_1.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+
+		<Block flags="15" sprite="Data/Tiles/Bed_2.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+		<Block flags="0" sprite="Data/Tiles/WoodFloor.png" />
+	
+	</Blocks>
+
+	<Entities>
+		<Entity>
+			<Pos>
+				<x>3</x>
+				<y>5</y>
+			</Pos>
+			<Size>
+				<x>1</x>
+				<y>1</y>
+			</Size>
+			<Dir>0</Dir>
+			
+			<InputComponent type="NPCTextInput">
+				<NPCText>
+					<NPCTextLine>DUDEBRO is playing the N64!</NPCTextLine>
+				</NPCText>
+			</InputComponent>
+			
+			<MoveComponent type="DefaultMove" />
+			
+			<RenderComponent type="PropRender">
+				<Sprite>Data/Tiles/Overlay/N64.png</Sprite>
+			</RenderComponent>
+		</Entity>
+	</Entities>
+</Area>

@@ -32,3 +32,24 @@ Data/Tiles/Boulder.png,1,1
 
 # Sign
 Data/Sprites/Sign.png,1,1
+
+# Overlays
+Data/Tiles/Overlay/Hole.png,1,1
+
+# Room
+Data/Tiles/Overlay/PC_1.png,1,1
+Data/Tiles/Overlay/PC_2.png,1,1
+Data/Tiles/WoodWall.png,1,1
+Data/Tiles/WoodFloor.png,1,1
+Data/Tiles/WoodStairs.png,1,1
+Data/Tiles/Bookcase1_1.png,1,1
+Data/Tiles/Bookcase1_2.png,1,1
+Data/Tiles/Bookcase2_1.png,1,1
+Data/Tiles/Bookcase2_2.png,1,1
+Data/Tiles/Table_1.png,1,1
+Data/Tiles/Table_2.png,1,1
+Data/Tiles/Table_3.png,1,1
+Data/Tiles/Table_4.png,1,1
+Data/Tiles/Bed_1.png,1,1
+Data/Tiles/Bed_2.png,1,1
+Data/Tiles/Overlay/N64.png,1,1

@@ -13,7 +13,6 @@ enum BLOCKFLAGS
 	COLLIDE_SOUTH = 0x04,
 	COLLIDE_EAST = 0x08,
 	COLLIDE_ALL = 0x0f,
-	HAS_WARP = 0x10,
 
 };
 
@@ -30,7 +29,8 @@ public:
 	BLOCK_T() :
 		flags((BLOCKFLAGS)0),
 		warpDetails(nullptr),
-		sprite(nullptr)
+		sprite(nullptr),
+		overlay(nullptr)
 	{
 	}
 	~BLOCK_T()
@@ -39,12 +39,16 @@ public:
 			delete warpDetails;
 	}
 	BLOCKFLAGS flags;
+	WARPDETAILS_T *warpDetails;
+
 	Sprite *GetSprite() { return sprite; }
 	void SetSprite(const char* filename) { sprite = Sprite::GetSprite(filename); }
-	WARPDETAILS_T *warpDetails;
+	Sprite *GetOverlay() { return overlay; }
+	void SetOverlay(const char* filename) { overlay = Sprite::GetSprite(filename); }
 
 private:
 	Sprite *sprite;
+	Sprite *overlay;
 };
 
 class WorldGameState;

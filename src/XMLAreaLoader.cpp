@@ -42,6 +42,11 @@ void XMLAreaLoader::LoadBlock(BLOCK_T *result, tinyxml2::XMLElement *element)
 {
 	result->flags = (BLOCKFLAGS)atoi(element->Attribute("flags"));
 	result->SetSprite(element->Attribute("sprite"));
+
+	tinyxml2::XMLElement *overlayElement = element->FirstChildElement("Overlay");
+	if (overlayElement)
+		result->SetOverlay(overlayElement->Attribute("sprite"));
+
 	tinyxml2::XMLElement *warpElement = element->FirstChildElement("Warp");
 	if (warpElement)
 	{

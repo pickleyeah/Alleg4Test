@@ -8,7 +8,8 @@
 		<Block flags="0" sprite="Data/Tiles/Grass.png" />
 		<Block flags="0" sprite="Data/Tiles/Grass.png" />
 
-		<Block flags="16" sprite="Data/Tiles/Grass.png">
+		<Block flags="0" sprite="Data/Tiles/Grass.png">
+			<Overlay sprite="Data/Tiles/Overlay/Hole.png" />
 			<Warp>
 				<Area>Data/Areas/Area2.xml</Area>
 				<Pos>
@@ -281,7 +282,7 @@
 	<Entities>
 		<Entity>
 			<Pos>
-				<x>3</x>
+				<x>5</x>
 				<y>0</y>
 			</Pos>
 			<Size>
@@ -292,7 +293,7 @@
 			
 			<InputComponent type="NPCTextInput">
 				<NPCText>
-					<NPCTextLine>YOU ARE READING A SIGN. CONGRATULATIONS!</NPCTextLine>
+					<NPCTextLine>WARNING! JUMPING INTO HOLE MAY CAUSE INJURY AND/OR DEATH</NPCTextLine>
 				</NPCText>
 			</InputComponent>
 			
