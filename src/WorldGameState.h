@@ -22,6 +22,8 @@ public:
 	~WorldGameState(void);
 
 	static const int BLOCK_SIZE = 64;
+	
+	void SetStartupLevel(const char* filename) { m_startupLevel = filename; }
 
 	void Init();
 	void Shutdown();
@@ -44,6 +46,7 @@ private:
 	WORLDSTATE m_state;
 	double m_transitionTime;
 
+	const char *m_startupLevel;
 	Area* m_area;
 	Area* m_newArea;
 

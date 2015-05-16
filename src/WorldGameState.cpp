@@ -14,7 +14,8 @@ WorldGameState::WorldGameState(void) :
 	m_npcText(nullptr),
 	m_font(nullptr),
 	m_transitionTime(0),
-	m_state(WORLDSTATE_NORMAL)
+	m_state(WORLDSTATE_NORMAL),
+	m_startupLevel(nullptr)
 {
 
 }
@@ -29,9 +30,9 @@ void WorldGameState::Init()
 	// Preload sprites
 	Sprite::PreloadSpriteList("Data/Sprites.psl");
 
-	m_area = XMLAreaLoader::LoadAreaFromXMLFile("Data/Areas/test.xml", this);
+	const char *filename = m_startupLevel ? m_startupLevel : "Data/Areas/test.xml";
+	m_area = XMLAreaLoader::LoadAreaFromXMLFile(filename, this);
 	m_area->SetPlayer(Entity::CreateEntity("Player"));
-	m_area->SetStartPosAndDir(Vec2(5, 5), DIR_SOUTH);
 	m_area->Init();
 
 	m_font = al_create_builtin_font();

@@ -16,6 +16,18 @@ Area *XMLAreaLoader::LoadArea(tinyxml2::XMLElement *element, WorldGameState *wor
 	int width = atoi(element->Attribute("width"));
 	int height = atoi(element->Attribute("height"));
 	Area *result = new Area(Vec2(width, height), world);
+	
+	// Get player start position/direction
+	auto startPosElement = element->FirstChildElement("startPos");
+	auto startDirElement = element->FirstChildElement("startDir");
+	if (startPosElement && startDirElement)
+	{
+		Vec2 startPos = LoadVec2(startPosElement);
+		DIR startDir = (DIR)atoi(startDirElement->GetText());
+		result->SetStartPosAndDir(startPos, startDir);
+	}
+		
+
 	tinyxml2::XMLElement *blockElement = element->FirstChildElement("Blocks")->FirstChildElement("Block");
 	int iBlock = 0;
 	while (blockElement != NULL)
