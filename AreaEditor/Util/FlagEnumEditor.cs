@@ -256,8 +256,9 @@ namespace AreaEditor.Utils
 				IWindowsFormsEditorService edSvc = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
 
 				if (edSvc != null) 
-				{					
-
+				{
+                    if (value == null)
+                        value = context.PropertyDescriptor.PropertyType.GetEnumValues().GetValue(0);
 					Enum e = (Enum) Convert.ChangeType(value, context.PropertyDescriptor.PropertyType);
 					flagEnumCB.EnumValue = e;
 					edSvc.DropDownControl(flagEnumCB);

@@ -10,6 +10,7 @@ using System.Xml.Serialization;
 using System.IO;
 using AreaEditor.ToolContexts;
 using System.Drawing.Imaging;
+using System.Diagnostics;
 
 namespace AreaEditor
 {
@@ -319,6 +320,29 @@ namespace AreaEditor
                 if (item != null)
                     m_currentTool.ImageClicked(item.ImageKey, m_imageMap[item.ImageKey], m_area);
             }
+        }
+
+        private string m_engineExePath = null;
+        private void runToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveToolStripMenuItem_Click(null, null);
+            if (string.IsNullOrEmpty(m_filename))
+                return;
+
+            if (string.IsNullOrEmpty(m_engineExePath))
+            {
+                using (OpenFileDialog fileDialog = new OpenFileDialog())
+                {
+                    fileDialog.Filter = "EXE File (*.exe)|*.exe";
+                    if (DialogResult.OK == fileDialog.ShowDialog())
+                    {
+                        m_engineExePath = fileDialog.FileName;
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(m_engineExePath))
+                Process.Start(m_engineExePath, m_filename);
         }
     }
 }
