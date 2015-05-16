@@ -45,9 +45,9 @@ namespace AreaEditor
             g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
             if (DrawGrid)
             {
-                for (int y = 0; y < Width; y += Area.BlockSize)
+                for (int y = 0; y < Height; y += Area.BlockSize)
                     g.DrawLine(m_blackPen, 0, y, Width, y);
-                for (int x = 0; x < Height; x += Area.BlockSize)
+                for (int x = 0; x < Width; x += Area.BlockSize)
                     g.DrawLine(m_blackPen, x, 0, x, Height);
             }
             

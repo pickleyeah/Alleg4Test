@@ -83,7 +83,7 @@ namespace AreaEditor.ToolContexts
                 {
                     for (int i = blockRange.X; i <= blockRange.Right; i++)
                     {
-                        if (!m_selectedBlocks.Remove(new Point(i, j)))
+                        if (!m_selectedBlocks.Contains(new Point(i, j)))
                             m_selectedBlocks.Add(new Point(i, j));
                     }
                 }
@@ -123,7 +123,7 @@ namespace AreaEditor.ToolContexts
             }
         }
 
-        public override void ImageClicked(string imageName, Image image, Area area)
+        public override void ImageDoubleClicked(string imageName, Image image, Area area)
         {
             // Fill all the currently selected block's sprite with the new image
             if (m_selectedBlocks.Count == 0)
@@ -134,6 +134,23 @@ namespace AreaEditor.ToolContexts
                 area.GetBlock(p.X, p.Y).CachedBlockImage = image;
             }
             EditorSurface.Invalidate();
+        }
+
+        public override void KeyDown(object sender, KeyEventArgs e, Area m_area)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Escape:
+                    if (!m_mouseDown)
+                    {
+                        m_selectedBlocks.Clear();
+                        EditorSurface.Invalidate();
+                    }
+                    break;
+                default:
+                    base.KeyDown(sender, e, m_area);
+                    break;
+            }
         }
     }
 }

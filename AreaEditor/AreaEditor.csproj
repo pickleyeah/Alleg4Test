@@ -63,6 +63,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmAddWarp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddWarp.Designer.cs">
+      <DependentUpon>frmAddWarp.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmNewDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +92,9 @@
     <Compile Include="Vec2.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAddWarp.resx">
+      <DependentUpon>frmAddWarp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmNewDialog.resx">
       <DependentUpon>frmNewDialog.cs</DependentUpon>

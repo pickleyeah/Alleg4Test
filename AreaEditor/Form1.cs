@@ -18,21 +18,18 @@ namespace AreaEditor
     {
         private Area m_area;
         private Point m_cursorImagePos = new Point(0, 0);
-        private Image m_image;
         private Dictionary<string, Image> m_imageMap = new Dictionary<string, Image>();
 
         private string m_filename;
         private ToolStripButton[] m_toolButtons;
         private List<ToolContext> m_toolContexts = new List<ToolContext>();
         private ToolContext m_currentTool;
-
-        private bool m_showGrid = true;
         
 
         public Form1()
         {
             InitializeComponent();
-            areaCanvas.MouseWheel += pictureBox1_MouseWheel;
+            areaCanvas.MouseWheel += areaCanvas_MouseWheel;
             InitToolContexts();
             LoadImageMap();
             RefreshTitle();
@@ -123,7 +120,8 @@ namespace AreaEditor
             try
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(Area));
-                m_area = serializer.Deserialize(new StreamReader(filename)) as Area;
+                using (var reader = new StreamReader(filename))
+                    m_area = serializer.Deserialize(reader) as Area;
                 if (m_area == null)
                     return false;
             }
@@ -199,6 +197,8 @@ namespace AreaEditor
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (m_area == null)
+                return;
             using (SaveFileDialog fileDialog = new SaveFileDialog())
             {
                 fileDialog.Filter = "XML File (*.xml)|*.xml|All Files (*.*)|*.*";
@@ -233,47 +233,47 @@ namespace AreaEditor
         }
 
         #region PictureBox Events
-        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        private void areaCanvas_MouseMove(object sender, MouseEventArgs e)
         {
             if (m_area == null)
                 return;
             m_currentTool.MouseMove(sender, e, m_area);
         }
 
-        private void pictureBox1_MouseEnter(object sender, EventArgs e)
+        private void areaCanvas_MouseEnter(object sender, EventArgs e)
         {
             if (m_area == null)
                 return;
             m_currentTool.MouseEnter(sender, e, m_area);
         }
 
-        private void pictureBox1_MouseLeave(object sender, EventArgs e)
+        private void areaCanvas_MouseLeave(object sender, EventArgs e)
         {
             if (m_area == null)
                 return;
             m_currentTool.MouseLeave(sender, e, m_area);
         }
 
-        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        private void areaCanvas_MouseDown(object sender, MouseEventArgs e)
         {
             if (m_area == null)
                 return;
             m_currentTool.MouseDown(sender, e, m_area);
         }
 
-        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        private void areaCanvas_MouseUp(object sender, MouseEventArgs e)
         {
             if (m_area == null)
                 return;
             m_currentTool.MouseUp(sender, e, m_area);
         }
 
-        void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
+        void areaCanvas_MouseWheel(object sender, MouseEventArgs e)
         {
 
         }
 
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        private void areaCanvas_Paint(object sender, PaintEventArgs e)
         {
             if (m_area == null)
                 return;
@@ -296,6 +296,13 @@ namespace AreaEditor
             // Draw tool context data
             m_currentTool.Paint(sender, e, m_area);
         }
+
+        private void areaCanvas_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (m_area == null)
+                return;
+            m_currentTool.KeyDown(sender, e, m_area);
+        }
         #endregion
 
         private void btnShowGrid_Click(object sender, EventArgs e)
@@ -303,11 +310,6 @@ namespace AreaEditor
             (sender as ToolStripButton).Checked = !(sender as ToolStripButton).Checked;
             areaCanvas.DrawGrid = (sender as ToolStripButton).Checked;
             areaCanvas.Invalidate();
-        }
-
-        private void areaCanvas_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
         }
 
         private void listViewTiles_DoubleClick(object sender, EventArgs e)
@@ -318,7 +320,7 @@ namespace AreaEditor
             {
                 var item = listViewTiles.SelectedItems[0];
                 if (item != null)
-                    m_currentTool.ImageClicked(item.ImageKey, m_imageMap[item.ImageKey], m_area);
+                    m_currentTool.ImageDoubleClicked(item.ImageKey, m_imageMap[item.ImageKey], m_area);
             }
         }
 
@@ -342,7 +344,12 @@ namespace AreaEditor
             }
 
             if (!string.IsNullOrEmpty(m_engineExePath))
-                Process.Start(m_engineExePath, m_filename);
+            {
+                var startInfo = new ProcessStartInfo(m_engineExePath, m_filename);
+
+                startInfo.WorkingDirectory = Path.GetDirectoryName(m_engineExePath);
+                Process.Start(startInfo);
+            }
         }
     }
 }

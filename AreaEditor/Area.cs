@@ -47,11 +47,12 @@ namespace AreaEditor
         {
             sprite = "Data/Tiles/Grass.png";
         }
-        [XmlAttribute("flags")]
-        [ReadOnlyAttribute(true)]
+
+        [XmlAttribute("flags"), Browsable(false)]
         public int _flags { get; set; }
 
         [Editor(typeof(Utils.FlagEnumUIEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        [XmlIgnore]
         public BlockFlags Flags
         {
             get
@@ -69,6 +70,7 @@ namespace AreaEditor
         public Image CachedBlockImage { get; set; }
 
         private string _sprite;
+
         [XmlAttribute]
         [ReadOnly(true)]
         public string sprite
@@ -81,10 +83,32 @@ namespace AreaEditor
             }
         }
 
+        public Overlay Overlay { get; set; }
+
         //public string Overlay
 
         [DefaultValue(null)]
         public WarpDetails Warp { get; set; }
+    }
+
+    public class Overlay
+    {
+        private string _sprite;
+
+        [Browsable(false), XmlIgnore]
+        public Image CachedBlockImage { get; set; }
+
+        [XmlAttribute]
+        [ReadOnly(true)]
+        public string sprite
+        {
+            get { return _sprite; }
+            set
+            {
+                _sprite = value;
+                CachedBlockImage = null;
+            }
+        }
     }
 
     [Flags]
@@ -114,11 +138,33 @@ namespace AreaEditor
         }
     }
 
+    public enum DIR
+    {
+        DIR_NORTH,
+        DIR_EAST,
+        DIR_SOUTH,
+        DIR_WEST,
+    }
+
     [TypeConverterAttribute(typeof(WarpDetailsConverter))]
     public class WarpDetails
     {
         public string Area { get; set; }
         public Vec2 Pos { get; set; }
-        public int Dir { get; set; }
+
+        [XmlElement("Dir"), Browsable(false)]
+        public int _dir { get; set; }
+        [XmlIgnore]
+        public DIR Dir
+        {
+            get
+            {
+                return (DIR)_dir;
+            }
+            set
+            {
+                _dir = (int)value;
+            }
+        }
     }
 }

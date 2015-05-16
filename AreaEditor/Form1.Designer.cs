@@ -54,12 +54,12 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.btnShowGrid = new System.Windows.Forms.ToolStripButton();
             this.areaCanvas = new AreaEditor.AreaCanvas();
-            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -309,6 +309,21 @@
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "View";
             // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.runToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.toolsToolStripMenuItem.Text = "Tools";
+            // 
+            // runToolStripMenuItem
+            // 
+            this.runToolStripMenuItem.Name = "runToolStripMenuItem";
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.runToolStripMenuItem.Text = "Run in game...";
+            this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
@@ -345,28 +360,13 @@
             this.areaCanvas.Name = "areaCanvas";
             this.areaCanvas.Size = new System.Drawing.Size(58, 61);
             this.areaCanvas.TabIndex = 0;
-            this.areaCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
-            this.areaCanvas.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.areaCanvas_KeyPress);
-            this.areaCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
-            this.areaCanvas.MouseEnter += new System.EventHandler(this.pictureBox1_MouseEnter);
-            this.areaCanvas.MouseLeave += new System.EventHandler(this.pictureBox1_MouseLeave);
-            this.areaCanvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
-            this.areaCanvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
-            // 
-            // toolsToolStripMenuItem
-            // 
-            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.runToolStripMenuItem});
-            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
-            this.toolsToolStripMenuItem.Text = "Tools";
-            // 
-            // runToolStripMenuItem
-            // 
-            this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-            this.runToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.runToolStripMenuItem.Text = "Run...";
-            this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
+            this.areaCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.areaCanvas_Paint);
+            this.areaCanvas.KeyDown += new System.Windows.Forms.KeyEventHandler(this.areaCanvas_KeyDown);
+            this.areaCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.areaCanvas_MouseDown);
+            this.areaCanvas.MouseEnter += new System.EventHandler(this.areaCanvas_MouseEnter);
+            this.areaCanvas.MouseLeave += new System.EventHandler(this.areaCanvas_MouseLeave);
+            this.areaCanvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.areaCanvas_MouseMove);
+            this.areaCanvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.areaCanvas_MouseUp);
             // 
             // Form1
             // 
