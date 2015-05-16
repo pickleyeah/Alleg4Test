@@ -9,61 +9,103 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using System.IO;
 using AreaEditor.ToolContexts;
+using System.Drawing.Imaging;
 
 namespace AreaEditor
 {
     public partial class Form1 : Form
     {
         private Area m_area;
-        private string m_cursorImage;
-        private bool m_displayCursorImage;
         private Point m_cursorImagePos = new Point(0, 0);
+        private Image m_image;
+        private Dictionary<string, Image> m_imageMap = new Dictionary<string, Image>();
 
         private string m_filename;
-        private Dictionary<string, Image> m_imageMap = new Dictionary<string, Image>();
+        private ToolStripButton[] m_toolButtons;
         private List<ToolContext> m_toolContexts = new List<ToolContext>();
         private ToolContext m_currentTool;
+
+        private bool m_showGrid = true;
         
 
         public Form1()
         {
             InitializeComponent();
-            pictureBox1.MouseWheel += pictureBox1_MouseWheel;
+            areaCanvas.MouseWheel += pictureBox1_MouseWheel;
             InitToolContexts();
             LoadImageMap();
+            RefreshTitle();
         }
 
         private void InitToolContexts()
         {
-            m_toolContexts.Clear();
-            m_toolContexts.Add(new SelectBlockToolContext(propertyGrid1, imageList1));
+            m_toolButtons = new ToolStripButton[]
+            {
+                toolSelectBlock,
+                toolPan,
+                toolPaintBlock,
+                toolPaintBlockOverlay,
+                toolAddWarp,
+            };
 
-            m_currentTool = m_toolContexts.Where(t => t is SelectBlockToolContext).FirstOrDefault();
+            toolSelectBlock.Tag = new SelectBlockToolContext(propertyGrid1, areaCanvas);
+            toolPan.Tag = new PanToolContext(propertyGrid1, areaCanvas);
+            toolPaintBlock.Tag = new PaintBlockToolContext(propertyGrid1, areaCanvas);
+            toolPaintBlockOverlay.Tag = new PaintBlockOverlayToolContext(propertyGrid1, areaCanvas);
+            toolAddWarp.Tag = new AddWarpToolContext(propertyGrid1, areaCanvas);
+            
+            foreach (var tool in m_toolButtons)
+                tool.Click += tool_Click;
+            tool_Click(toolSelectBlock, null);
         }
 
-        private void RefreshDisplay()
+        void tool_Click(object sender, EventArgs e)
         {
-            pictureBox1.BeginInvoke(new MethodInvoker(() =>
-                {
-                    pictureBox1.Width = m_area.width * Area.BlockSize + 1;
-                    pictureBox1.Height = m_area.height * Area.BlockSize + 1;
-                    pictureBox1.Invalidate();
-                }));
+            SelectToolButton(sender as ToolStripButton, m_toolButtons);
+        }
+
+        void SelectToolButton(ToolStripButton selectedbutton, ToolStripButton[] buttons)
+        {
+            foreach (var toolButton in buttons)
+            {
+                toolButton.Checked = (selectedbutton == toolButton);
+                if (toolButton.Checked)
+                    m_currentTool = (ToolContext)toolButton.Tag;
+            }
+            areaCanvas.Invalidate();
+        }
+
+        private void RefreshTitle()
+        {
+            Text = string.Format("Area Editor - {0}", !string.IsNullOrEmpty(m_filename) ? Path.GetFileName(m_filename) : "Untitled");
+        }
+
+        private void RefreshAreaDisplay()
+        {
+            areaCanvas.CurrentArea = m_area;
+            areaCanvas.Invalidate();
         }
 
         private void LoadImageMap()
         {
             Directory.CreateDirectory("Data/Tiles");
-            foreach (var path in Directory.EnumerateFiles("Data/Tiles", "*.png"))
+            foreach (var path in Directory.EnumerateFiles("Data/Tiles", "*.png", SearchOption.AllDirectories))
             {
                 string f = path.Replace('\\', '/');   // Get rid of backslashes to make paths consistent between game/editor
-                Image image = Image.FromFile(f);
+                Image tempImage = Image.FromFile(f);
+                var image = new Bitmap(tempImage.Width, tempImage.Height, PixelFormat.Format32bppPArgb);
+                using (Graphics gr = Graphics.FromImage(image))
+                {
+                    gr.DrawImage(tempImage, new Rectangle(0, 0, image.Width, image.Height));
+                }
+
+                imageList1.Images.Add(f, image);
+                m_imageMap.Add(f, image);   // Also keep a dictionary of the images for fast lookup
+
                 ListViewItem item = new ListViewItem();
                 item.Text = f;
                 item.ImageKey = f;
                 listViewTiles.Items.Add(item);
-                imageList1.Images.Add(f, image);
-                m_imageMap.Add(f, image);
             }
         }
 
@@ -71,7 +113,8 @@ namespace AreaEditor
         {
             m_area = new Area(width, height);
             m_filename = null;
-            RefreshDisplay();
+            RefreshAreaDisplay();
+            RefreshTitle();
         }
 
         private bool LoadArea(string filename)
@@ -82,7 +125,6 @@ namespace AreaEditor
                 m_area = serializer.Deserialize(new StreamReader(filename)) as Area;
                 if (m_area == null)
                     return false;
-                RefreshDisplay();
             }
             catch (Exception)
             {
@@ -133,6 +175,8 @@ namespace AreaEditor
                         return;
                     }
                     m_filename = fileDialog.FileName;
+                    RefreshAreaDisplay();
+                    RefreshTitle();
                 }
             }
         }
@@ -165,6 +209,7 @@ namespace AreaEditor
                         return;
                     }
                     m_filename = fileDialog.FileName;
+                    RefreshTitle();
                 }
             }
         }
@@ -176,11 +221,14 @@ namespace AreaEditor
 
         private void listViewTiles_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listViewTiles.SelectedItems.Count == 1)
-            {
-                var item = listViewTiles.SelectedItems[0];
-                m_cursorImage = item.ImageKey;
-            }
+            //if (m_area == null)
+            //    return;
+            //if (listViewTiles.SelectedItems.Count == 1)
+            //{
+            //    var item = listViewTiles.SelectedItems[0];
+            //    if (item != null)
+            //        m_currentTool.ImageClicked(item.ImageKey, m_imageMap[item.ImageKey], m_area);
+            //}
         }
 
         #region PictureBox Events
@@ -188,28 +236,21 @@ namespace AreaEditor
         {
             if (m_area == null)
                 return;
-            //m_cursorImagePos.X = e.X - (e.X % m_blockSize);
-            //m_cursorImagePos.Y = e.Y - (e.Y % m_blockSize);
             m_currentTool.MouseMove(sender, e, m_area);
-            pictureBox1.Invalidate();
         }
 
         private void pictureBox1_MouseEnter(object sender, EventArgs e)
         {
             if (m_area == null)
                 return;
-            //m_displayCursorImage = true;
             m_currentTool.MouseEnter(sender, e, m_area);
-            pictureBox1.Invalidate();
         }
 
         private void pictureBox1_MouseLeave(object sender, EventArgs e)
         {
             if (m_area == null)
                 return;
-            //m_displayCursorImage = false;
             m_currentTool.MouseLeave(sender, e, m_area);
-            pictureBox1.Invalidate();
         }
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
@@ -217,7 +258,6 @@ namespace AreaEditor
             if (m_area == null)
                 return;
             m_currentTool.MouseDown(sender, e, m_area);
-            pictureBox1.Invalidate();
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
@@ -225,7 +265,6 @@ namespace AreaEditor
             if (m_area == null)
                 return;
             m_currentTool.MouseUp(sender, e, m_area);
-            pictureBox1.Invalidate();
         }
 
         void pictureBox1_MouseWheel(object sender, MouseEventArgs e)
@@ -243,26 +282,43 @@ namespace AreaEditor
             {
                 for (int x = 0; x < m_area.width; x++)
                 {
-                    var imageName = m_area.GetBlock(x, y).sprite;
-                    g.DrawImage(imageList1.Images[imageName], new Point(x * Area.BlockSize, y * Area.BlockSize));
+                    var block = m_area.GetBlock(x, y);
+                    // Keep a reference to the image inside the block to actually draw at a decent speed
+                    // I assumed imageList1.Images was a hash table but it's actually slow as shit
+                    if (block.CachedBlockImage == null)
+                        block.CachedBlockImage = m_imageMap[block.sprite];
+                    g.DrawImageUnscaled(block.CachedBlockImage, x * Area.BlockSize, y * Area.BlockSize, Area.BlockSize, Area.BlockSize);
                 }
             }
             // TODO: Draw entities
 
             // Draw tool context data
             m_currentTool.Paint(sender, e, m_area);
-
-            // Draw cursor image
-            //if (m_displayCursorImage && !string.IsNullOrEmpty(m_cursorImage))
-            //    g.DrawImage(imageList1.Images[m_cursorImage], m_cursorImagePos);
-
-            // Draw grid
-            Pen p = new Pen(Color.Black);
-            for (int y = 0; y < pictureBox1.Height; y += Area.BlockSize)
-                g.DrawLine(p, 0, y, pictureBox1.Width, y);
-            for (int x = 0; x < pictureBox1.Width; x += Area.BlockSize)
-                g.DrawLine(p, x, 0, x, pictureBox1.Height);
         }
         #endregion
+
+        private void btnShowGrid_Click(object sender, EventArgs e)
+        {
+            (sender as ToolStripButton).Checked = !(sender as ToolStripButton).Checked;
+            areaCanvas.DrawGrid = (sender as ToolStripButton).Checked;
+            areaCanvas.Invalidate();
+        }
+
+        private void areaCanvas_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+        private void listViewTiles_DoubleClick(object sender, EventArgs e)
+        {
+            if (m_area == null)
+                return;
+            if (listViewTiles.SelectedItems.Count == 1)
+            {
+                var item = listViewTiles.SelectedItems[0];
+                if (item != null)
+                    m_currentTool.ImageClicked(item.ImageKey, m_imageMap[item.ImageKey], m_area);
+            }
+        }
     }
 }

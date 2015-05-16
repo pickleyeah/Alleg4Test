@@ -8,8 +8,8 @@ namespace AreaEditor.ToolContexts
 {
     public class SelectEntityToolContext : ToolContext
     {
-        public SelectEntityToolContext(PropertyGrid grid, ImageList imgList) :
-            base(grid, imgList)
+        public SelectEntityToolContext(PropertyGrid grid, Control surface) :
+            base(grid, surface)
         {
         }
     }

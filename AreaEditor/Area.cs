@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
@@ -16,6 +17,7 @@ namespace AreaEditor
         {
             width = width_;
             height = height_;
+            startPos = new Vec2();
             Blocks = new Block[width_ * height_];
             for (int i = 0; i < Blocks.Length; i++)
                 Blocks[i] = new Block();
@@ -25,6 +27,9 @@ namespace AreaEditor
         public int width { get; set; }
         [XmlAttribute]
         public int height { get; set; }
+
+        public Vec2 startPos { get; set; }
+        public int startDir { get; set; }
 
         public Block[] Blocks { get; set; }
 
@@ -59,8 +64,24 @@ namespace AreaEditor
             }
         }
 
+        // For storing a pointer to the sprite used
+        [Browsable(false), XmlIgnore]
+        public Image CachedBlockImage { get; set; }
+
+        private string _sprite;
         [XmlAttribute]
-        public string sprite { get; set; }
+        [ReadOnly(true)]
+        public string sprite
+        {
+            get { return _sprite; }
+            set
+            {
+                _sprite = value;
+                CachedBlockImage = null;
+            }
+        }
+
+        //public string Overlay
 
         [DefaultValue(null)]
         public WarpDetails Warp { get; set; }

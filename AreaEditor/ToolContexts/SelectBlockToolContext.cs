@@ -15,8 +15,8 @@ namespace AreaEditor.ToolContexts
         private Point m_initialMousePos, m_currentMousePos;
         private Brush m_brush = new SolidBrush(Color.FromArgb(96, Color.Blue));
 
-        public SelectBlockToolContext(PropertyGrid grid, ImageList imgList) :
-            base(grid, imgList)
+        public SelectBlockToolContext(PropertyGrid grid, Control surface) :
+            base(grid, surface)
         {
         }
 
@@ -28,6 +28,7 @@ namespace AreaEditor.ToolContexts
             m_initialMousePos = e.Location;
             m_currentMousePos = e.Location;
             m_selection = new Rectangle(e.Location, new Size());
+            EditorSurface.Invalidate();
         }
 
         public override void MouseMove(object sender, MouseEventArgs e, Area area)
@@ -38,6 +39,7 @@ namespace AreaEditor.ToolContexts
             int w = Math.Abs(m_currentMousePos.X - m_initialMousePos.X);
             int h = Math.Abs(m_currentMousePos.Y - m_initialMousePos.Y);
             m_selection = new Rectangle(x, y, w, h);
+            EditorSurface.Invalidate();
         }
 
         private Rectangle ConvertFromSelectionToBlockRange(Rectangle selection)
@@ -93,6 +95,7 @@ namespace AreaEditor.ToolContexts
             }
 
             EditorGrid.SelectedObjects = m_selectedBlocks.Select(p => area.GetBlock(p.X, p.Y)).ToArray();
+            EditorSurface.Invalidate();
         }
 
         public override void Paint(object sender, PaintEventArgs e, Area area)
@@ -118,6 +121,19 @@ namespace AreaEditor.ToolContexts
                     e.Graphics.FillRectangle(m_brush, x * Area.BlockSize, y * Area.BlockSize, Area.BlockSize, Area.BlockSize);
                 }
             }
+        }
+
+        public override void ImageClicked(string imageName, Image image, Area area)
+        {
+            // Fill all the currently selected block's sprite with the new image
+            if (m_selectedBlocks.Count == 0)
+                return;
+            foreach (var p in m_selectedBlocks)
+            {
+                area.GetBlock(p.X, p.Y).sprite = imageName;
+                area.GetBlock(p.X, p.Y).CachedBlockImage = image;
+            }
+            EditorSurface.Invalidate();
         }
     }
 }

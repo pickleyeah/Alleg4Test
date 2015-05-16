@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -9,12 +10,12 @@ namespace AreaEditor.ToolContexts
     public abstract class ToolContext
     {
         public PropertyGrid EditorGrid { get; set; }
-        public ImageList EditorImageList { get; set; }
+        public Control EditorSurface { get; set; }
 
-        public ToolContext(PropertyGrid grid, ImageList imgList)
+        public ToolContext(PropertyGrid grid, Control surface)
         {
             EditorGrid = grid;
-            EditorImageList = imgList;
+            EditorSurface = surface;
         }
 
         public virtual void MouseDown(object sender, MouseEventArgs e, Area area)
@@ -33,6 +34,9 @@ namespace AreaEditor.ToolContexts
         {
         }
         public virtual void Paint(object sender, PaintEventArgs e, Area area)
+        {
+        }
+        public virtual void ImageClicked(string imageName, Image image, Area area)
         {
         }
     }

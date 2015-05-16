@@ -13,7 +13,17 @@ WorldGameState:
 - Add ability to scroll through multi-line text messages on screen (Done)
 - Fix text font size
 
+LevelEditor
+- Finish Tools
+	- Select Block (done)
+	- Pan
+	- Paint Block
+	- Paint Block Overlay
+	- Add/Edit Warp
+	- Select Entity
+	- Add Entity
+	- Move Entity
 
 Other:
-- Design level editor (C#, XNA, Direct2D?)
+- Design level editor (C#, XNA, Direct2D?) (Started)
 - Implement basic NPC (extend from current state of Sign)

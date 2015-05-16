@@ -8,8 +8,8 @@ namespace AreaEditor.ToolContexts
 {
     public class AddWarpToolContext : ToolContext
     {
-        public AddWarpToolContext(PropertyGrid grid, ImageList imgList) :
-            base(grid, imgList)
+        public AddWarpToolContext(PropertyGrid grid, Control surface) :
+            base(grid, surface)
         {
         }
     }
