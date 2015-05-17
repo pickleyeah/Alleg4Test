@@ -7,6 +7,8 @@ Area *XMLAreaLoader::LoadAreaFromXMLFile(const char* filename, WorldGameState *w
 {
 	tinyxml2::XMLDocument doc;
 	doc.LoadFile(filename);
+	if (doc.ErrorID() != 0)	// There was an error opening the file
+		return nullptr;
 	auto *areaElement = doc.FirstChildElement("Area");
 	return LoadArea(areaElement, world);
 }

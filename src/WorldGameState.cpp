@@ -5,6 +5,7 @@
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
+#include <allegro5/allegro_native_dialog.h>
 
 const double WorldGameState::FADE_PERIOD = 0.5f;
 
@@ -30,8 +31,12 @@ void WorldGameState::Init()
 	// Preload sprites
 	Sprite::PreloadSpriteList("Data/Sprites.psl");
 
-	const char *filename = m_startupLevel ? m_startupLevel : "Data/Areas/test.xml";
+	const char *filename = m_startupLevel ? m_startupLevel : "Data/Areas/Area_1.xml";
 	m_area = XMLAreaLoader::LoadAreaFromXMLFile(filename, this);
+	if (!m_area)
+	{
+		al_show_native_message_box(al_get_current_display(), "Error", std::string("Could not open area: ").append(filename).c_str(), NULL, NULL, ALLEGRO_MESSAGEBOX_ERROR);
+	}
 	m_area->SetPlayer(Entity::CreateEntity("Player"));
 	m_area->Init();
 
@@ -132,6 +137,12 @@ void WorldGameState::Render(Game *game, ALLEGRO_BITMAP *buffer)
 void WorldGameState::TriggerAreaTransition(WARPDETAILS_T *details)
 {
 	m_newArea = XMLAreaLoader::LoadAreaFromXMLFile(details->area.c_str(), this);
+	if (!m_newArea)
+	{
+		std::string message = "Couldn't load map: " + details->area;
+		al_show_native_message_box(al_get_current_display(), "Error", message.c_str(), NULL, NULL, ALLEGRO_MESSAGEBOX_ERROR);
+		return;
+	}
 	m_newArea->SetStartPosAndDir(details->pos, details->dir);
 	
 	m_state = WORLDSTATE_FADEOUT;

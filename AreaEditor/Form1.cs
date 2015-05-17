@@ -33,6 +33,7 @@ namespace AreaEditor
             InitToolContexts();
             LoadImageMap();
             RefreshTitle();
+            m_engineExePath = "Alleg4Test.exe";
         }
 
         private void InitToolContexts()
