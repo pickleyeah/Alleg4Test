@@ -16,10 +16,10 @@ WorldGameState:
 LevelEditor
 - Finish Tools
 	- Select Block (done)
-	- Pan
-	- Paint Block
+	- Pan (on hold)
+	- Paint Block (done)
 	- Paint Block Overlay
-	- Add/Edit Warp
+	- Add/Edit Warp (done)
 	- Select Entity
 	- Add Entity
 	- Move Entity

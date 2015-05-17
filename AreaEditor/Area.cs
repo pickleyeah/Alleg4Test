@@ -23,21 +23,22 @@ namespace AreaEditor
                 Blocks[i] = new Block();
             Entities = new List<Entity>();
         }
-        [XmlAttribute]
+        [XmlAttribute, ReadOnly(true)]
         public int width { get; set; }
-        [XmlAttribute]
+        [XmlAttribute, ReadOnly(true)]
         public int height { get; set; }
 
         public Vec2 startPos { get; set; }
         public int startDir { get; set; }
 
+        [Browsable(false)]
         public Block[] Blocks { get; set; }
 
         public Block GetBlock(int x, int y)
         {
             return Blocks[y * width + x];
         }
-
+        [Browsable(false)]
         public List<Entity> Entities { get; set; }
     }
 

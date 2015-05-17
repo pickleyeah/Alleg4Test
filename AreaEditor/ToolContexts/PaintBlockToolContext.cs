@@ -20,7 +20,7 @@ namespace AreaEditor.ToolContexts
         {
         }
 
-        public override void ImageDoubleClicked(string imageName, System.Drawing.Image image, Area area)
+        public override void ImageClicked(string imageName, System.Drawing.Image image, Area area)
         {
             m_image = image;
             m_imageName = imageName;
@@ -40,9 +40,12 @@ namespace AreaEditor.ToolContexts
 
         public override void MouseDown(object sender, MouseEventArgs e, Area area)
         {
-            m_mouseDown = true;
-            // Trigger a mousemove event so clicking without moving will still set the block image
-            MouseMove(sender, e, area);
+            if (e.Button == MouseButtons.Left)
+            {
+                m_mouseDown = true;
+                // Trigger a mousemove event so clicking without moving will still set the block image
+                MouseMove(sender, e, area);
+            }
         }
 
         public override void MouseUp(object sender, MouseEventArgs e, Area area)
@@ -53,6 +56,9 @@ namespace AreaEditor.ToolContexts
         public override void MouseMove(object sender, MouseEventArgs e, Area area)
         {
             m_pos = e.Location;
+
+            if (m_image == null)
+                return;
             // TODO: update block sprite name
             if (m_mouseDown)
             {

@@ -36,6 +36,9 @@ namespace AreaEditor.ToolContexts
         public virtual void Paint(object sender, PaintEventArgs e, Area area)
         {
         }
+        public virtual void ImageClicked(string imageName, Image image, Area area)
+        {
+        }
         public virtual void ImageDoubleClicked(string imageName, Image image, Area area)
         {
         }

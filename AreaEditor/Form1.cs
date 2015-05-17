@@ -223,14 +223,26 @@ namespace AreaEditor
 
         private void listViewTiles_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //if (m_area == null)
-            //    return;
-            //if (listViewTiles.SelectedItems.Count == 1)
-            //{
-            //    var item = listViewTiles.SelectedItems[0];
-            //    if (item != null)
-            //        m_currentTool.ImageClicked(item.ImageKey, m_imageMap[item.ImageKey], m_area);
-            //}
+            if (m_area == null)
+                return;
+            if (listViewTiles.SelectedItems.Count == 1)
+            {
+                var item = listViewTiles.SelectedItems[0];
+                if (item != null)
+                    m_currentTool.ImageClicked(item.ImageKey, m_imageMap[item.ImageKey], m_area);
+            }
+        }
+
+        private void listViewTiles_DoubleClick(object sender, EventArgs e)
+        {
+            if (m_area == null)
+                return;
+            if (listViewTiles.SelectedItems.Count == 1)
+            {
+                var item = listViewTiles.SelectedItems[0];
+                if (item != null)
+                    m_currentTool.ImageDoubleClicked(item.ImageKey, m_imageMap[item.ImageKey], m_area);
+            }
         }
 
         #region PictureBox Events
@@ -311,18 +323,6 @@ namespace AreaEditor
             (sender as ToolStripButton).Checked = !(sender as ToolStripButton).Checked;
             areaCanvas.DrawGrid = (sender as ToolStripButton).Checked;
             areaCanvas.Invalidate();
-        }
-
-        private void listViewTiles_DoubleClick(object sender, EventArgs e)
-        {
-            if (m_area == null)
-                return;
-            if (listViewTiles.SelectedItems.Count == 1)
-            {
-                var item = listViewTiles.SelectedItems[0];
-                if (item != null)
-                    m_currentTool.ImageDoubleClicked(item.ImageKey, m_imageMap[item.ImageKey], m_area);
-            }
         }
 
         private string m_engineExePath = null;
